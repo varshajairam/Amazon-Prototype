@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.CHAR(60),
       allowNull: false,
     },
-    user_type: {
+    type: {
       type: DataTypes.ENUM('Customer', 'Seller', 'Admin'),
       allowNull: false,
     },
