@@ -1,0 +1,11 @@
+.no-margin {
+    margin: 0 !important;
+}
+
+.product-col {
+    border-left: solid 1px #ccc;
+}
+
+.filter {
+    margin-bottom: 1.5rem;
+}
