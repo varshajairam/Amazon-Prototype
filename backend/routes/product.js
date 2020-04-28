@@ -5,6 +5,6 @@ const { getProducts, addProduct } = require('../actions/product');
 const app = express();
 
 app.post('/', addProduct);
-app.get('/getProducts', getProducts);
+app.get('/', getProducts);
 
 module.exports = app;

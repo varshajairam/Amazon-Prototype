@@ -1,5 +1,16 @@
 const { Product } = require('../models/index');
 
+const getProducts = async (req, res) => {
+  console.log(req.query);
+
+  // const result = await Product.find(req.query);
+  // res.send({ products: result });
+
+
+  res.send({ res: 'Success' });
+};
+
+
 const addProduct = async (req, res) => {
   const newProduct = new Product({...req.body});
   const result = await newProduct.save();
@@ -20,18 +31,8 @@ const deleteProduct = async (req, res) => {
 };
 
 module.exports = {
-
   addProduct,
-    getProducts: (req, res) => {
-        console.log(req.query);
-
-        // Product.find(req.query)
-        //     .then(data => {
-        //         res.send({ products: data });
-        //     })
-        //     .catch(err => res.status(500).send({ error: err }));
-
-
-        res.send({ res: 'Success' });
-    }
-  }
+  getProducts,
+  updateProduct,
+  deleteProduct
+}
