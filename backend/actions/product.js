@@ -1,8 +1,12 @@
+const addProduct = (req, res) => {
+    console.log(req.files);
+    
+  res.send(`added productsuccessfully, this is what you sent me`);
+};
+
 module.exports = {
-
-    getProducts: (req, res) => {
-        res.send({ res: 'Success' });
-    }
-
-
-}
+  addProduct,
+  getProducts: (req, res) => {
+    res.send({ res: 'Success' });
+  },
+};
