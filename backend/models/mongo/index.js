@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Product = require('./product');
+const Category = require('./category');
 
 const connectDB = async () => {
   try {
@@ -16,4 +17,4 @@ const connectDB = async () => {
   }
 };
 
-module.exports = { connectDB, Product };
+module.exports = { connectDB, Product, Category };
