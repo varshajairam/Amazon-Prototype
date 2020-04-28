@@ -1,8 +1,6 @@
 import React from 'react';
 
 let StarRatings = (props) => {
-    console.log(props);
-
     return (
         <React.Fragment>
             <div className={"ui star rating"} data-max-rating="1" data-rating="1">

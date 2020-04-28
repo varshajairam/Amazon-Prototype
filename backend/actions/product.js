@@ -1,3 +1,5 @@
+const { Product } = require('../models/index');
+
 const addProduct = (req, res) => {
     console.log(req.files);
     
@@ -5,8 +7,18 @@ const addProduct = (req, res) => {
 };
 
 module.exports = {
+
   addProduct,
-  getProducts: (req, res) => {
-    res.send({ res: 'Success' });
-  },
-};
+    getProducts: (req, res) => {
+        console.log(req.query);
+
+        // Product.find(req.query)
+        //     .then(data => {
+        //         res.send({ products: data });
+        //     })
+        //     .catch(err => res.status(500).send({ error: err }));
+
+
+        res.send({ res: 'Success' });
+    }
+  }

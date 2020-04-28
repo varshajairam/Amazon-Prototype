@@ -2,26 +2,30 @@ import React, { useState, useEffect } from 'react';
 import configs from '../../config';
 import "./ProductList.css"
 import StarRatings from '../StarRatings/StarRatings';
+import { getProducts } from '../../store/actions/productActions';
 import { connect } from 'react-redux';
+import {
+  Link
+} from "react-router-dom";
 
 let ProductList = (props) => {
-  const [products, setProducts] = useState([]);
+  const [filter, setFilter] = useState({
+    name: "",
+    rating: "",
+    category: "",
+    sort: ""
+  });
 
   useEffect(() => {
-    fetch(configs.CONNECT + "/links")
-      .then(response => {
-        console.log('response', response)
-        response.json();
-      })
-      .then(data => setProducts(data));
-  }, []);
+    props.getProducts(filter);
+  }, [filter]);
 
-
-  console.log('', props)
   return (
     <React.Fragment>
       <div className="productlist-wrapper">
         <div className="ui grid no-margin">
+
+          {/* Filter Screen - Category logic to be changed*/}
           <div className="three wide column filters-col">
             <div className="category-filter filter">
               <div className="ui header">
@@ -30,7 +34,7 @@ let ProductList = (props) => {
               <div className="ui list">
                 {
                   [...Array(4)].map((e, i) =>
-                    <div className="item pointer" key={i} onClick={e => filterByCategory(e)}>
+                    <div className="item pointer onHover" key={i} onClick={e => setFilter({ ...filter, category: i + 1 })}>
                       {"Category " + (i + 1)}
                     </div>
                   )
@@ -44,7 +48,7 @@ let ProductList = (props) => {
               <div className="ui list">
                 {
                   [...Array(4)].map((e, i) =>
-                    <div className="item pointer" key={i} onClick={e => filterByStar(4 - i)}>
+                    <div className="item pointer onHover" key={i} onClick={e => setFilter({ ...filter, rating: 4 - i })}>
                       <StarRatings max="5" rating={4 - i} customizable="false" /> & above
                     </div>
                   )
@@ -53,60 +57,46 @@ let ProductList = (props) => {
             </div>
           </div>
 
-
+          {/* Main Tab */}
           <div className="thirteen wide column product-col">
 
 
             {/* product starts here */}
-            <div className="ui relaxed divided items">
-              <div className="item">
-                <div className="ui small image">
-                  <img src="https://281-mobiletaas.s3-us-west-1.amazonaws.com/asd/rl.jpg" />
-                </div>
-                <div className="content">
-                  <a className="header">Content Header</a>
+            {
+              props.products.products.map((currProduct, i) => {
+                return <React.Fragment key={i}>
+                  <div className="ui relaxed divided items">
+                    <div className="item">
+                      <Link to={{ pathname: '/product/' + currProduct._id, state: { product: currProduct } }} >
+                        <div className="ui small image pointer">
+                          <img src={currProduct.images[0]} />
+                        </div>
+                      </Link>
+                      <div className="content product-details">
+                        <Link to={{ pathname: '/product/' + currProduct._id, state: { product: currProduct } }} >
+                          <div className="ui header onHover">{currProduct.name}</div>
+                        </Link>
 
-                  <div className="meta">
-                    <div className="ui large star rating" data-max-rating="5" data-rating="2">
-                      {
-                        [...Array(5)].map((e, i) => <i className="icon active" key={i}></i>)
-                      }
+                        <div className="meta">
+                          <div className="ui large star rating" data-max-rating="5" data-rating="2">
+                            {
+                              <StarRatings max="5" rating={currProduct.reviews[0].stars} customizable="false" />
+                            }
+                          </div>
+                        </div>
+
+
+                        <div className="header">
+                          $ {currProduct.baseCost}
+                        </div>
+                      </div>
                     </div>
                   </div>
+                  <hr />
+                </React.Fragment>
 
-
-                  <div className="header">
-                    $ 2.0
-                  </div>
-                </div>
-              </div>
-            </div>
-            <hr />
-
-            <div className="ui relaxed divided items">
-              <div className="item">
-                <div className="ui small image">
-                  <img src="https://281-mobiletaas.s3-us-west-1.amazonaws.com/asd/rl.jpg" />
-                </div>
-                <div className="content">
-                  <a className="header">Content Header</a>
-
-                  <div className="meta">
-                    <div className="ui large star rating" data-max-rating="5" data-rating="2">
-                      {
-                        [...Array(5)].map((e, i) => <i className="icon active"></i>)
-                      }
-                    </div>
-                  </div>
-
-
-                  <div className="header">
-                    $ 2.0
-                  </div>
-                </div>
-              </div>
-            </div>
-            <hr />
+              })
+            }
             {/* Ends here */}
 
 
@@ -117,14 +107,6 @@ let ProductList = (props) => {
   )
 }
 
-let filterByStar = (data) => {
-  console.log("Filter by star: " + data)
-}
-
-let filterByCategory = (data) => {
-  console.log("Filter by category: " + data)
-}
-
 const mapStateToProps = state => {
   return {
     products: state.productReducer
@@ -133,6 +115,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
+    getProducts: data => dispatch(getProducts(data))
   }
 }
 
