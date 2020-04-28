@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import configs from '../../config';
 import "./ProductList.css"
 import StarRatings from '../StarRatings/StarRatings';
 import { getProducts } from '../../store/actions/productActions';
+import { getCategories } from '../../store/actions/categoryActions';
 import { connect } from 'react-redux';
 import {
   Link
@@ -16,6 +16,12 @@ let ProductList = (props) => {
     sort: ""
   });
 
+  const [searchText, setSearchText] = useState("");
+
+  useEffect(() => {
+    props.getCategories();
+  }, []);
+
   useEffect(() => {
     props.getProducts(filter);
   }, [filter]);
@@ -23,19 +29,37 @@ let ProductList = (props) => {
   return (
     <React.Fragment>
       <div className="productlist-wrapper">
+
+        <div className="ui grid container search-container">
+          <div className="column">
+            <div class="ui action icon input fluid">
+              <input placeholder="Search..." type="text" value={searchText} onChange={e => setSearchText(e.target.value)} />
+              <div class="ui primary button" onClick={e => setFilter({ ...filter, name: searchText })}>
+                <i class="search icon"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr />
+
+
         <div className="ui grid no-margin">
 
           {/* Filter Screen - Category logic to be changed*/}
           <div className="three wide column filters-col">
+
+
+
+
             <div className="category-filter filter">
               <div className="ui header">
                 Category:
               </div>
               <div className="ui list">
                 {
-                  [...Array(4)].map((e, i) =>
-                    <div className="item pointer onHover" key={i} onClick={e => setFilter({ ...filter, category: i + 1 })}>
-                      {"Category " + (i + 1)}
+                  props.categories.categories.map((category, i) =>
+                    <div className="item pointer onHover" key={i} onClick={e => setFilter({ ...filter, category: category.name })}>
+                      {category.name}
                     </div>
                   )
                 }
@@ -67,13 +91,13 @@ let ProductList = (props) => {
                 return <React.Fragment key={i}>
                   <div className="ui relaxed divided items">
                     <div className="item">
-                      <Link to={{ pathname: '/product/' + currProduct._id, state: { product: currProduct } }} >
+                      <Link to={{ pathname: '/product', state: { product: currProduct } }} >
                         <div className="ui small image pointer">
                           <img src={currProduct.images[0]} />
                         </div>
                       </Link>
                       <div className="content product-details">
-                        <Link to={{ pathname: '/product/' + currProduct._id, state: { product: currProduct } }} >
+                        <Link to={{ pathname: '/product', state: { product: currProduct } }} >
                           <div className="ui header onHover">{currProduct.name}</div>
                         </Link>
 
@@ -109,13 +133,15 @@ let ProductList = (props) => {
 
 const mapStateToProps = state => {
   return {
-    products: state.productReducer
+    products: state.productReducer,
+    categories: state.categoryReducer
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    getProducts: data => dispatch(getProducts(data))
+    getProducts: data => dispatch(getProducts(data)),
+    getCategories: () => dispatch(getCategories())
   }
 }
 

@@ -21,3 +21,7 @@
 .ui.items>.item>.content a {
     text-decoration: none;
 }
+
+.ui.grid.search-container {
+    margin-bottom: 0.5em;
+}

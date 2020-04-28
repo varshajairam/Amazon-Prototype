@@ -2,11 +2,11 @@ import { get } from '../../helpers/communicationHelper';
 
 export const getProducts = (data) => {
     return (dispatch) => {
-        let query = "/product/getProducts?";
+        let query = "/product?";
 
         for (let key in data) {
             if (data[key] != "")
-                query += key + "=" + data[key] + "&";
+                query += "&" + key + "=" + data[key];
         }
 
         console.log('query', query);

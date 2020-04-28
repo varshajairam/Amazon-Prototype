@@ -32,6 +32,12 @@
   cursor: pointer;
 }
 
+hr {
+  height: 1px;
+  background-color: #ccc;
+  border: none;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
