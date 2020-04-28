@@ -1,4 +1,16 @@
-import { get } from '../../helpers/communicationHelper';
+import {ADD_PRODUCT_SENT, ADD_PRODUCT_SUCCESS, ADD_PRODUCT_FAILED} from './types'
+
+import { get, sendPost } from '../../helpers/communicationHelper';
+
+export const addProduct = (data) => async (dispatch) => {
+  try {
+    dispatch({ type: ADD_PRODUCT_SENT });
+    const res = await sendPost('/product', data);
+    dispatch({ type: ADD_PRODUCT_SUCCESS, payload: res });
+  } catch (error) {
+    dispatch({ type: ADD_PRODUCT_FAILED});
+  }
+}
 
 export const getProducts = (data) => {
     return (dispatch) => {
