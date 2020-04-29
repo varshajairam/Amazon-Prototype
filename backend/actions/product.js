@@ -10,23 +10,31 @@ const getProducts = async (req, res) => {
   res.send({ res: 'Success' });
 };
 
-
 const addProduct = async (req, res) => {
-  const newProduct = new Product({...req.body});
+  const newProduct = new Product({
+    name: req.body.name,
+    addonCost: req.body.addonCost,
+    baseCost: req.body.baseCost,
+    category: req.body.category,
+    description: req.body.description,
+    seller: req.body.seller,
+    images: req.files.map((file) => file.location),
+  });
   const result = await newProduct.save();
   res.send(result);
-  res.send(`added productsuccessfully, this is what you sent me`);
 };
 
 const updateProduct = async (req, res) => {
-  const newProduct = new Product({...req.body});
-  const result = await newProduct.save();
-  res.send(result);
-  res.send(`added product successfully, this is what you sent me`);
+  const product = await Product.findById(req.body.id);
+  if (product) {
+    const result = await product.save();
+    return res.send(result);
+  }
+  res.send('TODO:ERROR HANDLING');
 };
 
 const deleteProduct = async (req, res) => {
-  const result = Product.deleteOne({id: req.id});
+  const result = Product.deleteOne({ id: req.id });
   res.send(result);
 };
 
@@ -34,5 +42,5 @@ module.exports = {
   addProduct,
   getProducts,
   updateProduct,
-  deleteProduct
-}
+  deleteProduct,
+};
