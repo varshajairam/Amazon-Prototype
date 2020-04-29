@@ -2,25 +2,25 @@ import React, { useState, Fragment } from 'react';
 import { connect } from 'react-redux';
 
 const Images = ({ back, next, submit, updateState }) => {
-  const [images, setImages] = useState({
-    file1: undefined,
-    file2: undefined,
-    file3: undefined,
-    file4: undefined,
-    file5: undefined,
-  });
-
-  const [previewImages, setPreviewImages] = useState({
-    file1: undefined,
-    file2: undefined,
-    file3: undefined,
-    file4: undefined,
-    file5: undefined,
-  });
+    const [images, setImages] = useState({
+      file1: undefined,
+      file2: undefined,
+      file3: undefined,
+      file4: undefined,
+      file5: undefined,
+    });
+    const [previewImages, setPreviewImages] = useState({
+      file1: undefined,
+      file2: undefined,
+      file3: undefined,
+      file4: undefined,
+      file5: undefined,
+    });
 
   const validateInput = () => {
     return true;
   };
+
   const renderButtons = () => {
     return (
       <div className="ui fluid buttons">
@@ -31,10 +31,10 @@ const Images = ({ back, next, submit, updateState }) => {
         <div
           className="ui primary button"
           onClick={() => {
-            submit()
+            submit();
           }}
         >
-          Next
+          Submit
         </div>
       </div>
     );
@@ -47,9 +47,7 @@ const Images = ({ back, next, submit, updateState }) => {
       <div className="card">
         <div className="image">
           {images[fileName] ? (
-            <img
-              src={previewImages[fileName]}
-            />
+            <img src={previewImages[fileName]} />
           ) : (
             <div className="ui placeholder">
               <div className="square image"></div>
@@ -60,10 +58,22 @@ const Images = ({ back, next, submit, updateState }) => {
           <input
             className="ui feild"
             type="file"
-            value={images[fileName]}
             onChange={(e) => {
-              setImages({ ...images, [fileName]: e.target.value });
-              setPreviewImages({...previewImages, [fileName]: URL.createObjectURL(e.target.files[0])});
+              setImages({
+                ...images,
+                [fileName]:
+                  e.target.value && e.target.value.trim() !== ''
+                    ? e.target.files[0]
+                    : undefined,
+              });
+              setPreviewImages({
+                ...previewImages,
+                [fileName]:
+                  e.target.value && e.target.value.trim() !== ''
+                    ? URL.createObjectURL(e.target.files[0])
+                    : undefined,
+              })
+            updateState({[fileName]: e.target.files[0]})
             }}
             multiple
           />
