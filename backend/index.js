@@ -7,7 +7,7 @@ const dotenv = require('dotenv');
 const passport = require('passport');
 const AWS = require('aws-sdk');
 const multerS3 = require('multer-s3');
-const mongo = require('./models/mongo')
+const mongo = require('./models/mongo');
 
 
 const app = express();
@@ -19,7 +19,7 @@ app.use(
   cors({
     origin: [process.env.CLIENT_ROOT],
     credentials: true,
-  })
+  }),
 );
 app.use(
   session({
@@ -27,7 +27,7 @@ app.use(
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false },
-  })
+  }),
 );
 
 const s3 = new AWS.S3({
@@ -38,12 +38,11 @@ const s3 = new AWS.S3({
 
 const upload = multer({
   storage: multerS3({
-    s3: s3,
+    s3,
     bucket: process.env.bucketName,
     acl: 'public-read',
-    key: function (req, file, cb) {
-      const newFilename =
-        `cmpe273/group-project/${Date.now()}` + file.originalname;
+    key(req, file, cb) {
+      const newFilename = `cmpe273/group-project/${Date.now()}${file.originalname}`;
       console.log(newFilename);
       cb(null, newFilename);
     },
