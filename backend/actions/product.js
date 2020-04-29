@@ -1,13 +1,25 @@
 const { Product } = require('../models/index');
 
 const getProducts = async (req, res) => {
-  console.log(req.query);
+  let perPage = 2; // Change Later
 
-  // const result = await Product.find(req.query);
-  // res.send({ products: result });
+  let { name, rating, category, sort, page } = req.query;
+  console.log('name, rating, category, sort', name, rating, category, sort)
+  // , { seller: new RegExp(name || "", "i") }
+  const result = await Product.find()
+    .or([{ name: new RegExp(name || "", "i") }])
+    .where({ 'category': category || { $ne: null } })
+    .sort(sort)
+    .limit(perPage)
+    .skip(perPage * (page - 1))
+  // .where('rating').gte(rating);
 
+  const count = await Product.find()
+    .or([{ name: new RegExp(name || "", "i") }])
+    .where({ 'category': category || { $ne: null } })
+    .countDocuments();
 
-  res.send({ res: 'Success' });
+  res.send({ products: result, total: count, limit: perPage });
 };
 
 const addProduct = async (req, res) => {
