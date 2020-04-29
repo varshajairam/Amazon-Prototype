@@ -62,6 +62,9 @@ let ProductList = (props) => {
                 Category:
               </div>
               <div className="ui list">
+                <div className="onHover" onClick={e => setFilter({ ...filter, category: "" })}>
+                  <span>{filter.category == "" ? "" : "< Clear"}</span>
+                </div>
                 {
                   props.categories.categories.map((category, i) =>
                     <div className="item pointer onHover" key={i} onClick={e => setFilter({ ...filter, category: category._id })}>
@@ -77,6 +80,9 @@ let ProductList = (props) => {
                 Avg. Customer Review
               </div>
               <div className="ui list">
+                <div className="onHover" onClick={e => setFilter({ ...filter, rating: "" })}>
+                  <span>{filter.rating == "" ? "" : "< Clear"}</span>
+                </div>
                 {
                   [...Array(4)].map((e, i) =>
                     <div className="item pointer onHover" key={i} onClick={e => setFilter({ ...filter, rating: 4 - i })}>
@@ -92,6 +98,9 @@ let ProductList = (props) => {
                 Sort By:
               </div>
               <div className="ui list">
+                <div className="onHover" onClick={e => setFilter({ ...filter, sort: "" })}>
+                  <span>{filter.sort == "" ? "" : "< Clear"}</span>
+                </div>
                 {
                   Object.keys(sortObj).map((sort, i) =>
                     <div className="item pointer onHover" key={i} onClick={e => setFilter({ ...filter, sort: sortObj[sort] })}>
@@ -111,39 +120,40 @@ let ProductList = (props) => {
 
             {/* product starts here */}
             {
-              props.products.products.map((currProduct, i) => {
-                return <React.Fragment key={i}>
-                  <div className="ui relaxed divided items">
-                    <div className="item">
-                      <Link to={{ pathname: '/product', state: { product: currProduct } }} >
-                        <div className="ui small image pointer">
-                          <img src={currProduct.images[0]} />
-                        </div>
-                      </Link>
-                      <div className="content product-details">
+              props.products.products.length ?
+                props.products.products.map((currProduct, i) => {
+                  return <React.Fragment key={i}>
+                    <div className="ui relaxed divided items">
+                      <div className="item">
                         <Link to={{ pathname: '/product', state: { product: currProduct } }} >
-                          <div className="ui header onHover">{currProduct.name}</div>
-                        </Link>
-
-                        <div className="meta">
-                          <div className="ui large star rating" data-max-rating="5" data-rating="2">
-                            {
-                              <StarRatings max="5" rating={(currProduct.reviews[0] && currProduct.reviews[0].stars) || 0} customizable="false" />
-                            }
+                          <div className="ui small image pointer">
+                            <img src={currProduct.images[0]} />
                           </div>
-                        </div>
+                        </Link>
+                        <div className="content product-details">
+                          <Link to={{ pathname: '/product', state: { product: currProduct } }} >
+                            <div className="ui header onHover">{currProduct.name}</div>
+                          </Link>
+
+                          <div className="meta">
+                            <div className="ui large star rating" data-max-rating="5" data-rating="2">
+                              {
+                                <StarRatings max="5" rating={(currProduct.reviews[0] && currProduct.reviews[0].stars) || 0} customizable="false" />
+                              }
+                            </div>
+                          </div>
 
 
-                        <div className="header">
-                          $ {currProduct.baseCost}
+                          <div className="header">
+                            $ {currProduct.baseCost}
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <hr />
-                </React.Fragment>
+                    <hr />
+                  </React.Fragment>
 
-              })
+                }) : <center><h2 className="ui header">No Products Found!</h2></center>
             }
             {/* Ends here */}
 
