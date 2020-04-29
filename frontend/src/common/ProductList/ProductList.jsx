@@ -7,14 +7,23 @@ import { connect } from 'react-redux';
 import {
   Link
 } from "react-router-dom";
+import ReactPaginate from 'react-paginate';
 
 let ProductList = (props) => {
   const [filter, setFilter] = useState({
     name: "",
     rating: "",
     category: "",
-    sort: ""
+    sort: "",
+    page: 1
   });
+
+  const [sortObj] = useState({
+    "Price Descending": "-baseCost",
+    "Price Ascending": "baseCost",
+    "Ratings Descending": "",
+    "Ratings Ascending": ""
+  })
 
   const [searchText, setSearchText] = useState("");
 
@@ -48,9 +57,6 @@ let ProductList = (props) => {
           {/* Filter Screen - Category logic to be changed*/}
           <div className="three wide column filters-col">
 
-
-
-
             <div className="category-filter filter">
               <div className="ui header">
                 Category:
@@ -58,13 +64,14 @@ let ProductList = (props) => {
               <div className="ui list">
                 {
                   props.categories.categories.map((category, i) =>
-                    <div className="item pointer onHover" key={i} onClick={e => setFilter({ ...filter, category: category.name })}>
+                    <div className="item pointer onHover" key={i} onClick={e => setFilter({ ...filter, category: category._id })}>
                       {category.name}
                     </div>
                   )
                 }
               </div>
             </div>
+
             <div className="ratings-filter filter">
               <div className="ui header">
                 Avg. Customer Review
@@ -79,6 +86,23 @@ let ProductList = (props) => {
                 }
               </div>
             </div>
+
+            <div className="category-filter filter">
+              <div className="ui header">
+                Sort By:
+              </div>
+              <div className="ui list">
+                {
+                  Object.keys(sortObj).map((sort, i) =>
+                    <div className="item pointer onHover" key={i} onClick={e => setFilter({ ...filter, sort: sortObj[sort] })}>
+                      {sort}
+                    </div>
+                  )
+                }
+              </div>
+            </div>
+
+
           </div>
 
           {/* Main Tab */}
@@ -104,7 +128,7 @@ let ProductList = (props) => {
                         <div className="meta">
                           <div className="ui large star rating" data-max-rating="5" data-rating="2">
                             {
-                              <StarRatings max="5" rating={currProduct.reviews[0].stars} customizable="false" />
+                              <StarRatings max="5" rating={(currProduct.reviews[0] && currProduct.reviews[0].stars) || 0} customizable="false" />
                             }
                           </div>
                         </div>
@@ -123,6 +147,24 @@ let ProductList = (props) => {
             }
             {/* Ends here */}
 
+            <ReactPaginate
+              previousLabel={'Previous'}
+              nextLabel={'Next'}
+              breakLabel={'...'}
+              breakClassName={'break-me'}
+              pageCount={props.products.total / props.products.limit}
+              marginPagesDisplayed={2}
+              pageRangeDisplayed={5}
+              onPageChange={(data) => setFilter({ ...filter, page: data.selected + 1 })}
+              containerClassName={'ui secondary menu flex-center'}
+              pageClassName={'item'}
+              pageLinkClassName={'item-link'}
+              activeClassName={'active'}
+              previousClassName={'item'}
+              nextClassName={'item'}
+              previousLinkName={'item-link'}
+              nextLinkName={'item-link'}
+            />
 
           </div>
         </div>
