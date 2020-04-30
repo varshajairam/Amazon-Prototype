@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import {
     Link, Redirect
 } from "react-router-dom";
+import { addReview } from '../../store/actions/productActions';
 
 let CreateReview = (props) => {
     const [review, setReview] = useState({
@@ -16,7 +17,6 @@ let CreateReview = (props) => {
     if (!(props.location.state && props.location.state.product))
         return <Redirect to="/productlist" />
 
-    console.log('props', props.location.state.product)
     let product = props.location.state.product;
 
     return <React.Fragment>
@@ -52,7 +52,13 @@ let CreateReview = (props) => {
                     </div>
                 </div>
                 <div className="submit-container mt-3">
-                    <div className="ui primary button">Submit</div>
+
+                    {/* TODO: ADD CUSTOMER ID */}
+
+                    <div className="ui primary button" onClick={e => props.addReview({
+                        ...review,
+                        product: product._id
+                    })}>Submit</div>
                 </div>
             </div>
         </div>
@@ -65,6 +71,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
+        addReview: data => dispatch(addReview(data))
     }
 }
 

@@ -1,4 +1,4 @@
-import { ADD_PRODUCT_SENT, ADD_PRODUCT_SUCCESS, ADD_PRODUCT_FAILED, GET_PRODUCT_SUCCESS } from './types'
+import { ADD_PRODUCT_SENT, ADD_PRODUCT_SUCCESS, ADD_PRODUCT_FAILED, GET_PRODUCT_SUCCESS, ADD_REVIEW_SENT, ADD_REVIEW_SUCCESS, ADD_REVIEW_FAILED } from './types'
 
 import { get, sendPost } from '../../helpers/communicationHelper';
 
@@ -21,11 +21,8 @@ export const getProducts = (data) => {
         query += "&" + key + "=" + data[key];
     }
 
-    console.log('query', query);
-
     get(query)
       .then(data => {
-        console.log('data', data);
 
         dispatch({
           type: GET_PRODUCT_SUCCESS,
@@ -33,5 +30,17 @@ export const getProducts = (data) => {
         });
 
       }).catch(err => console.log("Some Error Occurred!"));
+  }
+}
+
+export const addReview = (data) => async (dispatch) => {
+  console.log('add review', data);
+
+  try {
+    dispatch({ type: ADD_REVIEW_SENT });
+    const res = await sendPost('/product/addReview', data);
+    dispatch({ type: ADD_REVIEW_SUCCESS, payload: res });
+  } catch (error) {
+    dispatch({ type: ADD_REVIEW_FAILED });
   }
 }
