@@ -18,8 +18,9 @@ let ProductView = (props) => {
 
   let product = props.location.state.product;
 
-
-  console.log('props', product)
+  const writeReview = () => {
+    props.history.push({ pathname: '/createReview', state: { product: product } });
+  }
 
   return (
     <React.Fragment>
@@ -104,7 +105,7 @@ let ProductView = (props) => {
 
         <div className="ui grid no-margin review-container">
 
-          <div className="five wide column">
+          <div className="three wide column">
 
             <div className="rating-col">
               <h2 className="ui header ">Customer Reviews</h2>
@@ -133,7 +134,13 @@ let ProductView = (props) => {
               </div>
             </div>
 
+            <div className="ui dividing header"></div>
+
+            <div className="ui header">Write your own review</div>
+            <div className="mt-3">Share your thoughts with other customers</div>
+            <div className="ui button w-100 mt-5" onClick={writeReview}>Write a customer review</div>
           </div>
+          <div className="two wide column"></div>
           <div className="eleven wide column ui feed">
 
             {/* Review Start */}

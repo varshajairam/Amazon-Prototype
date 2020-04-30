@@ -8,6 +8,8 @@ const ProductSchema = new mongoose.Schema({
     required: true,
   },
 
+  title: { type: mongoose.Schema.Types.String },
+
   text: { type: mongoose.Schema.Types.String },
 
   /**
