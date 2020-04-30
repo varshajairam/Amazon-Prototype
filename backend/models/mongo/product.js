@@ -36,6 +36,7 @@ const ProductSchema = new mongoose.Schema({
     required: true,
     ref: 'category',
   },
+  averageRating: { type: mongoose.Schema.Types.Number, default: 0 },
   reviews: [
     {
       type: mongoose.Schema.Types.ObjectId,

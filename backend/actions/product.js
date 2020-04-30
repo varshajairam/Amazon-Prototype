@@ -1,4 +1,5 @@
 const { Product } = require('../models/index');
+const { Review } = require('../models/index');
 
 const getProducts = async (req, res) => {
   let perPage = 5; // Change Later
@@ -6,7 +7,7 @@ const getProducts = async (req, res) => {
   let { name, rating, category, sort, page } = req.query;
 
   // , { seller: new RegExp(name || "", "i") }
-  const result = await Product.find()
+  const result = await Product.find().populate('reviews')
     .or([{ name: new RegExp(name || "", "i") }])
     .where({ 'category': category || { $ne: null } })
     .sort(sort)
@@ -50,9 +51,26 @@ const deleteProduct = async (req, res) => {
   res.send(result);
 };
 
+const addReview = async (req, res) => {
+  const newReview = new Review({ ...req.body });
+  const result = await newReview.save();
+  let product = await Product.findById(req.body.product).populate('reviews');
+
+  if (product && result) {
+    product.reviews.push(result);
+    let total = 0;
+    product.reviews.forEach((current) => total += current.stars);
+    product.averageRating = total / product.reviews.length;
+    product = await product.save();
+    return res.send(product);
+  }
+  res.send("Error Occurred");
+};
+
 module.exports = {
   addProduct,
   getProducts,
   updateProduct,
   deleteProduct,
+  addReview
 };
