@@ -51,9 +51,47 @@
 }
 
 .mt-5 {
-  margin-top: 1rem !important;
+  margin-top: 2rem !important;
 }
 
 .purchase-col {
   height: fit-content;
+}
+
+.star-rating {
+  justify-content: flex-start;
+  margin: 0.5rem 0;
+}
+
+.star-rating .ui.progress {
+  width: 50%;
+  margin: 0 .8rem;
+}
+
+.ui.progress .bar {
+  background: linear-gradient(to bottom,#ffce00,#ffa700);
+  height: 1.35em;
+}
+
+.ui.feed {
+  font-size: 1.1rem;
+}
+
+.ui.feed > .event > .label {
+  display: flex;
+  width: auto;
+  justify-content: flex-start;
+}
+
+.ui.feed > .event > .label img{
+  width: 2.5em;
+}
+
+.name {
+  margin-left: 1rem;
+}
+
+.ui.feed .event.review-container {
+  display: flex;
+  flex-direction: column;
 }

@@ -101,6 +101,59 @@ let ProductView = (props) => {
             </div>
           </div>
         </div>
+
+        <div className="ui grid no-margin review-container">
+
+          <div className="five wide column">
+
+            <div className="rating-col">
+              <h2 className="ui header ">Customer Reviews</h2>
+              <div className="rating-container">
+                <StarRatings max="5" rating={3} customizable="false" /> {"Score"} out of 5
+
+                <div className="total-container mt-5">
+                  {"Total"} customer ratings
+                </div>
+
+                <div className="rating-tracker-container">
+
+                  {
+                    [...Array(5)].map((rating, i) => {
+                      return <div className="star-rating flex-center">
+                        <span>{5 - i} star</span>
+                        <div class="ui basic progress" data-percent="63">
+                          <div class="bar" style={{ width: "80%" }}><div class="progress"></div></div>
+                        </div>
+                        <span>63%</span>
+                      </div>
+                    })
+                  }
+
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div className="eleven wide column ui feed">
+
+            {/* Review Start */}
+            <div className="review-container event">
+              <div className="label flex-center">
+                <img src="http://simpleicon.com/wp-content/uploads/user-3.png" />
+                <div className="name">Username</div>
+              </div>
+
+              <div className="review mt-3">
+                <StarRatings max="5" rating={3} customizable="false" />
+                <div className="text">
+                  Comment goes here
+                </div>
+              </div>
+            </div>
+            {/* Review End */}
+          </div>
+
+        </div>
       </div>
     </React.Fragment >
   )
