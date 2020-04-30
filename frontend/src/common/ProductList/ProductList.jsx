@@ -12,7 +12,7 @@ import ReactPaginate from 'react-paginate';
 let ProductList = (props) => {
   const [filter, setFilter] = useState({
     name: "",
-    rating: "",
+    averageRating: "",
     category: "",
     sort: "",
     page: 1
@@ -21,8 +21,8 @@ let ProductList = (props) => {
   const [sortObj] = useState({
     "Price Descending": "-baseCost",
     "Price Ascending": "baseCost",
-    "Ratings Descending": "",
-    "Ratings Ascending": ""
+    "Ratings Descending": "-averageRating",
+    "Ratings Ascending": "averageRating"
   })
 
   const [searchText, setSearchText] = useState("");
@@ -80,12 +80,12 @@ let ProductList = (props) => {
                 Avg. Customer Review
               </div>
               <div className="ui list">
-                <div className="onHover" onClick={e => setFilter({ ...filter, rating: "" })}>
-                  <span>{filter.rating == "" ? "" : "< Clear"}</span>
+                <div className="onHover" onClick={e => setFilter({ ...filter, averageRating: "" })}>
+                  <span>{filter.averageRating == "" ? "" : "< Clear"}</span>
                 </div>
                 {
                   [...Array(4)].map((e, i) =>
-                    <div className="item pointer onHover" key={i} onClick={e => setFilter({ ...filter, rating: 4 - i })}>
+                    <div className="item pointer onHover" key={i} onClick={e => setFilter({ ...filter, averageRating: 4 - i })}>
                       <StarRatings max="5" rating={4 - i} customizable="false" /> & above
                     </div>
                   )

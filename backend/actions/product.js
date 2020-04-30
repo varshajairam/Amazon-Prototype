@@ -4,20 +4,21 @@ const { Review } = require('../models/index');
 const getProducts = async (req, res) => {
   let perPage = 5; // Change Later
 
-  let { name, rating, category, sort, page } = req.query;
+  let { name, averageRating, category, sort, page } = req.query;
 
   // , { seller: new RegExp(name || "", "i") }
   const result = await Product.find().populate('reviews')
     .or([{ name: new RegExp(name || "", "i") }])
     .where({ 'category': category || { $ne: null } })
+    .where({ 'averageRating': { $gte: averageRating || 0 } })
     .sort(sort)
     .limit(perPage)
-    .skip(perPage * (page - 1))
-  // .where('rating').gte(rating);
+    .skip(perPage * (page - 1));
 
   const count = await Product.find()
     .or([{ name: new RegExp(name || "", "i") }])
     .where({ 'category': category || { $ne: null } })
+    .where({ 'averageRating': { $gte: averageRating || 0 } })
     .countDocuments();
 
   res.send({ products: result, total: count, limit: perPage });
