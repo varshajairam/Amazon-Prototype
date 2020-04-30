@@ -127,7 +127,7 @@ let ProductList = (props) => {
                       <div className="item">
                         <Link to={{ pathname: '/product', state: { product: currProduct } }} >
                           <div className="ui small image pointer">
-                            <img src={currProduct.images[0]} />
+                            <img src={currProduct.images[0] || "https://www.moodfit.com/front/images/genral_image_notfound.png"} />
                           </div>
                         </Link>
                         <div className="content product-details">

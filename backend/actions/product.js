@@ -4,7 +4,7 @@ const getProducts = async (req, res) => {
   let perPage = 5; // Change Later
 
   let { name, rating, category, sort, page } = req.query;
-  console.log('name, rating, category, sort', name, rating, category, sort)
+
   // , { seller: new RegExp(name || "", "i") }
   const result = await Product.find()
     .or([{ name: new RegExp(name || "", "i") }])

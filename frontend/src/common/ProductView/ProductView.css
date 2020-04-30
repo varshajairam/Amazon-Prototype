@@ -1,0 +1,59 @@
+.img-prev {
+  margin: .6rem 0;
+  border: solid 1px transparent;
+}
+
+.img-prev.active {    
+  outline: 0;
+  border-color: #e77600;
+  box-shadow: 0 0 3px 2px rgba(228,121,17,.5);
+}
+
+.ui.large.image.disp-image {
+  height: 100%;
+  width: 100%;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.disp-col {
+  height: 100%;
+}
+
+.product-container {
+  min-height: 450px;
+}
+
+.text-container {
+  font-size: 1.15rem;
+}
+
+.price {
+  font-size: 1.3rem;
+  color: #B12704;
+}
+
+.rating-container i {
+  font-size: 1.3rem;
+}
+
+.rating-container {
+  margin-top: 0.5rem;
+}
+
+.btn-container > div {
+  width: 100%;
+}
+
+.mt-3 {
+  margin-top: 0.5rem !important;
+}
+
+.mt-5 {
+  margin-top: 1rem !important;
+}
+
+.purchase-col {
+  height: fit-content;
+}
