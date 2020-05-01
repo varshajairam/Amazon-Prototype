@@ -63,7 +63,7 @@ const addReview = async (req, res) => {
     product.reviews.forEach((current) => total += current.stars);
     product.averageRating = total / product.reviews.length;
     product = await product.save();
-    return res.send(product);
+    return res.send(result);
   }
   res.send("Error Occurred");
 };

@@ -17,6 +17,9 @@ let CreateReview = (props) => {
     if (!(props.location.state && props.location.state.product))
         return <Redirect to="/productlist" />
 
+    if (props.products.redirectProduct)
+        return <Redirect to={{ pathname: "/product", state: { product: props.products.products.find(product => product._id == props.location.state.product._id) } }} />
+
     let product = props.location.state.product;
 
     return <React.Fragment>
@@ -66,6 +69,7 @@ let CreateReview = (props) => {
 }
 const mapStateToProps = state => {
     return {
+        products: state.productReducer
     }
 }
 

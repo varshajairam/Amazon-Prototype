@@ -11,7 +11,7 @@ let ProductView = (props) => {
   const ratingArr = new Array(5).fill(0);
 
   useEffect(() => {
-    setImage(props.location.state && props.location.state.product.images[0]);
+    setImage(props.location.state && props.location.state.product && props.location.state.product.images[0]);
   }, []);
 
   if (!(props.location.state && props.location.state.product))
@@ -137,7 +137,7 @@ let ProductView = (props) => {
             <div className="rating-col">
               <h2 className="ui header ">Customer Reviews</h2>
               <div className="rating-container">
-                <StarRatings max="5" rating={product.averageRating} customizable="false" /> <span className="ui header ">{+product.averageRating} out of 5</span>
+                <StarRatings max="5" rating={product.averageRating} customizable="false" /> <span className="ui header ">{+product.averageRating.toFixed(1)} out of 5</span>
 
                 <div className="total-container mt-5">
                   {product.reviews.length} customer ratings
@@ -153,7 +153,7 @@ let ProductView = (props) => {
                         <div className="ui basic progress" data-percent="63">
                           <div className="bar" style={{ width: perc + "%" }}><div className="progress"></div></div>
                         </div>
-                        <span>{perc}%</span>
+                        <span>{perc ? perc.toFixed(1) : 0}%</span>
                       </div>
                     })
                   }
