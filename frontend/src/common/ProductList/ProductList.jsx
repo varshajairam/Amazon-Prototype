@@ -138,7 +138,7 @@ let ProductList = (props) => {
                           <div className="meta">
                             <div className="ui large star rating" data-max-rating="5" data-rating="2">
                               {
-                                <StarRatings max="5" rating={(currProduct.reviews[0] && currProduct.reviews[0].stars) || 0} customizable="false" />
+                                <StarRatings max="5" rating={(currProduct.averageRating) || 0} customizable="false" />
                               }
                             </div>
                           </div>
