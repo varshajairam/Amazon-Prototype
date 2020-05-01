@@ -2,14 +2,13 @@ const request = require('request');
 const { Product, Category } = require('../models/index');
 const client = require('../models/redisClient/redis');
 
-const getProducts = (req, res) => {
-//   console.log(req.query);
+const getProducts = async (req, res) => {
+  console.log(req.query);
 
-//   const result = await Product.find(req.query);
-//   res.send({ products: result });
- Product.find(req.query).then((product) =>
-   { res.send(product); }
- );
+  const result = await Product.find(req.query);
+  res.send({ products: result });
+
+
   // res.send({ res: 'Success' });
 };
 
