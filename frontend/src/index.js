@@ -6,11 +6,14 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 import authReducer from './store/reducers/authReducer';
+import productReducer from './store/reducers/productReducer';
+import categoryReducer from './store/reducers/categoryReducer';
+import alertReducer from './store/reducers/alertReducer';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 const rootReducer = combineReducers({
-  authReducer,
+  authReducer, productReducer, categoryReducer, alertReducer
 });
 
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));

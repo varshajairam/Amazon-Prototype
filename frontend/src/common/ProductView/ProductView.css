@@ -1,0 +1,93 @@
+.product-wrapper .img-prev {
+  margin: .6rem 0;
+  border: solid 1px transparent;
+}
+
+.product-wrapper .img-prev.active {    
+  outline: 0;
+  border-color: #e77600;
+  box-shadow: 0 0 3px 2px rgba(228,121,17,.5);
+}
+
+.product-wrapper .ui.large.image.disp-image {
+  height: 100%;
+  width: 100%;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.product-wrapper .disp-col {
+  height: 100%;
+}
+
+.product-wrapper .product-container {
+  min-height: 450px;
+}
+
+.product-wrapper .text-container {
+  font-size: 1.15rem;
+}
+
+.product-wrapper .price {
+  font-size: 1.3rem;
+  color: #B12704;
+}
+
+.product-wrapper .rating-container i {
+  font-size: 1.3rem;
+}
+
+.product-wrapper .rating-container {
+  margin-top: 0.5rem;
+}
+
+.product-wrapper .btn-container > div {
+  width: 100%;
+}
+
+.product-wrapper .purchase-col {
+  height: fit-content;
+}
+
+.product-wrapper .star-rating {
+  justify-content: flex-start;
+  margin: 0.5rem 0;
+}
+
+.product-wrapper .star-rating .ui.progress {
+  width: 70%;
+  margin: 0 .8rem;
+}
+
+.product-wrapper .ui.progress .bar {
+  background: linear-gradient(to bottom,#ffce00,#ffa700);
+  height: 1.35em;
+}
+
+.product-wrapper .ui.feed {
+  font-size: 1.1rem;
+}
+
+.product-wrapper .ui.feed > .event > .label {
+  display: flex;
+  width: auto;
+  justify-content: flex-start;
+}
+
+.product-wrapper .ui.feed > .event > .label img{
+  width: 2.5em;
+}
+
+.product-wrapper .name {
+  margin-left: 1rem;
+}
+
+.product-wrapper .ui.feed .event.review-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.product-wrapper .ui.grid.review-wrapper {
+  flex-direction: row-reverse;
+}
