@@ -6,6 +6,15 @@ export const isLoggedIn = () => (dispatch) => {
   });
 };
 
+export const login = (ev) => (dispatch) => {
+  ev.preventDefault();
+  sendPost('auth/login', ev.target).then((resp) => {
+    dispatch({ type: 'LOGIN', user_type: resp.user_type });
+  }, () => {
+    dispatch({ type: 'LOGIN_ERROR' });
+  });
+};
+
 export const logout = () => (dispatch) => {
   get('auth/logout').then(() => {
     dispatch({ type: 'LOGOUT' });

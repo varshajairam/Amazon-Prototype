@@ -1,6 +1,6 @@
 const initialState = {
   loggedIn: false,
-  loginError: true,
+  loginError: false,
   user_type: '',
 };
 
@@ -12,6 +12,11 @@ const reducer = (state = initialState, action) => {
         loggedIn: true,
         loginError: false,
         user_type: action.user_type,
+      };
+    case 'LOGIN_ERROR':
+      return {
+        ...state,
+        loginError: true,
       };
     case 'LOGOUT':
       return {
