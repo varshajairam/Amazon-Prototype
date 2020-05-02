@@ -1,15 +1,15 @@
-.img-prev {
+.product-wrapper .img-prev {
   margin: .6rem 0;
   border: solid 1px transparent;
 }
 
-.img-prev.active {    
+.product-wrapper .img-prev.active {    
   outline: 0;
   border-color: #e77600;
   box-shadow: 0 0 3px 2px rgba(228,121,17,.5);
 }
 
-.ui.large.image.disp-image {
+.product-wrapper .ui.large.image.disp-image {
   height: 100%;
   width: 100%;
   background-position: center center;
@@ -17,85 +17,77 @@
   background-size: contain;
 }
 
-.disp-col {
+.product-wrapper .disp-col {
   height: 100%;
 }
 
-.product-container {
+.product-wrapper .product-container {
   min-height: 450px;
 }
 
-.text-container {
+.product-wrapper .text-container {
   font-size: 1.15rem;
 }
 
-.price {
+.product-wrapper .price {
   font-size: 1.3rem;
   color: #B12704;
 }
 
-.rating-container i {
+.product-wrapper .rating-container i {
   font-size: 1.3rem;
 }
 
-.rating-container {
+.product-wrapper .rating-container {
   margin-top: 0.5rem;
 }
 
-.btn-container > div {
+.product-wrapper .btn-container > div {
   width: 100%;
 }
 
-.mt-3 {
-  margin-top: 0.5rem !important;
-}
-
-.mt-5 {
-  margin-top: 2rem !important;
-}
-
-.purchase-col {
+.product-wrapper .purchase-col {
   height: fit-content;
 }
 
-.star-rating {
+.product-wrapper .star-rating {
   justify-content: flex-start;
   margin: 0.5rem 0;
 }
 
-.star-rating .ui.progress {
+.product-wrapper .star-rating .ui.progress {
   width: 70%;
   margin: 0 .8rem;
 }
 
-.ui.progress .bar {
+.product-wrapper .ui.progress .bar {
   background: linear-gradient(to bottom,#ffce00,#ffa700);
   height: 1.35em;
 }
 
-.ui.feed {
+.product-wrapper .ui.feed {
   font-size: 1.1rem;
 }
 
-.ui.feed > .event > .label {
+.product-wrapper .ui.feed > .event > .label {
   display: flex;
   width: auto;
   justify-content: flex-start;
 }
 
-.ui.feed > .event > .label img{
+.product-wrapper .ui.feed > .event > .label img{
   width: 2.5em;
 }
 
-.name {
+.product-wrapper .name {
   margin-left: 1rem;
 }
 
-.ui.feed .event.review-container {
+.product-wrapper .ui.feed .event.review-container {
   display: flex;
   flex-direction: column;
 }
 
-.ui.grid.review-wrapper {
+.product-wrapper .ui.grid.review-wrapper {
   flex-direction: row-reverse;
 }

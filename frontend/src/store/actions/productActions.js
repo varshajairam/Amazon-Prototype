@@ -21,7 +21,7 @@ import { setAlert } from './alertActions';
 export const addProduct = (data) => async (dispatch) => {
   try {
     dispatch({ type: ADD_PRODUCT_SENT });
-    const res = await sendPost('/product', data);
+    const res = await sendPost('product', data);
     dispatch({ type: ADD_PRODUCT_SUCCESS, payload: res });
   } catch (error) {
     dispatch({ type: ADD_PRODUCT_FAILED });
@@ -51,7 +51,7 @@ export const updateProduct = (data) => async (dispatch) => {
 
 export const getProducts = (data) => {
   return (dispatch) => {
-    let query = '/product?';
+    let query = 'product?';
 
     for (let key in data) {
       if (data[key] != '') query += '&' + key + '=' + data[key];
@@ -73,8 +73,8 @@ export const addReview = (data) => async (dispatch) => {
 
   try {
     dispatch({ type: ADD_REVIEW_SENT });
-    const res = await sendPost('/product/addReview', data);
-    dispatch({type: SET_ALERT, payload: {msg: "Review Added Successfully!", alertType: "positive"}})
+    const res = await sendPost('product/addReview', data);
+    dispatch({ type: SET_ALERT, payload: { msg: "Review Added Successfully!", alertType: "positive" } })
     dispatch({ type: ADD_REVIEW_SUCCESS, payload: res });
   } catch (error) {
     dispatch({ type: ADD_REVIEW_FAILED });

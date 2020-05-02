@@ -2,28 +2,28 @@
     padding-top: 2rem;
 }
 
-.product-details {
+.review-wrapper .product-details {
     display: flex;
     flex-direction: row;
     align-items: center;
     font-size: 1.3rem;
 }
 
-.product-details .img-container {
+.review-wrapper .product-details .img-container {
     width: 8rem;
     margin-right: 1rem;
 }
 
-.ui.dividing.row-header {
+.review-wrapper .ui.dividing.row-header {
     padding-bottom: 2em;
     border-bottom: solid 1px #ccc;
 }
 
-.review-row .rating {
+.review-wrapper .review-row .rating {
     font-size: 1.5em;
 }
 
-.submit-container {
+.review-wrapper .submit-container {
     display: flex;
     justify-content: flex-end;
 }
