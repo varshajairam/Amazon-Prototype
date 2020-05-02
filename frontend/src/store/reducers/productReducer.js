@@ -1,4 +1,4 @@
-import { GET_PRODUCT_SUCCESS } from '../actions/types'
+import { GET_PRODUCT_SUCCESS, ADD_REVIEW_SUCCESS } from '../actions/types'
 
 const initialState = {
   products: [],
@@ -15,6 +15,20 @@ const productReducer = (state = initialState, action) => {
         products: action.payload.products,
         total: action.payload.total,
         limit: action.payload.limit
+      };
+
+    case ADD_REVIEW_SUCCESS:
+      console.log(action.payload);
+
+      state.products.map(product => {
+        if (product._id == action.payload.product)
+          product.reviews.push(action.payload)
+      });
+
+      return {
+        ...state,
+        redirectProduct: true,
+        products: [...state.products]
       };
 
     default:

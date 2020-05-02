@@ -8,9 +8,10 @@ import {
 
 let ProductView = (props) => {
   const [dispImg, setImage] = useState("");
+  const ratingArr = new Array(5).fill(0);
 
   useEffect(() => {
-    setImage(props.location.state && props.location.state.product.images[0]);
+    setImage(props.location.state && props.location.state.product && props.location.state.product.images[0]);
   }, []);
 
   if (!(props.location.state && props.location.state.product))
@@ -51,7 +52,7 @@ let ProductView = (props) => {
 
               {/* INSERT RATINGS */}
               <div className="rating-container">
-                <StarRatings max="5" rating={3} customizable="false" />
+                <StarRatings max="5" rating={product.averageRating} customizable="false" />
               </div>
             </div>
             <br />
@@ -92,9 +93,9 @@ let ProductView = (props) => {
                 <i className="save icon"></i>Save for Later
               </div>
 
-              <div class="inline field mt-5">
-                <div class="ui checkbox">
-                  <input type="checkbox" tabindex="0" class="hidden" id="gift" /><label for="gift">Add as Gift</label>
+              <div className="inline field mt-5">
+                <div className="ui checkbox">
+                  <input type="checkbox" tabIndex="0" className="hidden" id="gift" /><label for="gift">Add as Gift</label>
                 </div>
               </div>
 
@@ -103,29 +104,56 @@ let ProductView = (props) => {
           </div>
         </div>
 
-        <div className="ui grid no-margin review-container">
+        <div className="ui grid no-margin review-wrapper">
 
+          <div className="eleven wide column ui feed">
+
+            {/* Review Start */}
+
+            {
+              product.reviews.map((review, i) => {
+                ratingArr[review.stars - 1]++;
+
+                return <div className="review-container event mt-5" key={i}>
+                  <div className="label flex-center">
+                    <img src="http://simpleicon.com/wp-content/uploads/user-3.png" />
+                    <div className="name">Username</div>
+                  </div>
+
+                  <div className="review mt-3">
+                    <StarRatings max="5" rating={review.stars} customizable="false" /> <b>{review.title}</b>
+                    <div className="text mt-3">
+                      {review.text}
+                    </div>
+                  </div>
+                </div>
+              })
+            }
+            {/* Review End */}
+          </div>
+          <div className="two wide column"></div>
           <div className="three wide column">
 
             <div className="rating-col">
               <h2 className="ui header ">Customer Reviews</h2>
               <div className="rating-container">
-                <StarRatings max="5" rating={3} customizable="false" /> {"Score"} out of 5
+                <StarRatings max="5" rating={product.averageRating} customizable="false" /> <span className="ui header ">{+product.averageRating.toFixed(1)} out of 5</span>
 
                 <div className="total-container mt-5">
-                  {"Total"} customer ratings
-                </div>
+                  {product.reviews.length} customer ratings
+    </div>
 
                 <div className="rating-tracker-container">
-
                   {
                     [...Array(5)].map((rating, i) => {
-                      return <div className="star-rating flex-center">
+                      const perc = ((ratingArr[4 - i] / product.reviews.length) * 100);
+
+                      return <div className="star-rating flex-center" key={i}>
                         <span>{5 - i} star</span>
-                        <div class="ui basic progress" data-percent="63">
-                          <div class="bar" style={{ width: "80%" }}><div class="progress"></div></div>
+                        <div className="ui basic progress" data-percent="63">
+                          <div className="bar" style={{ width: perc + "%" }}><div className="progress"></div></div>
                         </div>
-                        <span>63%</span>
+                        <span>{perc ? perc.toFixed(1) : 0}%</span>
                       </div>
                     })
                   }
@@ -139,25 +167,6 @@ let ProductView = (props) => {
             <div className="ui header">Write your own review</div>
             <div className="mt-3">Share your thoughts with other customers</div>
             <div className="ui button w-100 mt-5" onClick={writeReview}>Write a customer review</div>
-          </div>
-          <div className="two wide column"></div>
-          <div className="eleven wide column ui feed">
-
-            {/* Review Start */}
-            <div className="review-container event">
-              <div className="label flex-center">
-                <img src="http://simpleicon.com/wp-content/uploads/user-3.png" />
-                <div className="name">Username</div>
-              </div>
-
-              <div className="review mt-3">
-                <StarRatings max="5" rating={3} customizable="false" />
-                <div className="text">
-                  Comment goes here
-                </div>
-              </div>
-            </div>
-            {/* Review End */}
           </div>
 
         </div>
