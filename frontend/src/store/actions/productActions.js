@@ -12,9 +12,11 @@ import {
   ADD_REVIEW_SENT,
   ADD_REVIEW_SUCCESS,
   ADD_REVIEW_FAILED,
+  SET_ALERT
 } from './types';
 
 import { get, sendPost } from '../../helpers/communicationHelper';
+import { setAlert } from './alertActions';
 
 export const addProduct = (data) => async (dispatch) => {
   try {
@@ -72,7 +74,7 @@ export const addReview = (data) => async (dispatch) => {
   try {
     dispatch({ type: ADD_REVIEW_SENT });
     const res = await sendPost('/product/addReview', data);
-    alert("Review Added Successfully!");
+    dispatch({type: SET_ALERT, payload: {msg: "Review Added Successfully!", alertType: "positive"}})
     dispatch({ type: ADD_REVIEW_SUCCESS, payload: res });
   } catch (error) {
     dispatch({ type: ADD_REVIEW_FAILED });
