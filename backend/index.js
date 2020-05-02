@@ -7,8 +7,7 @@ const dotenv = require('dotenv');
 const passport = require('passport');
 const AWS = require('aws-sdk');
 const multerS3 = require('multer-s3');
-const mongo = require('./models/mongo')
-
+const mongo = require('./models/mongo');
 
 const app = express();
 const port = process.env.PORT || 3001;
