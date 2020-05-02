@@ -7,18 +7,19 @@ const getProducts = async (req, res) => {
   let { name, averageRating, category, sort, page } = req.query;
 
   // , { seller: new RegExp(name || "", "i") }
-  const result = await Product.find().populate('reviews')
-    .or([{ name: new RegExp(name || "", "i") }])
-    .where({ 'category': category || { $ne: null } })
-    .where({ 'averageRating': { $gte: averageRating || 0 } })
+  const result = await Product.find()
+    .populate('reviews')
+    .or([{ name: new RegExp(name || '', 'i') }])
+    .where({ category: category || { $ne: null } })
+    .where({ averageRating: { $gte: averageRating || 0 } })
     .sort(sort)
     .limit(perPage)
     .skip(perPage * (page - 1));
 
   const count = await Product.find()
-    .or([{ name: new RegExp(name || "", "i") }])
-    .where({ 'category': category || { $ne: null } })
-    .where({ 'averageRating': { $gte: averageRating || 0 } })
+    .or([{ name: new RegExp(name || '', 'i') }])
+    .where({ category: category || { $ne: null } })
+    .where({ averageRating: { $gte: averageRating || 0 } })
     .countDocuments();
 
   res.send({ products: result, total: count, limit: perPage });
@@ -33,6 +34,7 @@ const addProduct = async (req, res) => {
     description: req.body.description,
     seller: req.body.seller,
     images: req.files.map((file) => file.location),
+    offers: JSON.parse(req.body.offers),
   });
   const result = await newProduct.save();
   res.send(result);
@@ -60,12 +62,12 @@ const addReview = async (req, res) => {
   if (product && result) {
     product.reviews.push(result);
     let total = 0;
-    product.reviews.forEach((current) => total += current.stars);
+    product.reviews.forEach((current) => (total += current.stars));
     product.averageRating = total / product.reviews.length;
     product = await product.save();
     return res.send(result);
   }
-  res.send("Error Occurred");
+  res.send('Error Occurred');
 };
 
 module.exports = {
@@ -73,5 +75,5 @@ module.exports = {
   getProducts,
   updateProduct,
   deleteProduct,
-  addReview
+  addReview,
 };

@@ -15,6 +15,7 @@ import ProductView from './common/ProductView/ProductView';
 import CreateReview from './common/ProductView/CreateReview';
 import AddProduct from './common/AddProduct/AddProduct';
 import * as authActions from './store/actions/authActions';
+import Alert from './common/Alerts/Alert';
 
 function App() {
   const authReducerData = useSelector((state) => state.authReducer);
@@ -23,8 +24,8 @@ function App() {
   return (
     <Router>
       <Header />
-
-      { !authReducerData.loggedIn && (
+      <Alert />
+      {!authReducerData.loggedIn && (
         <Switch>
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Home} />
@@ -33,17 +34,16 @@ function App() {
         </Switch>
       )}
 
-      { authReducerData.loggedIn && (
+      {authReducerData.loggedIn && (
         <Switch>
-          
-        <Route exact path="/" component={Home} />
-        <Route path="/createReview" component={CreateReview} />
-        <Route path="/product" component={ProductView} />
-        <Route path="/productlist" component={ProductList} />
-        <Route path="/addProduct" component={AddProduct} />
-        <Route path="/editProduct" component={AddProduct} />
-        <Route path="/deleteProduct" component={AddProduct} />
-        <Redirect from="/" to="/" />
+          <Route exact path="/" component={Home} />
+          <Route path="/createReview" component={CreateReview} />
+          <Route path="/product" component={ProductView} />
+          <Route path="/productlist" component={ProductList} />
+          <Route path="/addProduct" component={AddProduct} />
+          <Route path="/editProduct" component={AddProduct} />
+          <Route path="/deleteProduct" component={AddProduct} />
+          <Redirect from="/" to="/" />
         </Switch>
       )}
     </Router>

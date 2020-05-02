@@ -12,7 +12,7 @@ import {
   ADD_REVIEW_SENT,
   ADD_REVIEW_SUCCESS,
   ADD_REVIEW_FAILED,
-  SET_ALERT
+  SET_ALERT,
 } from './types';
 
 import { get, sendPost } from '../../helpers/communicationHelper';
@@ -31,18 +31,17 @@ export const addProduct = (data) => async (dispatch) => {
 export const deleteProduct = (data) => async (dispatch) => {
   try {
     dispatch({ type: DELETE_PRODUCT_SENT });
-    const res = {};//await sendDelete('/product', data);
+    const res = {}; //await sendDelete('/product', data);
     dispatch({ type: DELETE_PRODUCT_SUCCESS, payload: res });
   } catch (error) {
     dispatch({ type: DELETE_PRODUCT_FAILED });
   }
 };
 
-
 export const updateProduct = (data) => async (dispatch) => {
   try {
     dispatch({ type: UPDATE_PRODUCT_SENT });
-    const res = {};//await sendPut('/product', data);
+    const res = {}; //await sendPut('/product', data);
     dispatch({ type: UPDATE_PRODUCT_SUCCESS, payload: res });
   } catch (error) {
     dispatch({ type: UPDATE_PRODUCT_FAILED });
@@ -74,7 +73,7 @@ export const addReview = (data) => async (dispatch) => {
   try {
     dispatch({ type: ADD_REVIEW_SENT });
     const res = await sendPost('product/addReview', data);
-    dispatch({ type: SET_ALERT, payload: { msg: "Review Added Successfully!", alertType: "positive" } })
+    dispatch(setAlert('Review Added Successfully!', 'positive'));
     dispatch({ type: ADD_REVIEW_SUCCESS, payload: res });
   } catch (error) {
     dispatch({ type: ADD_REVIEW_FAILED });
