@@ -26,12 +26,12 @@ const ProductSchema = new mongoose.Schema({
   },
   offers: [
     {
-      offerType: {
+      type: {
         type: String,
         enum: ['percentage', 'flat'],
         required: true,
       },
-      offerValue: {
+      value: {
         type: Number,
         default: 5.0,
       },
