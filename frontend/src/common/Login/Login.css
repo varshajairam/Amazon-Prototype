@@ -1,0 +1,8 @@
+.LOGIN.card {
+  margin: 1em auto;
+}
+
+.LOGIN .error-label {
+  margin-bottom: 8px;
+  width: 100%;
+}
