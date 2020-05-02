@@ -3,16 +3,17 @@
   background-color: #232f3e !important;
 }
 
-.HEADER .menu .item {
+.HEADER .ui.secondary.menu .item {
   color: white;
+  border: solid 1px transparent;
 }
 
-.HEADER .menu .item.active {
+.HEADER .ui.secondary.menu .item.active {
   color: white !important;
   border: 1px solid white;
 }
 
-.HEADER .menu .item:hover {
+.HEADER .ui.secondary.menu .item:hover {
   color: white !important;
   border: 1px solid white;
 }

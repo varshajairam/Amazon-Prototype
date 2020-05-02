@@ -62,12 +62,12 @@ let ProductList = (props) => {
                 Category:
               </div>
               <div className="ui list">
-                <div className="onHover" onClick={e => setFilter({ ...filter, category: "" })}>
+                <div className="onHover" onClick={e => setFilter({ ...filter, category: "", page: 1 })}>
                   <span>{filter.category == "" ? "" : "< Clear"}</span>
                 </div>
                 {
                   props.categories.categories.map((category, i) =>
-                    <div className="item pointer onHover" key={i} onClick={e => setFilter({ ...filter, category: category._id })}>
+                    <div className="item pointer onHover" key={i} onClick={e => setFilter({ ...filter, category: category._id, page: 1 })}>
                       {category.name}
                     </div>
                   )
@@ -80,12 +80,12 @@ let ProductList = (props) => {
                 Avg. Customer Review
               </div>
               <div className="ui list">
-                <div className="onHover" onClick={e => setFilter({ ...filter, averageRating: "" })}>
+                <div className="onHover" onClick={e => setFilter({ ...filter, averageRating: "", page: 1 })}>
                   <span>{filter.averageRating == "" ? "" : "< Clear"}</span>
                 </div>
                 {
                   [...Array(4)].map((e, i) =>
-                    <div className="item pointer onHover" key={i} onClick={e => setFilter({ ...filter, averageRating: 4 - i })}>
+                    <div className="item pointer onHover" key={i} onClick={e => setFilter({ ...filter, averageRating: 4 - i, page: 1 })}>
                       <StarRatings max="5" rating={4 - i} customizable="false" /> & above
                     </div>
                   )
@@ -98,12 +98,12 @@ let ProductList = (props) => {
                 Sort By:
               </div>
               <div className="ui list">
-                <div className="onHover" onClick={e => setFilter({ ...filter, sort: "" })}>
+                <div className="onHover" onClick={e => setFilter({ ...filter, sort: "", page: 1 })}>
                   <span>{filter.sort == "" ? "" : "< Clear"}</span>
                 </div>
                 {
                   Object.keys(sortObj).map((sort, i) =>
-                    <div className="item pointer onHover" key={i} onClick={e => setFilter({ ...filter, sort: sortObj[sort] })}>
+                    <div className="item pointer onHover" key={i} onClick={e => setFilter({ ...filter, sort: sortObj[sort], page: 1 })}>
                       {sort}
                     </div>
                   )
