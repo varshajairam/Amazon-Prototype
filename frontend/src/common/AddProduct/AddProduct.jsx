@@ -29,7 +29,7 @@ const AddProduct = ({ addProduct }) => {
   };
 
   const submit = () => {
-    addProduct({ ...state, offers: {...state.offers}, seller: 1 });
+    addProduct({ ...state, offers: JSON.stringify(state.offers), seller: 1 });
   };
 
   const renderStep = () => {
