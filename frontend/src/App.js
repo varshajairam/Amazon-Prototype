@@ -10,6 +10,10 @@ import {
 import Header from './common/Header/Header';
 import Home from './common/Home/Home';
 import Login from './common/Login/Login';
+import ProductList from './common/ProductList/ProductList';
+import ProductView from './common/ProductView/ProductView';
+import CreateReview from './common/ProductView/CreateReview';
+import AddProduct from './common/AddProduct/AddProduct';
 import * as authActions from './store/actions/authActions';
 
 function App() {
@@ -31,8 +35,15 @@ function App() {
 
       { authReducerData.loggedIn && (
         <Switch>
-          <Route exact path="/" component={Home} />
-          <Redirect from="/" to="/" />
+          
+        <Route exact path="/" component={Home} />
+        <Route path="/createReview" component={CreateReview} />
+        <Route path="/product" component={ProductView} />
+        <Route path="/productlist" component={ProductList} />
+        <Route path="/addProduct" component={AddProduct} />
+        <Route path="/editProduct" component={AddProduct} />
+        <Route path="/deleteProduct" component={AddProduct} />
+        <Redirect from="/" to="/" />
         </Switch>
       )}
     </Router>
