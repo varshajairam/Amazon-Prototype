@@ -26,7 +26,7 @@ let ProductView = (props) => {
   return (
     <React.Fragment>
       <div className="product-wrapper">
-        <div className="ui grid no-margin product-container">
+        <div className="ui grid no-margin product-container m-0">
           <div className="seven wide column image-col ui grid">
             <div className="two wide column prev-col">
               <div className="ui small image">
@@ -104,7 +104,7 @@ let ProductView = (props) => {
           </div>
         </div>
 
-        <div className="ui grid no-margin review-wrapper">
+        <div className="ui grid no-margin review-wrapper m-0">
 
           <div className="eleven wide column ui feed">
 
