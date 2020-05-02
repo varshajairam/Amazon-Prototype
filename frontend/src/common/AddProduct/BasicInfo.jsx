@@ -3,16 +3,38 @@ import { connect } from 'react-redux';
 
 import { getCategories } from '../../store/actions/categoryActions';
 
-const BasicInfo = ({ state, categories, getCategories, back, next, updateState }) => {
+const BasicInfo = ({
+  state,
+  categories,
+  getCategories,
+  back,
+  next,
+  updateState,
+}) => {
   const [basicInfo, setBasicInfo] = useState({
-    category: state.category? state.category : undefined,
-    name: state.name? state.name : '',
-    baseCost: state.baseCost? state.baseCost : '',
-    description: state.description? state.description : '',
+    category: state.category ? state.category : undefined,
+    name: state.name ? state.name : '',
+    baseCost: state.baseCost ? state.baseCost : '',
+    description: state.description ? state.description : '',
+  });
+
+  const [errors, setErrors] = useState({
+    category: false,
+    name: false,
+    baseCost: false,
+    description: false,
   });
 
   const onChange = (e) => {
-    setBasicInfo({ ...basicInfo, [e.target.name]: e.target.value });
+    setErrors({...errors, [e.target.name]: false })
+    if (e.target.name === 'baseCost') {
+      var re = new RegExp('^[0-9]*.?[0-9]{0,2}$');
+      if (re.test(e.target.value)) {
+        setBasicInfo({ ...basicInfo, [e.target.name]: e.target.value });
+      }
+    } else {
+      setBasicInfo({ ...basicInfo, [e.target.name]: e.target.value });
+    }
   };
 
   useEffect(() => {
@@ -41,6 +63,7 @@ const BasicInfo = ({ state, categories, getCategories, back, next, updateState }
                     className="item"
                     key={category._id}
                     onClick={() => {
+                      setErrors({...errors, category: false})
                       setBasicInfo({ ...basicInfo, category: category._id });
                     }}
                   >
@@ -56,9 +79,19 @@ const BasicInfo = ({ state, categories, getCategories, back, next, updateState }
   };
 
   const validateInput = () => {
+    setErrors({
+      category: !basicInfo.category,
+      name: !basicInfo.name || basicInfo.name.trim().length < 5,
+      baseCost: !basicInfo.baseCost || isNaN(parseFloat(basicInfo.baseCost)),
+      description:
+        !basicInfo.description || basicInfo.description.trim().length < 20,
+    });
     if (!basicInfo.category) return false;
     if (!basicInfo.name || basicInfo.name.trim().length < 5) return false;
-    if (!basicInfo.baseCost || isNaN(parseFloat(basicInfo.baseCost))) return false;
+    if (!basicInfo.description || basicInfo.description.trim().length < 20)
+      return false;
+    if (!basicInfo.baseCost || isNaN(parseFloat(basicInfo.baseCost)))
+      return false;
     return true;
   };
   const renderButtons = () => {
@@ -84,10 +117,15 @@ const BasicInfo = ({ state, categories, getCategories, back, next, updateState }
     <div className="ui grid">
       <div className="sixteen row">
         <div className="four wide column ui form">
-          <div className="field">{renderCategoryMenu()}</div>
+          <div className={errors.category ? 'error field' : 'field'}>
+            {renderCategoryMenu()}
+            <div className="ui error message">
+              <div className="header">You must choose a product category</div>
+            </div>
+          </div>
         </div>
         <div className="eight wide column ui form">
-          <div className="field">
+          <div className={errors.name ? 'error field' : 'field'}>
             <input
               placeholder="Product Name"
               type="text"
@@ -95,10 +133,14 @@ const BasicInfo = ({ state, categories, getCategories, back, next, updateState }
               value={basicInfo.name}
               onChange={onChange}
             />
+            <div className="ui error message">
+              <div className="header">Invalid product name</div>
+              <p>product name must be at least five charachters long</p>
+            </div>
           </div>
         </div>
         <div className="four wide column ui form">
-          <div className="field">
+          <div className={errors.baseCost ? 'error field' : 'field'}>
             <div className="ui right labeled input">
               <label htmlFor="baseCost" className="ui label">
                 $
@@ -106,22 +148,34 @@ const BasicInfo = ({ state, categories, getCategories, back, next, updateState }
               <input
                 type="number"
                 placeholder="Price"
+                step="0.01"
                 name="baseCost"
                 value={basicInfo.baseCost}
                 onChange={onChange}
               />
             </div>
+
+            <div className="ui error message">
+              <div className="header">Invalid Price</div>
+              <p>You must enter a price.</p>
+            </div>
           </div>
         </div>
       </div>
       <div className="ui form row">
-        <div className="column field">
+        <div
+          className={errors.description ? 'column error field' : 'column field'}
+        >
           <label>Product Description</label>
           <textarea
             name="description"
             onChange={onChange}
             value={basicInfo.description}
           ></textarea>
+          <div className="ui error message">
+            <div className="header">Invalid description</div>
+            <p>product description must be at least 20 charachters long</p>
+          </div>
         </div>
       </div>
       <div className="ui row">{renderButtons()}</div>

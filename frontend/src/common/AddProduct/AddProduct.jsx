@@ -5,10 +5,15 @@ import Step from './Step';
 import BasicInfo from './BasicInfo';
 import Images from './Images';
 
-import {addProduct} from '../../store/actions/productActions'
+import {
+  addProduct,
+  updateProduct,
+  deleteProduct,
+} from '../../store/actions/productActions';
+import Offers from './Offers';
 
-const AddProduct = ({addProduct}) => {
-  const [state, setstate] = useState({});
+const AddProduct = ({ addProduct }) => {
+  const [state, setstate] = useState({ offers: [] });
   const [currentStep, setCurrentStep] = useState(1);
 
   const next = () => {
@@ -24,15 +29,38 @@ const AddProduct = ({addProduct}) => {
   };
 
   const submit = () => {
-    addProduct({...state, seller: 1});
-  }
+    addProduct({ ...state, offers: {...state.offers}, seller: 1 });
+  };
 
   const renderStep = () => {
     switch (currentStep) {
       case 1:
-        return <BasicInfo state={state} next={next} back={back} updateState={updateState} />;
+        return (
+          <BasicInfo
+            state={state}
+            next={next}
+            back={back}
+            updateState={updateState}
+          />
+        );
       case 2:
-        return <Images state={state} next={next} back={back} submit={submit} updateState={updateState} />;
+        return (
+          <Images
+            state={state}
+            next={next}
+            back={back}
+            updateState={updateState}
+          />
+        );
+      case 3:
+        return (
+          <Offers
+            state={state}
+            back={back}
+            submit={submit}
+            updateState={updateState}
+          />
+        );
       default:
         return `Step`;
     }
@@ -71,5 +99,4 @@ const mapStateToProps = (state) => {
   return {};
 };
 
-
-export default connect(mapStateToProps, {addProduct})(AddProduct);
+export default connect(mapStateToProps, { addProduct })(AddProduct);
