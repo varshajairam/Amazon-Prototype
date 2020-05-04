@@ -122,16 +122,18 @@ let ProductList = (props) => {
             {
               props.products.products.length ?
                 props.products.products.map((currProduct, i) => {
+
+
                   return <React.Fragment key={i}>
                     <div className="ui relaxed divided items">
                       <div className="item">
-                        <Link to={{ pathname: '/product', state: { product: currProduct } }} >
+                        <Link to={{ pathname: '/product/' + currProduct._id, state: { product: currProduct } }} >
                           <div className="ui small image pointer">
                             <img src={currProduct.images[0] || "https://www.moodfit.com/front/images/genral_image_notfound.png"} />
                           </div>
                         </Link>
                         <div className="content product-details">
-                          <Link to={{ pathname: '/product', state: { product: currProduct } }} >
+                          <Link to={{ pathname: '/product/' + currProduct._id, state: { product: currProduct } }} >
                             <div className="ui header onHover">{currProduct.name}</div>
                           </Link>
 

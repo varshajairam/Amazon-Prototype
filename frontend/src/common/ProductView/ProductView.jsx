@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import "./ProductView.css"
 import StarRatings from '../StarRatings/StarRatings';
 import { connect } from 'react-redux';
@@ -21,6 +21,10 @@ let ProductView = (props) => {
 
   const writeReview = () => {
     props.history.push({ pathname: '/createReview', state: { product: product } });
+  }
+
+  const onEditClick = () => {
+    props.history.push({ pathname: '/editProduct', state: { product: product } });
   }
 
   return (
@@ -68,39 +72,44 @@ let ProductView = (props) => {
 
 
           <div className="three wide column purchase-col ui segment">
+            {
+              props.user.user_type == 'Customer' ? <Fragment>
+                <div className="price">${product.baseCost}</div>
+                <div className="price-desc mt-3">& <b>FREE Shipping</b> on orders over $25.00 shipped by Amazon.</div>
+                <br />
 
-            <div className="price">${product.baseCost}</div>
-            <div className="price-desc mt-3">& <b>FREE Shipping</b> on orders over $25.00 shipped by Amazon.</div>
-            <br />
-
-            <div className="btn-container ui form">
-              <div className="field mt-3">
-                <label>Quantity:</label>
-                <select onChange={e => console.log(e.target.value)}>
-                  <option value="">Select</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                </select>
-              </div>
-              <div className="ui primary button">
-                <i className="shop icon"></i>Add to Cart
-              </div>
-
-              <div className="ui secondary button mt-3">
-                <i className="save icon"></i>Save for Later
+                <div className="btn-container ui form">
+                  <div className="field mt-3">
+                    <label>Quantity:</label>
+                    <select onChange={e => console.log(e.target.value)}>
+                      <option value="">Select</option>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                    </select>
+                  </div>
+                  <div className="ui primary button">
+                    <i className="shop icon"></i>Add to Cart
               </div>
 
-              <div className="inline field mt-5">
-                <div className="ui checkbox">
-                  <input type="checkbox" tabIndex="0" className="hidden" id="gift" /><label for="gift">Add as Gift</label>
+                  <div className="ui secondary button mt-3">
+                    <i className="save icon"></i>Save for Later
+              </div>
+
+                  <div className="inline field mt-5">
+                    <div className="ui checkbox">
+                      <input type="checkbox" tabIndex="0" className="hidden" id="gift" /><label for="gift">Add as Gift</label>
+                    </div>
+                  </div>
                 </div>
+              </Fragment> : <div className="ui primary button flex-center edit-btn" onClick={e => onEditClick()}>
+                  <i className="edit icon"></i>Edit Product
               </div>
+            }
 
 
-            </div>
           </div>
         </div>
 
@@ -177,6 +186,7 @@ let ProductView = (props) => {
 
 const mapStateToProps = state => {
   return {
+    user: state.authReducer
   }
 }
 

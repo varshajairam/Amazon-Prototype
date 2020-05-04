@@ -91,3 +91,7 @@
 .product-wrapper .ui.grid.review-wrapper {
   flex-direction: row-reverse;
 }
+
+.product-wrapper .ui.button.edit-btn{
+  display: flex;
+}
