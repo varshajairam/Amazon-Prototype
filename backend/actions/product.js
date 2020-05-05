@@ -1,5 +1,4 @@
-const { Product } = require('../models/index');
-const { Review } = require('../models/index');
+const { Product, Review } = require('../models/index');
 
 const getProducts = async (req, res) => {
   let perPage = 5; // Change Later
