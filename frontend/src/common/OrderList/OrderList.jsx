@@ -7,9 +7,13 @@ import {
 import { getOrders } from '../../store/actions/orderActions';
 
 let OrderList = (props) => {
+  const [filter, setFilter] = useState({
+    page: 1
+  });
+
   useEffect(() => {
-    props.getOrders();
-  }, []);
+    props.getOrders(filter);
+  }, [filter]);
 
 
   console.log('orders', props.orders)
@@ -29,7 +33,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getOrders: () => dispatch(getOrders())
+    getOrders: (data) => dispatch(getOrders(data))
   }
 }
 
