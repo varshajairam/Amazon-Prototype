@@ -26,32 +26,46 @@ const getProducts = async (req, res) => {
 };
 
 const addProduct = async (req, res) => {
-  const newProduct = new Product({
-    name: req.body.name,
-    addonCost: req.body.addonCost,
-    baseCost: req.body.baseCost,
-    category: req.body.category,
-    description: req.body.description,
-    seller: req.body.seller,
-    images: req.files.map((file) => file.location),
-    offers: JSON.parse(req.body.offers),
-  });
-  const result = await newProduct.save();
-  res.send(result);
+  if (req.user && req.user.type && req.user.type === 'Seller') {
+    const newProduct = new Product({
+      seller: req.user.id,
+      name: req.body.name,
+      addonCost: req.body.addonCost,
+      baseCost: req.body.baseCost,
+      category: req.body.category,
+      description: req.body.description,
+      images: req.files.map((file) => file.location),
+      offers: JSON.parse(req.body.offers),
+    });
+    const result = await newProduct.save();
+    res.send(result);
+    return res.send('good');
+  }
+  req.status(401).send('Unauthorized');
 };
 
 const updateProduct = async (req, res) => {
-  const product = await Product.findById(req.body.id);
-  if (product) {
-    const result = await product.save();
-    return res.send(result);
+  console.log(req.user);
+  console.log(req.body);
+  console.log(req.files);
+ 
+  if (req.user && req.user.type && req.user.type === 'Seller') {
+    const product = await Product.findById(req.body.id);
+    if (product) {
+      const result = await product.save();
+      return res.send(result);
+    }
+    return res.status(400).send('Invalid Request');
   }
-  res.send('TODO:ERROR HANDLING');
+  return res.status(401).send('Unauthorized');
 };
 
 const deleteProduct = async (req, res) => {
-  const result = Product.deleteOne({ id: req.id });
-  res.send(result);
+  if (req.user && req.user.type && req.user.type === 'Seller') {
+    const result = await Product.findByIdAndDelete(req.body.id);
+    return res.send(result);
+  }
+  return res.status(401).send('Unauthorized');
 };
 
 const addReview = async (req, res) => {
