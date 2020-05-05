@@ -1,7 +1,7 @@
 import React, { useState, Fragment } from 'react';
 import { connect } from 'react-redux';
 
-const Offers = ({ state, back, submit, updateState }) => {
+const Offers = ({ state, back, submit, updateState, update }) => {
   const { offers } = state;
 
   const [newOffer, setNewOffer] = useState({
@@ -21,7 +21,7 @@ const Offers = ({ state, back, submit, updateState }) => {
             submit();
           }}
         >
-          Submit
+          {update? 'Update':'Submit'}
         </div>
       </div>
     );

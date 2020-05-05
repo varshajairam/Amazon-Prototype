@@ -15,7 +15,10 @@ const ReviewSchema = new mongoose.Schema({
   /**
    * TODO: add required tag and ref to cutomer model
    */
-  customer: { type: mongoose.Schema.Types.ObjectId },
+  customer: {
+    id: { type: mongoose.Schema.Types.Number, required: true },
+    name: { type: mongoose.Schema.Types.String, required: true }
+  },
 
   date: { type: mongoose.Schema.Types.Date, default: Date.now() },
 
