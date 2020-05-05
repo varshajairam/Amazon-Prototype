@@ -37,7 +37,10 @@ const ProductSchema = new mongoose.Schema({
       },
     },
   ],
-  seller: { type: mongoose.Schema.Types.Number, required: true },
+  seller: {
+    id: { type: mongoose.Schema.Types.Number, required: true },
+    name: { type: mongoose.Schema.Types.String, required: true }
+  },
   category: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,

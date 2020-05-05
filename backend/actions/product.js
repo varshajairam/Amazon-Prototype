@@ -6,7 +6,7 @@ const getProducts = async (req, res) => {
   let { name, averageRating, category, sort, page } = req.query;
 
   // , { seller: new RegExp(name || "", "i") }
-  const result = await Product.find()
+  const result = await Product.find(req.user.type == "Seller" ? { "seller.id": req.user.id } : {})
     .populate('reviews')
     .or([{ name: new RegExp(name || '', 'i') }])
     .where({ category: category || { $ne: null } })
@@ -27,7 +27,7 @@ const getProducts = async (req, res) => {
 const addProduct = async (req, res) => {
   if (req.user && req.user.type && req.user.type === 'Seller') {
     const newProduct = new Product({
-      seller: req.user.id,
+      seller: { id: req.user.id, name: req.user.name },
       name: req.body.name,
       addonCost: req.body.addonCost,
       baseCost: req.body.baseCost,
@@ -47,7 +47,7 @@ const updateProduct = async (req, res) => {
   console.log(req.user);
   console.log(req.body);
   console.log(req.files);
- 
+
   if (req.user && req.user.type && req.user.type === 'Seller') {
     const product = await Product.findById(req.body.id);
     if (product) {
