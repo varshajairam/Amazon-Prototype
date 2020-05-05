@@ -82,7 +82,7 @@ const addReview = async (req, res) => {
     product.reviews.push(result);
     let total = 0;
     product.reviews.forEach((current) => (total += current.stars));
-    product.averageRating = total / product.reviews.length;
+    product.averageRating = Math.floor(total / product.reviews.length);
     product = await product.save();
     return res.send(result);
   }
