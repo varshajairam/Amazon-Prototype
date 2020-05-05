@@ -4,7 +4,7 @@ const Product = require('./product');
 const OrderSchema = new mongoose.Schema({
   products: [
     {
-      product: { type: Product, required: true },
+      product: { type: Product.schema, required: true },
       quantity: {
         type: mongoose.Schema.Types.Number,
         required: true,
