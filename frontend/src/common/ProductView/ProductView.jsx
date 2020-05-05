@@ -131,7 +131,7 @@ let ProductView = (props) => {
                 return <div className="review-container event mt-5" key={i}>
                   <div className="label flex-center">
                     <img src="http://simpleicon.com/wp-content/uploads/user-3.png" />
-                    <div className="name">Username</div>
+                    <div className="name">{review.customer && review.customer.name || "Anonymous"}</div>
                   </div>
 
                   <div className="review mt-3">
