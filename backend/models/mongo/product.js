@@ -16,6 +16,7 @@ const ProductSchema = new mongoose.Schema({
       "number of product Images can't exceed 5",
     ],
   },
+  views: {},
   baseCost: {
     type: mongoose.Schema.Types.Number,
     required: true,

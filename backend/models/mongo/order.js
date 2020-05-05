@@ -16,7 +16,7 @@ const OrderSchema = new mongoose.Schema({
   ],
   cost: { type: mongoose.Schema.Types.Number, required: true },
   customer: { type: mongoose.Schema.Types.Number, required: true },
-
+  sellers: [{ type: mongoose.Schema.Types.Number, required: true }],
   shippingAddress: {
     name: { type: mongoose.Schema.Types.String, required: true },
     address1: { type: mongoose.Schema.Types.String, required: true },
@@ -26,7 +26,7 @@ const OrderSchema = new mongoose.Schema({
     state: {
       type: mongoose.Schema.Types.String,
       required: true,
-    } /* use enum for state */,
+    }, /* use enum for state */
     phone: { type: mongoose.Schema.Types.String, required: true },
   },
 
@@ -39,7 +39,7 @@ const OrderSchema = new mongoose.Schema({
     state: {
       type: mongoose.Schema.Types.String,
       required: true,
-    } /* use enum for state */,
+    }, /* use enum for state */
     phone: { type: mongoose.Schema.Types.String, required: true },
   },
 
@@ -66,7 +66,26 @@ const OrderSchema = new mongoose.Schema({
       'Delivered',
       'Cancelled',
     ],
+    default: 'New',
   },
+
+  statusHistory: [
+    {
+      status: {
+        type: mongoose.Schema.Types.String,
+        enum: [
+          'New',
+          'Packing',
+          'Shipping',
+          'Package arrived',
+          'Out for Delivery',
+          'Delivered',
+          'Cancelled',
+        ],
+      },
+      timestamp: { type: mongoose.Schema.Types.Date, default: Date.now },
+    },
+  ],
 });
 
 module.exports = Order = mongoose.model('order', OrderSchema);

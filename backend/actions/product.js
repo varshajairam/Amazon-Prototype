@@ -89,6 +89,16 @@ const addReview = async (req, res) => {
   res.send('Error Occurred');
 };
 
+
+const viewProduct = async (req, res) => {
+  if (req.user && req.user.type && req.user.type === 'Customer') {
+    const product = await Product.findById(req.body.id);
+    const date = new Date.now();
+    return res.send(result);
+  }
+  return res.status(401).send('Unauthorized');
+};
+
 module.exports = {
   addProduct,
   getProducts,
