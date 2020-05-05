@@ -27,6 +27,11 @@ let ProductView = (props) => {
     props.history.push({ pathname: '/editProduct', state: { product: product } });
   }
 
+  // Seller Route Here
+  const showSellerProfile = (id) => {
+    props.history.push({ pathname: '/sellerProfile/' + id });
+  }
+
   return (
     <React.Fragment>
       <div className="product-wrapper">
@@ -52,7 +57,7 @@ let ProductView = (props) => {
           <div className="six wide column desc-col">
             <div className="ui dividing header">
               <h1 className="ui header">{product.name}</h1>
-              By <span>{product.seller}</span>
+              By <span className="onHover" onClick={e => showSellerProfile(product.seller.id)}>{product.seller.name}</span>
 
               {/* INSERT RATINGS */}
               <div className="rating-container">
