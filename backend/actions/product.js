@@ -68,7 +68,13 @@ const deleteProduct = async (req, res) => {
 };
 
 const addReview = async (req, res) => {
-  const newReview = new Review({ ...req.body });
+  const { id, name } = req.user;
+  const newReview = new Review({
+    ...req.body,
+    customer: {
+      id, name
+    }
+  });
   const result = await newReview.save();
   let product = await Product.findById(req.body.product).populate('reviews');
 
