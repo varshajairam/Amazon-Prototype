@@ -1,3 +1,4 @@
+import { GET_ORDERS_SUCCESS, GET_ORDERS_FAILED, GET_ORDERS_SENT } from './types';
 import { get, sendPost } from '../../helpers/communicationHelper';
 
 export const getOrders = () => async (dispatch) => {
