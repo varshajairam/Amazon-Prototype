@@ -1,5 +1,10 @@
 const { Product, Review } = require('../models/index');
 
+const getProduct = async (req, res) => {
+  const result = await Product.findById(req.body.id);
+  res.send(result);
+}
+  
 const getProducts = async (req, res) => {
   let perPage = 5; // Change Later
 
@@ -100,6 +105,7 @@ const viewProduct = async (req, res) => {
 };
 
 module.exports = {
+  getProduct,
   addProduct,
   getProducts,
   updateProduct,
