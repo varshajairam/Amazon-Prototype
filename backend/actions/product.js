@@ -1,17 +1,46 @@
 const { Product, Review } = require('../models/index');
 
+const getRecomendations = async (req, res) => {
+  const result = await Product.aggregate([
+    {
+      $group: {
+        _id: '$category',
+        products: {
+          $push: {
+            id: '$_id',
+            images: '$images',
+            addonCost: '$addonCost',
+            offers: '$offers',
+            name: '$name',
+            baseCost: '$baseCost',
+            category: '$category',
+            description: '$description',
+            seller: '$seller',
+            averageRating: '$averageRating',
+            reviews: '$reviews',
+          },
+        },
+      },
+    },
+    { $project: { products: { $slice: ['$products', 5] } } },
+  ]);
+  res.send(result);
+};
+
 const getProduct = async (req, res) => {
   const result = await Product.findById(req.body.id);
   res.send(result);
-}
-  
+};
+
 const getProducts = async (req, res) => {
   let perPage = 5; // Change Later
 
   let { name, averageRating, category, sort, page } = req.query;
 
   // , { seller: new RegExp(name || "", "i") }
-  const result = await Product.find(req.user.type == "Seller" ? { "seller.id": req.user.id } : {})
+  const result = await Product.find(
+    req.user.type == 'Seller' ? { 'seller.id': req.user.id } : {}
+  )
     .populate('reviews')
     .or([{ name: new RegExp(name || '', 'i') }])
     .where({ category: category || { $ne: null } })
@@ -77,8 +106,9 @@ const addReview = async (req, res) => {
   const newReview = new Review({
     ...req.body,
     customer: {
-      id, name
-    }
+      id,
+      name,
+    },
   });
   const result = await newReview.save();
   let product = await Product.findById(req.body.product).populate('reviews');
@@ -94,7 +124,6 @@ const addReview = async (req, res) => {
   res.send('Error Occurred');
 };
 
-
 const viewProduct = async (req, res) => {
   if (req.user && req.user.type && req.user.type === 'Customer') {
     const product = await Product.findById(req.body.id);
@@ -105,6 +134,7 @@ const viewProduct = async (req, res) => {
 };
 
 module.exports = {
+  getRecomendations,
   getProduct,
   addProduct,
   getProducts,
