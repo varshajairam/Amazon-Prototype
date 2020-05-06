@@ -1,9 +1,6 @@
 import React, { useState, useEffect, Component } from 'react';
 import { connect } from 'react-redux';
-import { Link, Redirect } from 'react-router-dom';
-import ReactGa from 'react-ga';
 import { getProducts } from '../../store/actions/productActions';
-import Chart from './Chart';
 import { Bar } from 'react-chartjs-2';
 
 
