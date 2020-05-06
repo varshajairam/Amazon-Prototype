@@ -20,7 +20,7 @@ const getOrders = async (req, res) => {
     const count = await Order.find(query).countDocuments();
     console.log('count', count)
 
-    res.send({ products: result, total: count, limit: perPage });
+    res.send({ orders: result, total: count, limit: perPage });
   } else
     res.status(401).send('Unauthorized');
 };
