@@ -10,11 +10,12 @@ import productReducer from './store/reducers/productReducer';
 import categoryReducer from './store/reducers/categoryReducer';
 import alertReducer from './store/reducers/alertReducer';
 import orderReducer from './store/reducers/orderReducer';
+import recomendationsReducer from './store/reducers/recomendationsReducer';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 const rootReducer = combineReducers({
-  authReducer, productReducer, categoryReducer, alertReducer, orderReducer
+  authReducer, productReducer, categoryReducer, alertReducer, orderReducer, recomendationsReducer
 });
 
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
