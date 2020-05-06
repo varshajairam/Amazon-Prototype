@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 const Product = require('./product');
 const Category = require('./category');
 const Review = require('./review');
+const Cart = require('./cart');
+const SavedForLater = require('./savedForLater');
 
 const connectDB = async () => {
   try {
@@ -18,4 +20,4 @@ const connectDB = async () => {
   }
 };
 
-module.exports = { connectDB, Product, Category, Review };
+module.exports = { connectDB, Product, Category, Review, Cart, SavedForLater };

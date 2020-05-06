@@ -14,6 +14,7 @@ import ProductList from './common/ProductList/ProductList';
 import ProductView from './common/ProductView/ProductView';
 import CreateReview from './common/ProductView/CreateReview';
 import AddProduct from './common/AddProduct/AddProduct';
+import Cart from './common/Cart/Cart';
 import * as authActions from './store/actions/authActions';
 import Alert from './common/Alerts/Alert';
 
@@ -43,6 +44,7 @@ function App() {
           <Route path="/addProduct" component={AddProduct} />
           <Route path="/editProduct" component={AddProduct} />
           <Route path="/deleteProduct" component={AddProduct} />
+          <Route path="/cart" component={Cart} />
           <Redirect from="/" to="/" />
         </Switch>
       )}

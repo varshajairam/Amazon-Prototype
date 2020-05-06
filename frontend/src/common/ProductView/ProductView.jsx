@@ -5,9 +5,11 @@ import { connect } from 'react-redux';
 import {
   Link, Redirect
 } from "react-router-dom";
+import { addProductToCart } from '../../store/actions/cartActions';
 
 let ProductView = (props) => {
   const [dispImg, setImage] = useState("");
+  const [qty, setQty] = useState(1);
   const ratingArr = new Array(5).fill(0);
 
   useEffect(() => {
@@ -81,7 +83,7 @@ let ProductView = (props) => {
                 <div className="btn-container ui form">
                   <div className="field mt-3">
                     <label>Quantity:</label>
-                    <select onChange={e => console.log(e.target.value)}>
+                    <select onChange={e => setQty(e.target.value)}>
                       <option value="">Select</option>
                       <option value="1">1</option>
                       <option value="2">2</option>
@@ -90,7 +92,11 @@ let ProductView = (props) => {
                       <option value="5">5</option>
                     </select>
                   </div>
-                  <div className="ui primary button">
+                  <div className="ui primary button" onClick={() => props.addProductToCart({
+                        product: product._id,
+                        quantity: qty,
+                        isGift: false
+                    })}>
                     <i className="shop icon"></i>Add to Cart
               </div>
 
@@ -192,6 +198,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
+    addProductToCart: data => dispatch(addProductToCart(data)),
   }
 }
 
