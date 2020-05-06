@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from 'react-redux';
 import './ProductList.css';
-import { connect } from 'react-redux';
 import {
   Link,
 } from 'react-router-dom';
@@ -10,9 +9,10 @@ import StarRatings from '../StarRatings/StarRatings';
 import { getProducts } from '../../store/actions/productActions';
 import { getCategories } from '../../store/actions/categoryActions';
 
-const ProductList = (props) => {
-  const { products, categories } = props;
-  console.log('products', products)
+const ProductList = () => {
+  const products = useSelector((state) => state.productReducer);
+  const categories = useSelector((state) => state.categoryReducer);
+  const dispatch = useDispatch();
 
   const [filter, setFilter] = useState({
     name: '',
@@ -32,11 +32,11 @@ const ProductList = (props) => {
   const [searchText, setSearchText] = useState('');
 
   useEffect(() => {
-    props.getCategories();
+    dispatch(getCategories());
   }, []);
 
   useEffect(() => {
-    props.getProducts(filter);
+    dispatch(getProducts(filter));
   }, [filter]);
 
   return (
@@ -47,7 +47,7 @@ const ProductList = (props) => {
           <div className="column">
             <div className="ui action icon input fluid">
               <input placeholder="Search..." type="text" value={searchText} onChange={(e) => setSearchText(e.target.value)} />
-              <div className="ui primary button" onClick={() => setFilter({ ...filter, name: searchText })}>
+              <div className="ui primary button" onClick={() => setFilter({ ...filter, name: searchText })} onKeyDown={() => setFilter({ ...filter, name: searchText })} role="button" tabIndex="0">
                 <i className="search icon" />
               </div>
             </div>
@@ -66,12 +66,12 @@ const ProductList = (props) => {
                 Category:
               </div>
               <div className="ui list">
-                <div className="onHover" onClick={() => setFilter({ ...filter, category: '', page: 1 })}>
+                <div className="onHover" onClick={() => setFilter({ ...filter, category: '', page: 1 })} onKeyDown={() => setFilter({ ...filter, category: '', page: 1 })} role="button" tabIndex="0">
                   <span>{filter.category === '' ? '' : '< Clear'}</span>
                 </div>
                 {
-                  categories.categories.map((category, i) => (
-                    <div className="item pointer onHover" key={i} onClick={() => setFilter({ ...filter, category: category._id, page: 1 })}>
+                  categories.categories.map((category) => (
+                    <div className="item pointer onHover" key={category.name} onClick={() => setFilter({ ...filter, category: category._id, page: 1 })} onKeyDown={() => setFilter({ ...filter, category: category._id, page: 1 })} role="button" tabIndex="0">
                       {category.name}
                     </div>
                   ))
@@ -84,12 +84,12 @@ const ProductList = (props) => {
                 Avg. Customer Review
               </div>
               <div className="ui list">
-                <div className="onHover" onClick={() => setFilter({ ...filter, averageRating: '', page: 1 })}>
+                <div className="onHover" onClick={() => setFilter({ ...filter, averageRating: '', page: 1 })} onKeyDown={() => setFilter({ ...filter, averageRating: '', page: 1 })} role="button" tabIndex="0">
                   <span>{filter.averageRating === '' ? '' : '< Clear'}</span>
                 </div>
                 {
                   [...Array(4)].map((e, i) => (
-                    <div className="item pointer onHover" key={i} onClick={() => setFilter({ ...filter, averageRating: 4 - i, page: 1 })}>
+                    <div className="item pointer onHover" key={e} onClick={() => setFilter({ ...filter, averageRating: 4 - i, page: 1 })} onKeyDown={() => setFilter({ ...filter, averageRating: 4 - i, page: 1 })} role="button" tabIndex="0">
                       <StarRatings max="5" rating={4 - i} customizable="false" />
                       {' '}
                       & above
@@ -104,12 +104,12 @@ const ProductList = (props) => {
                 Sort By:
               </div>
               <div className="ui list">
-                <div className="onHover" onClick={() => setFilter({ ...filter, sort: '', page: 1 })}>
+                <div className="onHover" onClick={() => setFilter({ ...filter, sort: '', page: 1 })} onKeyDown={() => setFilter({ ...filter, sort: '', page: 1 })} role="button" tabIndex="0">
                   <span>{filter.sort === '' ? '' : '< Clear'}</span>
                 </div>
                 {
-                  Object.keys(sortObj).map((sort, i) => (
-                    <div className="item pointer onHover" key={i} onClick={() => setFilter({ ...filter, sort: sortObj[sort], page: 1 })}>
+                  Object.keys(sortObj).map((sort) => (
+                    <div className="item pointer onHover" key={sort} onClick={() => setFilter({ ...filter, sort: sortObj[sort], page: 1 })} onKeyDown={() => setFilter({ ...filter, sort: sortObj[sort], page: 1 })} role="button" tabIndex="0">
                       {sort}
                     </div>
                   ))
@@ -127,8 +127,8 @@ const ProductList = (props) => {
             {/* product starts here */}
             {
               products.products.length
-                ? products.products.map((currProduct, i) => (
-                  <React.Fragment key={i}>
+                ? products.products.map((currProduct) => (
+                  <React.Fragment key={currProduct.name}>
                     <div className="ui relaxed divided items">
                       <div className="item">
                         <Link to={{ pathname: `/product/${currProduct._id}`, state: { product: currProduct } }}>
@@ -188,18 +188,4 @@ const ProductList = (props) => {
   );
 };
 
-ProductList.propTypes = {
-  products: PropTypes.object.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-  products: state.productReducer,
-  categories: state.categoryReducer,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  getProducts: (data) => dispatch(getProducts(data)),
-  getCategories: () => dispatch(getCategories()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ProductList);
+export default ProductList;
