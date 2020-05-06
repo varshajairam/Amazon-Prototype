@@ -11,6 +11,7 @@ import Header from './common/Header/Header';
 import Home from './common/Home/Home';
 import Login from './common/Login/Login';
 import Register from './common/Register/Register';
+import Profile from './common/Profile/Profile';
 import ProductList from './common/ProductList/ProductList';
 import ProductView from './common/ProductView/ProductView';
 import CreateReview from './common/ProductView/CreateReview';
@@ -38,6 +39,8 @@ function App() {
       {authReducerData.loggedIn && (
         <Switch>
           <Route exact path="/" component={Home} />
+          <Route exact path="/profile" component={Profile} />
+          <Route exact path="/profile/:email" component={Profile} />
           <Route path="/createReview" component={CreateReview} />
           <Route path="/product/:id" component={ProductView} />
           <Route path="/productlist" component={ProductList} />
