@@ -1,0 +1,24 @@
+.PROFILE .ui.dimmer.transition.visible.active {
+  display: flex !important;
+}
+
+.PROFILE .bold {
+  font-weight: bold;
+}
+
+.PROFILE .profile-image-input {
+  display: none;
+}
+
+.PROFILE .edit-icon {
+  float: right;
+  cursor: pointer;
+}
+
+.PROFILE .modal .description {
+  padding: 16px;
+}
+
+.PROFILE .modal .actions {
+  margin: 0 0 8px 8px;
+}

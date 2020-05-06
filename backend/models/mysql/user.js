@@ -17,6 +17,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.ENUM('Customer', 'Seller', 'Admin'),
       allowNull: false,
     },
+    profile_image: {
+      type: DataTypes.STRING(255),
+      allowNull: true,
+    },
   });
   const userAddress = sequelize.define('user_address', {
     name: {
