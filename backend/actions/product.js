@@ -1,5 +1,4 @@
-const { Product } = require('../models/index');
-const { Review } = require('../models/index');
+const { Product, Review } = require('../models/index');
 
 const getProducts = async (req, res) => {
   let perPage = 5; // Change Later
@@ -7,7 +6,7 @@ const getProducts = async (req, res) => {
   let { name, averageRating, category, sort, page } = req.query;
 
   // , { seller: new RegExp(name || "", "i") }
-  const result = await Product.find()
+  const result = await Product.find(req.user.type == "Seller" ? { "seller.id": req.user.id } : {})
     .populate('reviews')
     .or([{ name: new RegExp(name || '', 'i') }])
     .where({ category: category || { $ne: null } })
@@ -26,36 +25,56 @@ const getProducts = async (req, res) => {
 };
 
 const addProduct = async (req, res) => {
-  const newProduct = new Product({
-    name: req.body.name,
-    addonCost: req.body.addonCost,
-    baseCost: req.body.baseCost,
-    category: req.body.category,
-    description: req.body.description,
-    seller: req.body.seller,
-    images: req.files.map((file) => file.location),
-    offers: JSON.parse(req.body.offers),
-  });
-  const result = await newProduct.save();
-  res.send(result);
+  if (req.user && req.user.type && req.user.type === 'Seller') {
+    const newProduct = new Product({
+      seller: { id: req.user.id, name: req.user.name },
+      name: req.body.name,
+      addonCost: req.body.addonCost,
+      baseCost: req.body.baseCost,
+      category: req.body.category,
+      description: req.body.description,
+      images: req.files.map((file) => file.location),
+      offers: JSON.parse(req.body.offers),
+    });
+    const result = await newProduct.save();
+    res.send(result);
+    return res.send('good');
+  }
+  req.status(401).send('Unauthorized');
 };
 
 const updateProduct = async (req, res) => {
-  const product = await Product.findById(req.body.id);
-  if (product) {
-    const result = await product.save();
-    return res.send(result);
+  console.log(req.user);
+  console.log(req.body);
+  console.log(req.files);
+
+  if (req.user && req.user.type && req.user.type === 'Seller') {
+    const product = await Product.findById(req.body.id);
+    if (product) {
+      const result = await product.save();
+      return res.send(result);
+    }
+    return res.status(400).send('Invalid Request');
   }
-  res.send('TODO:ERROR HANDLING');
+  return res.status(401).send('Unauthorized');
 };
 
 const deleteProduct = async (req, res) => {
-  const result = Product.deleteOne({ id: req.id });
-  res.send(result);
+  if (req.user && req.user.type && req.user.type === 'Seller') {
+    const result = await Product.findByIdAndDelete(req.body.id);
+    return res.send(result);
+  }
+  return res.status(401).send('Unauthorized');
 };
 
 const addReview = async (req, res) => {
-  const newReview = new Review({ ...req.body });
+  const { id, name } = req.user;
+  const newReview = new Review({
+    ...req.body,
+    customer: {
+      id, name
+    }
+  });
   const result = await newReview.save();
   let product = await Product.findById(req.body.product).populate('reviews');
 
@@ -68,6 +87,16 @@ const addReview = async (req, res) => {
     return res.send(result);
   }
   res.send('Error Occurred');
+};
+
+
+const viewProduct = async (req, res) => {
+  if (req.user && req.user.type && req.user.type === 'Customer') {
+    const product = await Product.findById(req.body.id);
+    const date = new Date.now();
+    return res.send(result);
+  }
+  return res.status(401).send('Unauthorized');
 };
 
 module.exports = {

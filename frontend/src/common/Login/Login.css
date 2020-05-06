@@ -2,7 +2,7 @@
   margin: 1em auto;
 }
 
-.LOGIN .error-label {
-  margin-bottom: 8px;
-  width: 100%;
+.LOGIN .register-link {
+  margin-top: -12px;
+  float: right;
 }
