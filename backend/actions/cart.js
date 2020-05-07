@@ -13,7 +13,7 @@ const getProductDetail = async (req, model) => {
       const products = [];
       for (const item of customerCart.products) {
         const product = await Product.findOne({ _id: item.product });
-        products.push({ product, quantity: item.quantity });
+        products.push({ product, quantity: item.quantity, cost: item.cost, totalCost: customerCart.totalCost, isGift: item.isGift });
       }
       return products;
     }
@@ -29,11 +29,16 @@ const getCartProducts = async (req, res) => {
 
 const addProductToCart = async (req, res) => {
   const result = await Cart.findOne();
+  const fullProduct = await Product.findOne({ _id: req.body.product });
+  req.body.cost = (fullProduct.baseCost * req.body.quantity) + fullProduct.addonCost;
+  if (JSON.parse(req.body.isGift)) {
+    req.body.cost += 1.0;
+  }
   if (result) {
     const customerCart = result.items.find((item) => item.customer === 1); // req.user.id
-
     if (customerCart) {
       const index = customerCart.products.findIndex((product) => product.product == req.body.product);
+      customerCart.totalCost += req.body.cost;
       if (index > -1) {
         customerCart.products[index].quantity = Number(customerCart.products[index].quantity) + Number(req.body.quantity);
         await result.save();
@@ -49,6 +54,7 @@ const addProductToCart = async (req, res) => {
       items: [{
         products: [req.body],
         customer: 1, // req.user.id
+        totalCost: req.body.cost,
       }],
     });
     const response = await cart.save();
@@ -63,6 +69,8 @@ const removeProductFromCart = async (product, args) => {
 
   const index = cart.items[0].products.findIndex((item) => item.product == product);
   if (index > -1) {
+    cart.items[0].totalCost -= cart.items[0].products[index].cost;
+    cart.items[0].totalCost = Number(cart.items[0].totalCost.toFixed(2));
     cart.items[0].products.splice(index, 1);
     await cart.save();
   }
@@ -110,7 +118,11 @@ const changeProductQuantity = async (req, res) => {
 
   const index = cart.items[0].products.findIndex((item) => item.product == req.body.product);
   if (index > -1) {
+    cart.items[0].totalCost -= cart.items[0].products[index].cost;
     cart.items[0].products[index].quantity = req.body.quantity;
+    const fullProduct = await Product.findOne({ _id: req.body.product });
+    cart.items[0].products[index].cost = (fullProduct.baseCost * req.body.quantity) + fullProduct.addonCost;
+    cart.items[0].totalCost += cart.items[0].products[index].cost;
     await cart.save();
   }
 
@@ -118,10 +130,29 @@ const changeProductQuantity = async (req, res) => {
   res.send(cartResponse);
 };
 
+const applyGiftCharge = async (req, res) => {
+  const cart = await Cart.findOne(
+    { 'items.customer': 1 },
+  ); // req.user.id
+
+  const index = cart.items[0].products.findIndex((item) => item.product == req.body.product);
+  if (index > -1) {
+    cart.items[0].totalCost -= cart.items[0].products[index].cost;
+    cart.items[0].products[index].isGift = JSON.parse(req.body.isGift);
+    cart.items[0].products[index].cost = JSON.parse(req.body.isGift) ? (cart.items[0].products[index].cost + cart.items[0].giftCharge) : (cart.items[0].products[index].cost - cart.items[0].giftCharge);
+    cart.items[0].totalCost += cart.items[0].products[index].cost;
+    await cart.save();
+  }
+
+  const cartResponse = await getProductDetail(req, Cart);
+  res.send(cartResponse);
+}
+
 module.exports = {
   addProductToCart,
   removeProduct,
   changeProductQuantity,
   getCartProducts,
   saveForLater,
+  applyGiftCharge,
 };

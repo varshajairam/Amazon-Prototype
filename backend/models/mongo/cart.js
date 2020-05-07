@@ -13,8 +13,11 @@ const CartSchema = new mongoose.Schema({
           min: 1,
         },
         isGift: { type: mongoose.Schema.Types.Boolean, required: true },
+        cost: { type: mongoose.Schema.Types.Number, default: 0, required: true },
       },
     ],
+    totalCost: { type: mongoose.Schema.Types.Number, default: 0, required: true },
+    giftCharge: { type: mongoose.Schema.Types.Number, default: 1.0 },
   }],
 });
 

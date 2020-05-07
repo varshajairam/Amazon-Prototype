@@ -17,6 +17,7 @@ import {
   MOVE_TO_CART_FAILED,
   REMOVE_SAVED_PRODUCT,
   REMOVE_SAVED_PRODUCT_FAILED,
+  APPLY_GIFT_CHARGE_FAILED,
 } from './types';
 
 import { get, sendPost } from '../../helpers/communicationHelper';
@@ -113,5 +114,15 @@ export const removeSavedProduct = (data) => async (dispatch) => {
   } catch (error) {
     dispatch(setAlert(error.responseText, 'negative'));
     dispatch({ type: REMOVE_SAVED_PRODUCT_FAILED });
+  }
+};
+
+export const applyGiftCharge = (data) => async (dispatch) => {
+  try {
+    const res = await sendPost('cart/applyGiftCharge', data);
+    dispatch({ type: GET_CART_PRODUCTS_SUCCESS, payload: res });
+  } catch (error) {
+    dispatch(setAlert(error.responseText, 'negative'));
+    dispatch({ type: APPLY_GIFT_CHARGE_FAILED });
   }
 };

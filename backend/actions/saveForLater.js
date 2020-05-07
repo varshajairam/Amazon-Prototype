@@ -23,7 +23,7 @@ const getProductDetail = async (req, model) => {
     const products = [];
     for (const item of saved.items[0].products) {
       const product = await Product.findOne({ _id: item.product });
-      products.push({ product, quantity: item.quantity });
+      products.push({ product, quantity: item.quantity, cost: item.cost, totalCost: saved.items[0].totalCost, isGift: item.isGift });
     }
     return products;
   }
@@ -39,8 +39,15 @@ const moveToCart = async (req, res) => {
   const customerCart = await Cart.findOne({ 'items.customer': 1 }); // req.user
   let response;
 
+  const fullProduct = await Product.findOne({ _id: req.body.product });
+  req.body.cost = (fullProduct.baseCost * req.body.quantity) + fullProduct.addonCost;
+  if (JSON.parse(req.body.isGift)) {
+    req.body.cost += 1.0;
+  }
+
   if (customerCart) {
     customerCart.items[0].products.unshift(req.body);
+    customerCart.items[0].totalCost += req.body.cost;
     await customerCart.save();
     response = await getProductDetail(req, Cart);
   }

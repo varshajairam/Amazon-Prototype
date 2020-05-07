@@ -14,10 +14,10 @@ import {
   saveForLater,
   removeSavedProduct,
   moveToCart,
+  applyGiftCharge,
 } from '../../store/actions/cartActions';
 
 const Cart = (props) => {
-  const [isGift, setIsGift] = useState(false);
 
   useEffect(() => {
     props.getCartProducts();
@@ -29,11 +29,11 @@ const Cart = (props) => {
             <div className="ui grid container mt-5">
                 <div className="thirteen wide column product-col">
                     <div className="clearing segment">
-                        {props.cart.products.length > 0 && <h1 className="ui left floated header">Shopping Cart</h1>}
-                        {props.cart.products.length > 0 && <h5 class="ui right floated header">Price</h5>}
+                        {props.cart.products != 'Cart empty' && props.cart.products.length > 0 && <h1 className="ui left floated header">Shopping Cart</h1>}
+                        {props.cart.products != 'Cart empty' && props.cart.products.length > 0 && <h5 class="ui right floated header">Price</h5>}
                         {/* {props.cart.products.length > 0 && <hr />} */}
                         {
-                            props.cart.products.length ?
+                            props.cart.products != 'Cart empty' && props.cart.products.length ?
                               props.cart.products.map((currProduct, i) => <React.Fragment key={i}>
                                         <div className="ui relaxed divided items">
                                             <div className="item">
@@ -46,9 +46,9 @@ const Cart = (props) => {
                                                     <Link to={{ pathname: '/product/' + currProduct.product._id, state: { product: currProduct.product } }}>
                                                         <div className="ui header onHover">{currProduct.product.name}</div>
                                                     </Link>
-                                                    <div className="ui header onHover">{currProduct.product.seller}</div>
+                                                    <div className="ui sub header onHover">{currProduct.product.seller.name}</div><br />
                                                     <div className="ui checkbox">
-                                                        <input type="checkbox" name="gift" onChange={() => setIsGift(!isGift)} />
+                                                        <input type="checkbox" name="gift" checked={JSON.parse(currProduct.isGift)} onChange={() => {currProduct.isGift = !JSON.parse(currProduct.isGift); props.applyGiftCharge({product: currProduct.product._id, isGift: currProduct.isGift})}} />
                                                         <label>This is a gift</label>
                                                     </div>
                                                     <div className="field mt-3">
@@ -67,7 +67,7 @@ const Cart = (props) => {
                                                     <a onClick={() => props.saveForLater({
                                                       product: currProduct.product._id,
                                                       quantity: currProduct.quantity,
-                                                      isGift
+                                                      isGift: currProduct.isGift
                                                     })}> Save for Later
                                                     </a>
                                                     </div>
@@ -81,8 +81,9 @@ const Cart = (props) => {
                                     </React.Fragment>) : <center><h2 className="ui header">Add some products to cart.</h2></center>
                         }
                     </div>
+                    {props.cart.products != 'Cart empty' && props.cart.products.length > 0 && <h2 class="ui right floated header">Subtotal ({props.cart.products.length} {props.cart.products.length ? 'item' : 'items'}): ${props.cart.products[0].totalCost}</h2>}
                 </div>
-                {props.cart.products.length > 0 && <div className="three wide column">
+                {props.cart.products != 'Cart empty' && props.cart.products.length > 0 && <div className="three wide column">
                     <div className="ui card">
                         <div className="content">
                             <div className="ui checkbox">
@@ -95,10 +96,11 @@ const Cart = (props) => {
                         </div>
                     </div>
                                                    </div>}
-                {props.cart.savedForLater.length > 0 &&
+                {props.cart.savedForLater != 'Empty' && props.cart.savedForLater && props.cart.savedForLater.length > 0 &&
                     <div className="thirteen wide column product-col mt-10">
                         <h1 className="ui left floated header">Saved for Later</h1>
                         {
+                            props.cart.savedForLater && props.cart.savedForLater.length > 0 ?
                             props.cart.savedForLater.map((currProduct, i) => <React.Fragment key={i}>
                                     <div className="ui relaxed divided items">
                                         <div className="item">
@@ -111,15 +113,14 @@ const Cart = (props) => {
                                                 <Link to={{ pathname: '/product/' + currProduct.product._id, state: { product: currProduct.product } }} >
                                                     <div className="ui header onHover">{currProduct.product.name}</div>
                                                 </Link>
-                                                <div className="ui header onHover">{currProduct.product.seller}</div>
+                                                <div className="ui sub header onHover">{currProduct.product.seller.name}</div>
                                                 <div className="field mt-3">
                                                     <a onClick={() => props.removeSavedProduct({ product: currProduct.product._id })}> Delete</a> |
                                                     <a onClick={() => props.moveToCart({
                                                       product: currProduct.product._id,
                                                       quantity: currProduct.quantity,
-                                                      isGift,
-                                                    })}>
-                                                    Move to Cart
+                                                      isGift: false,
+                                                    })}> Move to Cart
                                                     </a>
                                                 </div>
                                                 <div className="header" style={{ float: 'right' }}>
@@ -130,7 +131,7 @@ const Cart = (props) => {
                                         </div>
                                     </div>
                                     <hr />
-                                </React.Fragment>)
+                                </React.Fragment>) : <center></center>
                         }
                     </div>}
             </div>
@@ -150,6 +151,7 @@ const mapDispatchToProps = (dispatch) => ({
   removeSavedProduct: (data) => dispatch(removeSavedProduct(data)),
   saveForLater: (data) => dispatch(saveForLater(data)),
   moveToCart: (data) => dispatch(moveToCart(data)),
+  applyGiftCharge: (data) => dispatch(applyGiftCharge(data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cart);
