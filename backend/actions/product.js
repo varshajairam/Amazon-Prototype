@@ -138,27 +138,13 @@ const viewProduct = async (req, res) => {
 const addView = async (req, res) => {
   if (req.user && req.user.type && req.user.type === 'Customer') {
     const product = await Product.findById(req.body.id);
-
-    product.views = product.views ? product.views : {};
-    console.log('product.views', product.views)
-
+    let newViews = product.views ? { ...product.views } : {};
     if (product.views[new Date().toLocaleDateString()]) {
-
-      console.log('increment', product.views[new Date().toLocaleDateString()]);
-      product.views[new Date().toLocaleDateString()] += 1;
-      console.log('increment after', product.views[new Date().toLocaleDateString()]);
-
+      newViews[new Date().toLocaleDateString()] += 1;
     } else {
-      console.log('new!');
-
-      product.views[new Date().toLocaleDateString()] = 1;
-      console.log('product.views', product.views)
-
+      newViews[new Date().toLocaleDateString()] = 1;
     }
-
-    product.views = { ...product.views };
-
-    const result = await product.save();
+    const result = await Product.findByIdAndUpdate(req.body.id, { views: newViews });
 
     return res.send(result);
   }
