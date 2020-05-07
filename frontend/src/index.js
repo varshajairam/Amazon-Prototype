@@ -6,6 +6,7 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 import authReducer from './store/reducers/authReducer';
+import profileReducer from './store/reducers/profileReducer';
 import productReducer from './store/reducers/productReducer';
 import categoryReducer from './store/reducers/categoryReducer';
 import alertReducer from './store/reducers/alertReducer';
@@ -14,7 +15,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 const rootReducer = combineReducers({
-  authReducer, productReducer, categoryReducer, alertReducer, cartReducer
+  authReducer, productReducer, categoryReducer, alertReducer, cartReducer, profileReducer,
 });
 
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
