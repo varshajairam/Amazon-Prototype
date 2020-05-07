@@ -157,7 +157,7 @@ const ProductView = ({ location, history }) => {
                 ratingArr[review.stars - 1] += 1;
 
                 return (
-                  <div className="review-container event mt-5" key={review.customer.name}>
+                  <div className="review-container event mt-5" key={review.customer && review.customer.name}>
                     <div className="label flex-center">
                       <img src="http://simpleicon.com/wp-content/uploads/user-3.png" alt="Customer" />
                       <div className="name">{(review.customer && review.customer.name) || 'Anonymous'}</div>
