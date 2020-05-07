@@ -9,11 +9,12 @@ import authReducer from './store/reducers/authReducer';
 import productReducer from './store/reducers/productReducer';
 import categoryReducer from './store/reducers/categoryReducer';
 import alertReducer from './store/reducers/alertReducer';
+import analyticsReducer from './store/reducers/analyticsReducer';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 const rootReducer = combineReducers({
-  authReducer, productReducer, categoryReducer, alertReducer
+  authReducer, productReducer, categoryReducer, alertReducer, analyticsReducer,
 });
 
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));

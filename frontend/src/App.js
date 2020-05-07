@@ -18,6 +18,7 @@ import AddProduct from './common/AddProduct/AddProduct';
 import * as authActions from './store/actions/authActions';
 import Alert from './common/Alerts/Alert';
 import AnalyticsView from './common/Analytics/AnalyticsView';
+import CategoryList from './common/CategoryList/CategoryList';
 
 function App() {
   const authReducerData = useSelector((state) => state.authReducer);
@@ -46,6 +47,7 @@ function App() {
           <Route path="/editProduct" component={AddProduct} />
           <Route path="/deleteProduct" component={AddProduct} />
           <Route path="/analyticview" component={AnalyticsView} />
+          <Route path="/categoryList" component={CategoryList} />
           <Redirect from="/" to="/" />
         </Switch>
       )}

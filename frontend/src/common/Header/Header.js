@@ -14,6 +14,7 @@ function Header() {
           <NavLink exact className="item" activeClassName="active" to="/">Home</NavLink>
           <NavLink exact className="item" activeClassName="active" to="/productlist">Products</NavLink>
           <NavLink exact className="item" activeClassName="active" to="/addProduct">Add Product</NavLink>
+		  <NavLink exact className="item" activeClassName="active" to="/categorylist">Categories</NavLink>
 		  <NavLink exact className="item" activeClassName="active" to="/analyticview">Analytics Dashboard</NavLink>
           <Link onClick={() => dispatch(authActions.logout())} className="item right" to="/">Logout</Link>
         </div>
