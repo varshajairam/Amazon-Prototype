@@ -63,7 +63,7 @@ const getProducts = async (req, res) => {
 const addProduct = async (req, res) => {
   if (req.user && req.user.type && req.user.type === 'Seller') {
     const newProduct = new Product({
-      seller: { id: req.user.id, name: req.user.name },
+      seller: { id: req.user.id, name: req.user.name, email: req.user.email },
       name: req.body.name,
       addonCost: req.body.addonCost,
       baseCost: req.body.baseCost,
