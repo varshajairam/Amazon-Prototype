@@ -7,11 +7,10 @@ import * as authActions from '../../store/actions/authActions';
 function Header() {
   const authReducerData = useSelector((state) => state.authReducer);
   const dispatch = useDispatch();
-  const catergoryList = authReducerData.user_type === 'Admin' && (
-    <NavLink exact className="item" activeClassName="active" to="/categorylist">Categories</NavLink>
-  );
-  const AnalyticsView = authReducerData.user_type === 'Admin' && (
-    <NavLink exact className="item" activeClassName="active" to="/analyticview">Analytics Dashboard</NavLink>
+  const adminList = authReducerData.user_type === 'Admin' && ([
+    <NavLink exact className="item" activeClassName="active" to="/categorylist">Categories</NavLink>,
+    <NavLink exact className="item" activeClassName="active" to="/analyticview">Analytics Dashboard</NavLink>,
+  ]
   );
   return (
     <div className="HEADER">
@@ -20,8 +19,7 @@ function Header() {
           <NavLink exact className="item" activeClassName="active" to="/">Home</NavLink>
           <NavLink exact className="item" activeClassName="active" to="/productlist">Products</NavLink>
           <NavLink exact className="item" activeClassName="active" to="/addProduct">Add Product</NavLink>
-          {catergoryList}
-          {AnalyticsView}
+          {adminList}
           <Link onClick={() => dispatch(authActions.logout())} className="item right" to="/">Logout</Link>
         </div>
       )}
