@@ -118,12 +118,13 @@ const deleteProduct = async (req, res) => {
 };
 
 const addReview = async (req, res) => {
-  const { id, name } = req.user;
+  const { id, name, email } = req.user;
   const newReview = new Review({
     ...req.body,
     customer: {
       id,
       name,
+      email
     },
   });
   const result = await newReview.save();
