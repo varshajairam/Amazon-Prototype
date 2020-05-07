@@ -50,6 +50,7 @@ function Profile() {
               { profileReducerData.user_addresses.map((address) => (
                 <div className="link item" key={address.id}>
                   <div className="content">
+                    <i className="trash icon delete-address" onClick={() => dispatch(profileActions.deleteAddress(address.id))} aria-hidden="true" />
                     <div className="header">{address.name}</div>
                     <div className="description">
                       <div>

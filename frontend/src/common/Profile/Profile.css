@@ -29,3 +29,8 @@
   bottom: 36px;
   cursor: pointer;
 }
+
+.PROFILE .delete-address {
+  float: right;
+  cursor: pointer;
+}

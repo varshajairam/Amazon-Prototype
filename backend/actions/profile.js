@@ -33,6 +33,12 @@ function addAddress(req, res) {
   });
 }
 
+function deleteAddress(req, res) {
+  userAddress.destroy({ where: { id: req.body.addressId } }).then(() => {
+    res.send(req.body.addressId);
+  });
+}
+
 module.exports = {
-  getProfile, addProfileImage, editProfile, addAddress,
+  getProfile, addProfileImage, editProfile, addAddress, deleteAddress,
 };

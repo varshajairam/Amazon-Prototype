@@ -35,3 +35,9 @@ export const addAddress = (ev, setaddressModalOpen) => (dispatch) => {
     setaddressModalOpen(false);
   });
 };
+
+export const deleteAddress = (addressId) => (dispatch) => {
+  sendPost('profile/delete_address', { addressId }).then(() => {
+    dispatch({ type: 'DELETE_ADDRESS', addressId });
+  });
+};

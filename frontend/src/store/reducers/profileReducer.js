@@ -28,6 +28,11 @@ const reducer = (state = initialState, action) => {
         ...state,
         user_addresses: state.user_addresses.concat([action.resp]),
       };
+    case 'DELETE_ADDRESS':
+      return {
+        ...state,
+        user_addresses: state.user_addresses.filter((address) => address.id !== action.addressId),
+      };
     default:
       return {
         ...state,
