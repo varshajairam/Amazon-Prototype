@@ -12,7 +12,7 @@ function AddCategory() {
     [dispatch, delModalOpen, categoryModalOpen]);
   const categoryReducerData = useSelector((state) => state.categoryReducer);
   return (
-    <div className=" ui container">
+    <div className="ADMIN_CATEGORY ui container">
       <button type="button" onClick={() => setCategoryModalOpen(true)} className="ui primary button">Add Category</button>
       <div className={`modalcenter ui dimmer modals page transition ${categoryModalOpen ? 'visible active' : 'hidden'} `}>
         <div className={`ui standard demo modal transition ${categoryModalOpen ? 'visible active' : 'hidden'}`}>
