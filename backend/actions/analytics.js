@@ -54,4 +54,42 @@ const dateTest = async (req, res) => {
     res.status(401).send("Unauthorized");
 };
 
-module.exports = {getTopFiveSoldProducts, getTopTenPerDay, dateTest}
+
+const getSellerProducts = async (req, res) => {
+    
+    if(req.user && req.user.type === 'Seller'){
+        const result = await Order.aggregate([
+            { $match: { "status": {$ne: "Cancelled"}, "sellers": req.user.id } },
+            { $project: {products: "$products"}},
+            { $match: { "products.product.seller.id": 3 } },
+            { $unwind: "$products"},
+            { $group: {_id: "$products.product._id", quantity: {$sum: "$products.quantity"}, price:{$push: {price: "$products.product.baseCost", product: "$products.product"}}}},
+            { $unwind: "$price"},
+            {$project: {total: {$multiply: ["$quantity", "$price.price"]}, quantity: "$quantity", price: "$price.price", product: "$price.product"}}
+
+        ]);
+        return res.send(result);
+    }
+    res.status(401).send("Unauthorized");
+};
+
+const getSellerMonthlySales = async (req, res) => {
+    const startDate =  new Date(req.query.startDate);
+    const endDate =  new Date(req.query.endDate);
+    if(req.user && req.user.type === 'Seller'){
+        const result = await Order.aggregate([
+            { $match: { [`createdAt`]:  {$lt: endDate, $gt: startDate}} },
+            { $match: { "status": {$ne: "Cancelled"}, "sellers": req.user.id } },
+            { $project: {products: "$products"}},
+            { $match: { "products.product.seller.id": 3 } },
+            { $unwind: "$products"},
+            { $group: {_id: "$products.product._id", quantity: {$sum: "$products.quantity"}, price:{$push: {price: "$products.product.baseCost"}}}},
+            { $unwind: "$price"},
+            {$project: {total: {$multiply: ["$quantity", "$price.price"]}, quantity: "$quantity", price: "$price.price"}},
+        ]);
+        return res.send(result);
+    }
+    res.status(401).send("Unauthorized");
+};
+
+module.exports = {getTopFiveSoldProducts, getTopTenPerDay, dateTest, getSellerProducts, getSellerMonthlySales}
