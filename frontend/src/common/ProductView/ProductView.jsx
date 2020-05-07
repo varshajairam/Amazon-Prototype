@@ -64,7 +64,7 @@ const ProductView = ({ location, history }) => {
               <h1 className="ui header">{product.name}</h1>
               By
               {' '}
-              <span className="onHover" onClick={() => showSellerProfile(product.seller.id)} onKeyDown={() => showSellerProfile(product.seller.id)} role="button" tabIndex="0">{product.seller.name}</span>
+              <span className="onHover" onClick={() => showSellerProfile(product.seller.email)} onKeyDown={() => showSellerProfile(product.seller.email)} role="button" tabIndex="0">{product.seller.name}</span>
 
               {/* INSERT RATINGS */}
               <div className="rating-container">
