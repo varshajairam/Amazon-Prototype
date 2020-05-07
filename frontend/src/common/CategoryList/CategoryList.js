@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import * as categoryActions from '../../store/actions/categoryActions';
-
+import './CategoryList.css';
 
 function AddCategory() {
   const [categoryModalOpen, setCategoryModalOpen] = useState(false);
@@ -12,9 +12,9 @@ function AddCategory() {
     [dispatch, delModalOpen, categoryModalOpen]);
   const categoryReducerData = useSelector((state) => state.categoryReducer);
   return (
-    <div className="CATEGORY ui container">
+    <div className=" ui container">
       <button type="button" onClick={() => setCategoryModalOpen(true)} className="ui primary button">Add Category</button>
-      <div className={`ui dimmer modals page transition ${categoryModalOpen ? 'visible active' : 'hidden'}`}>
+      <div className={`modalcenter ui dimmer modals page transition ${categoryModalOpen ? 'visible active' : 'hidden'} `}>
         <div className={`ui standard demo modal transition ${categoryModalOpen ? 'visible active' : 'hidden'}`}>
           <i className="close icon" aria-hidden="true" onClick={() => setCategoryModalOpen(false)} />
           <div className="header">Add a new Category</div>
@@ -50,7 +50,7 @@ function AddCategory() {
             }) : <center><h2 className="ui header">No Category Found!</h2></center>
             }
       </div>
-      <div className={`ui dimmer modals page transition ${delModalOpen ? 'visible active' : 'hidden'}`}>
+      <div className={`ui dimmer modalcenter modals page transition ${delModalOpen ? 'visible active' : 'hidden'}`}>
         <div className={`ui standard demo modal transition ${delModalOpen ? 'visible active' : 'hidden'}`}>
           <i className="close icon" aria-hidden="true" onClick={() => setDelModalOpen(false)} />
           <div className="header">
