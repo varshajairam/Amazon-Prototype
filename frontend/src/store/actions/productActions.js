@@ -26,7 +26,7 @@ export const addProduct = (data) => async (dispatch) => {
   try {
     dispatch({ type: ADD_PRODUCT_SENT });
     const res = await sendPost('product', data);
-    dispatch(setAlert('Review Added Successfully!', 'positive'));
+    dispatch(setAlert('Product Added Successfully!', 'positive'));
     dispatch({ type: ADD_PRODUCT_SUCCESS, payload: res });
   } catch (error) {
     dispatch({ type: ADD_PRODUCT_FAILED });

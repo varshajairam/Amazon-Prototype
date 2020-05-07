@@ -44,15 +44,15 @@ const getProducts = async (req, res) => {
     req.user.type === 'Seller' ? { 'seller.id': req.user.id } : {},
   )
     .populate('reviews')
-    .or([{ name: new RegExp(name || '', 'i') }])
+    .or([{ name: new RegExp(name || '', 'i') }, { 'seller.name': new RegExp(name || '', 'i') }])
     .where({ category: category || { $ne: null } })
     .where({ averageRating: { $gte: averageRating || 0 } })
     .sort(sort)
     .limit(perPage)
-    .skip(perPage * (page - 1));
+    .skip(perPage * ((page || 1) - 1));
 
   const count = await Product.find()
-    .or([{ name: new RegExp(name || '', 'i') }])
+    .or([{ name: new RegExp(name || '', 'i') }, { 'seller.name': new RegExp(name || '', 'i') }])
     .where({ category: category || { $ne: null } })
     .where({ averageRating: { $gte: averageRating || 0 } })
     .countDocuments();
