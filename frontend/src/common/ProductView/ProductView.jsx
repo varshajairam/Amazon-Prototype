@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import './ProductView.css';
 
@@ -7,14 +7,18 @@ import {
   Redirect,
 } from 'react-router-dom';
 import StarRatings from '../StarRatings/StarRatings';
+import { addView } from '../../store/actions/productActions';
 
 const ProductView = ({ location, history }) => {
   const [dispImg, setImage] = useState('');
   const user = useSelector((state) => state.authReducer);
   const ratingArr = new Array(5).fill(0);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setImage(location.state && location.state.product && location.state.product.images[0]);
+
+    dispatch(addView({ id: location.state && location.state.product && location.state.product._id }));
   }, []);
 
   if (!(location.state && location.state.product)) { return <Redirect to="/productlist" />; }
@@ -135,11 +139,11 @@ const ProductView = ({ location, history }) => {
                   </div>
                 </>
               ) : (
-                <div className="ui primary button flex-center edit-btn" onClick={() => onEditClick()} onKeyDown={() => onEditClick()} role="button" tabIndex="0">
-                  <i className="edit icon" />
+                  <div className="ui primary button flex-center edit-btn" onClick={() => onEditClick()} onKeyDown={() => onEditClick()} role="button" tabIndex="0">
+                    <i className="edit icon" />
                   Edit Product
-                </div>
-              )
+                  </div>
+                )
             }
 
 

@@ -135,6 +135,36 @@ const viewProduct = async (req, res) => {
   return res.status(401).send('Unauthorized');
 };
 
+const addView = async (req, res) => {
+  if (req.user && req.user.type && req.user.type === 'Customer') {
+    const product = await Product.findById(req.body.id);
+
+    product.views = product.views ? product.views : {};
+    console.log('product.views', product.views)
+
+    if (product.views[new Date().toLocaleDateString()]) {
+
+      console.log('increment', product.views[new Date().toLocaleDateString()]);
+      product.views[new Date().toLocaleDateString()] += 1;
+      console.log('increment after', product.views[new Date().toLocaleDateString()]);
+
+    } else {
+      console.log('new!');
+
+      product.views[new Date().toLocaleDateString()] = 1;
+      console.log('product.views', product.views)
+
+    }
+
+    product.views = { ...product.views };
+
+    const result = await product.save();
+
+    return res.send(result);
+  }
+  return res.send('Unauthorized');
+};
+
 module.exports = {
   getRecomendations,
   getProduct,
@@ -143,4 +173,5 @@ module.exports = {
   updateProduct,
   deleteProduct,
   addReview,
+  addView,
 };

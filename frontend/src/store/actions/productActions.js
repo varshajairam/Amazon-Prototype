@@ -56,6 +56,14 @@ export const updateProduct = (data) => async (dispatch) => {
   }
 };
 
+export const addView = (data) => async (dispatch) => {
+  try {
+    const res = await sendPost('product/addView', data);
+  } catch (error) {
+    dispatch({ type: 'ADD_VIEW_FAILED' });
+  }
+};
+
 export const getProducts = (data) => {
   return (dispatch) => {
     let query = 'product?';
