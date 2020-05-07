@@ -1,24 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import './CreateReview.css';
-import { connect } from 'react-redux';
 import {
-  Link, Redirect,
+  Redirect,
 } from 'react-router-dom';
 import StarRatings from '../StarRatings/StarRatings';
 import { addReview } from '../../store/actions/productActions';
 
-const CreateReview = (props) => {
+const CreateReview = ({ location }) => {
+  const products = useSelector((state) => state.productReducer);
+  const dispatch = useDispatch();
+
   const [review, setReview] = useState({
     stars: 0,
     title: '',
     text: '',
   });
 
-  if (!(props.location.state && props.location.state.product)) { return <Redirect to="/productlist" />; }
+  if (!(location.state && location.state.product)) { return <Redirect to="/productlist" />; }
 
-  if (props.products.redirectProduct) { return <Redirect to={{ pathname: '/product', state: { product: props.products.products.find((product) => product._id == props.location.state.product._id) } }} />; }
+  if (products.redirectProduct) { return <Redirect to={{ pathname: '/product', state: { product: products.products.find((product) => product._id == location.state.product._id) } }} />; }
 
-  const { product } = props.location.state;
+  const { product } = location.state;
 
   return (
     <>
@@ -28,7 +31,7 @@ const CreateReview = (props) => {
             <h2>Create Review</h2>
           </div>
           <div className="product-details">
-            <img className="img-container" src={product.images[0]} />
+            <img className="img-container" src={product.images[0]} alt={product.name} />
             <div className="product-name">{product.name}</div>
           </div>
         </div>
@@ -59,10 +62,16 @@ const CreateReview = (props) => {
 
             <div
               className="ui primary button"
-              onClick={(e) => props.addReview({
+              onClick={dispatch(addReview({
                 ...review,
                 product: product._id,
-              })}
+              }))}
+              onKeyDown={dispatch(addReview({
+                ...review,
+                product: product._id,
+              }))}
+              role="button"
+              tabIndex="0"
             >
               Submit
             </div>
@@ -72,12 +81,5 @@ const CreateReview = (props) => {
     </>
   );
 };
-const mapStateToProps = (state) => ({
-  products: state.productReducer,
-});
 
-const mapDispatchToProps = (dispatch) => ({
-  addReview: (data) => dispatch(addReview(data)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(CreateReview);
+export default CreateReview;

@@ -1,34 +1,37 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { PropTypes } from 'prop-types';
 import './ProductView.css';
-import { connect } from 'react-redux';
+
 import {
-  Link, Redirect,
+  Redirect,
 } from 'react-router-dom';
 import StarRatings from '../StarRatings/StarRatings';
 
-const ProductView = (props) => {
+const ProductView = ({ location, history }) => {
   const [dispImg, setImage] = useState('');
+  const user = useSelector((state) => state.authReducer);
   const ratingArr = new Array(5).fill(0);
 
   useEffect(() => {
-    setImage(props.location.state && props.location.state.product && props.location.state.product.images[0]);
+    setImage(location.state && location.state.product && location.state.product.images[0]);
   }, []);
 
-  if (!(props.location.state && props.location.state.product)) { return <Redirect to="/productlist" />; }
+  if (!(location.state && location.state.product)) { return <Redirect to="/productlist" />; }
 
-  const { product } = props.location.state;
+  const { product } = location.state;
 
   const writeReview = () => {
-    props.history.push({ pathname: '/createReview', state: { product } });
+    history.push({ pathname: '/createReview', state: { product } });
   };
 
   const onEditClick = () => {
-    props.history.push({ pathname: '/editProduct', state: { product } });
+    history.push({ pathname: '/editProduct', state: { product } });
   };
 
   // Seller Route Here
   const showSellerProfile = (id) => {
-    props.history.push({ pathname: `/sellerProfile/${id}` });
+    history.push({ pathname: `/sellerProfile/${id}` });
   };
 
   return (
@@ -39,9 +42,9 @@ const ProductView = (props) => {
             <div className="two wide column prev-col">
               <div className="ui small image">
                 {
-                  product.images.map((img, i) => (
-                    <div className={`img-prev ${dispImg === img ? 'active' : ''}`} key={i} onMouseOver={() => setImage(img)}>
-                      <img src={img || 'https://www.moodfit.com/front/images/genral_image_notfound.png'} />
+                  product.images.map((img) => (
+                    <div className={`img-prev ${dispImg === img ? 'active' : ''}`} key={img} onMouseOver={() => setImage(img)} onFocus={() => setImage(img)}>
+                      <img src={img || 'https://www.moodfit.com/front/images/genral_image_notfound.png'} alt="Product" />
 
                     </div>
                   ))
@@ -57,7 +60,7 @@ const ProductView = (props) => {
               <h1 className="ui header">{product.name}</h1>
               By
               {' '}
-              <span className="onHover" onClick={() => showSellerProfile(product.seller.id)}>{product.seller.name}</span>
+              <span className="onHover" onClick={() => showSellerProfile(product.seller.id)} onKeyDown={() => showSellerProfile(product.seller.id)} role="button" tabIndex="0">{product.seller.name}</span>
 
               {/* INSERT RATINGS */}
               <div className="rating-container">
@@ -83,7 +86,7 @@ const ProductView = (props) => {
 
           <div className="three wide column purchase-col ui segment">
             {
-              props.user.user_type === 'Customer' ? (
+              user.user_type === 'Customer' ? (
                 <>
                   <div className="price">
                     $
@@ -99,15 +102,17 @@ const ProductView = (props) => {
 
                   <div className="btn-container ui form">
                     <div className="field mt-3">
-                      <label>Quantity:</label>
-                      <select>
-                        <option value="">Select</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                      </select>
+                      <label htmlFor="dropdown">
+                        Quantity:
+                        <select id="dropdown">
+                          <option value="">Select</option>
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
+                        </select>
+                      </label>
                     </div>
                     <div className="ui primary button">
                       <i className="shop icon" />
@@ -121,14 +126,16 @@ const ProductView = (props) => {
 
                     <div className="inline field mt-5">
                       <div className="ui checkbox">
-                        <input type="checkbox" tabIndex="0" className="hidden" id="gift" />
-                        <label htmlFor="gift">Add as Gift</label>
+                        <label htmlFor="gift">
+                          <input type="checkbox" tabIndex="0" className="hidden" id="gift" />
+                          Add as Gift
+                        </label>
                       </div>
                     </div>
                   </div>
                 </>
               ) : (
-                <div className="ui primary button flex-center edit-btn" onClick={() => onEditClick()}>
+                <div className="ui primary button flex-center edit-btn" onClick={() => onEditClick()} onKeyDown={() => onEditClick()} role="button" tabIndex="0">
                   <i className="edit icon" />
                   Edit Product
                 </div>
@@ -146,14 +153,14 @@ const ProductView = (props) => {
             {/* Review Start */}
 
             {
-              product.reviews.map((review, i) => {
-                ratingArr[review.stars - 1]++;
+              product.reviews.map((review) => {
+                ratingArr[review.stars - 1] += 1;
 
                 return (
-                  <div className="review-container event mt-5" key={i}>
+                  <div className="review-container event mt-5" key={review.customer.name}>
                     <div className="label flex-center">
-                      <img src="http://simpleicon.com/wp-content/uploads/user-3.png" />
-                      <div className="name">{review.customer && review.customer.name || 'Anonymous'}</div>
+                      <img src="http://simpleicon.com/wp-content/uploads/user-3.png" alt="Customer" />
+                      <div className="name">{(review.customer && review.customer.name) || 'Anonymous'}</div>
                     </div>
 
                     <div className="review mt-3">
@@ -196,7 +203,7 @@ const ProductView = (props) => {
                       const perc = ((ratingArr[4 - i] / product.reviews.length) * 100);
 
                       return (
-                        <div className="star-rating flex-center" key={i}>
+                        <div className="star-rating flex-center" key={rating}>
                           <span>
                             {5 - i}
                             {' '}
@@ -222,7 +229,7 @@ const ProductView = (props) => {
 
             <div className="ui header">Write your own review</div>
             <div className="mt-3">Share your thoughts with other customers</div>
-            <div className="ui button w-100 mt-5" onClick={writeReview}>Write a customer review</div>
+            <div className="ui button w-100 mt-5" onClick={writeReview} onKeyDown={writeReview} role="button" tabIndex="0">Write a customer review</div>
           </div>
 
         </div>
@@ -231,8 +238,8 @@ const ProductView = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  user: state.authReducer,
-});
+ProductView.propTypes = {
+  name: PropTypes.string.isRequired,
+};
 
-export default connect(mapStateToProps, null)(ProductView);
+export default ProductView;
