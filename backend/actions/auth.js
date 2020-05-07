@@ -8,10 +8,12 @@ function loginHandler(req, username, password, done) {
     },
   }).then((user) => {
     if (!user) done(null, false, { message: 'Incorrect username or password.' });
-    bcrypt.compare(password, user.dataValues.password).then((result) => {
-      if (result) done(null, user.dataValues);
-      done(null, false, { message: 'Incorrect username or password.' });
-    });
+    else {
+      bcrypt.compare(password, user.dataValues.password).then((result) => {
+        if (result) done(null, user.dataValues);
+        else done(null, false, { message: 'Incorrect username or password.' });
+      });
+    }
   });
 }
 

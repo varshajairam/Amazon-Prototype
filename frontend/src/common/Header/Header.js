@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import './Header.css';
 import * as authActions from '../../store/actions/authActions';
 
@@ -15,7 +15,7 @@ function Header() {
           <NavLink exact className="item" activeClassName="active" to="/productlist">Products</NavLink>
           <NavLink exact className="item" activeClassName="active" to="/addProduct">Add Product</NavLink>
           <NavLink exact className="item" activeClassName="active" to="/orders">Orders</NavLink>
-          <NavLink exact onClick={() => dispatch(authActions.logout())} className="item right" activeClassName="active" to="/">Logout</NavLink>
+          <Link onClick={() => dispatch(authActions.logout())} className="item right" to="/">Logout</Link>
         </div>
       )}
       {!authReducerData.loggedIn && (
