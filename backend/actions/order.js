@@ -1,9 +1,9 @@
 const { Order } = require('../models/index');
 
 const getOrders = async (req, res) => {
-  let perPage = 5; // Change Later
+  const perPage = 5; // Change Later
 
-  let { page } = req.query;
+  const { page } = req.query;
 
   if (req.user) {
     let query = {};
@@ -18,11 +18,9 @@ const getOrders = async (req, res) => {
       .skip(perPage * (page - 1));
 
     const count = await Order.find(query).countDocuments();
-    console.log('count', count)
 
     res.send({ orders: result, total: count, limit: perPage });
-  } else
-    res.status(401).send('Unauthorized');
+  } else { res.status(401).send('Unauthorized'); }
 };
 
 const updateOrder = async (req, res) => {
@@ -51,4 +49,5 @@ const placeOrder = async (req, res) => {
 module.exports = {
   placeOrder,
   getOrders,
+  updateOrder,
 };

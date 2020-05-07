@@ -33,13 +33,15 @@ const getProduct = async (req, res) => {
 };
 
 const getProducts = async (req, res) => {
-  let perPage = 5; // Change Later
+  const perPage = 5; // Change Later
 
-  let { name, averageRating, category, sort, page } = req.query;
+  const {
+    name, averageRating, category, sort, page,
+  } = req.query;
 
   // , { seller: new RegExp(name || "", "i") }
   const result = await Product.find(
-    req.user.type == 'Seller' ? { 'seller.id': req.user.id } : {}
+    req.user.type === 'Seller' ? { 'seller.id': req.user.id } : {},
   )
     .populate('reviews')
     .or([{ name: new RegExp(name || '', 'i') }])
