@@ -6,6 +6,10 @@
   font-weight: bold;
 }
 
+.PROFILE .card {
+  width: 100%;
+}
+
 .PROFILE .profile-image-input {
   display: none;
 }

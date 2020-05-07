@@ -26,18 +26,34 @@ export const editProfile = (ev, setProfileModalOpen) => (dispatch) => {
   });
 };
 
-export const addAddress = (ev, setaddressModalOpen) => (dispatch) => {
+export const addAddress = (ev, setAddressModalOpen) => (dispatch) => {
   ev.preventDefault();
   const formEl = ev.target;
   sendPost('profile/add_address', formEl).then((resp) => {
     dispatch({ type: 'ADD_ADDRESS', resp });
     formEl.reset();
-    setaddressModalOpen(false);
+    setAddressModalOpen(false);
   });
 };
 
 export const deleteAddress = (addressId) => (dispatch) => {
   sendPost('profile/delete_address', { addressId }).then(() => {
     dispatch({ type: 'DELETE_ADDRESS', addressId });
+  });
+};
+
+export const addCard = (ev, setCardModalOpen) => (dispatch) => {
+  ev.preventDefault();
+  const formEl = ev.target;
+  sendPost('profile/add_card', formEl).then((resp) => {
+    dispatch({ type: 'ADD_CARD', resp });
+    formEl.reset();
+    setCardModalOpen(false);
+  });
+};
+
+export const deleteCard = (cardId) => (dispatch) => {
+  sendPost('profile/delete_card', { cardId }).then(() => {
+    dispatch({ type: 'DELETE_CARD', cardId });
   });
 };

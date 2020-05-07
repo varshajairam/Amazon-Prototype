@@ -56,6 +56,25 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
   });
+  const userCard = sequelize.define('user_card', {
+    name: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+    },
+    number: {
+      type: DataTypes.STRING(19),
+      allowNull: false,
+    },
+    cvv: {
+      type: DataTypes.INTEGER(),
+      allowNull: false,
+    },
+    expiration: {
+      type: DataTypes.DATEONLY(),
+      allowNull: false,
+    },
+  });
   User.hasMany(userAddress);
-  return { User, userAddress };
+  User.hasMany(userCard);
+  return { User, userAddress, userCard };
 };

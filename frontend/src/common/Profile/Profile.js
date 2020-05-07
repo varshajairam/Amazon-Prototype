@@ -12,7 +12,8 @@ function Profile() {
   useEffect(() => dispatch(profileActions.fetchProfileData(email)), [email, dispatch]);
   const [imageHovered, setImageHovered] = useState(false);
   const [profileModalOpen, setProfileModalOpen] = useState(false);
-  const [addressModalOpen, setaddressModalOpen] = useState(false);
+  const [addressModalOpen, setAddressModalOpen] = useState(false);
+  const [cardModalOpen, setCardModalOpen] = useState(false);
   const [states, setStates] = useState([]);
   const profileImageInput = React.createRef();
   return (
@@ -40,11 +41,39 @@ function Profile() {
                 <div className="meta">{profileReducerData.email}</div>
               </div>
             </div>
+            <div>
+              <h1 className="ui dividing header">Cards</h1>
+              <i className="plus icon add-address" onClick={() => setCardModalOpen(true)} aria-hidden="true" />
+            </div>
+            <div className="ui divided items">
+              { profileReducerData.user_cards.map((card) => (
+                <div className="link item" key={card.id}>
+                  <div className="content">
+                    <i className="trash icon delete-address" onClick={() => dispatch(profileActions.deleteCard(card.id))} aria-hidden="true" />
+                    <div className="header">{card.name}</div>
+                    <div className="description">
+                      <div>
+                        <span className="bold">Card Number: </span>
+                        <span>{card.number}</span>
+                      </div>
+                      <div>
+                        <span className="bold">Expiry Date: </span>
+                        <span>{card.expiration}</span>
+                      </div>
+                      <div>
+                        <span className="bold">CVV: </span>
+                        <span>{card.cvv}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
           <div className="ten wide column">
             <div>
               <h1 className="ui dividing header">Addresses</h1>
-              <i className="plus icon add-address" onClick={() => setaddressModalOpen(true)} aria-hidden="true" />
+              <i className="plus icon add-address" onClick={() => setAddressModalOpen(true)} aria-hidden="true" />
             </div>
             <div className="ui divided items">
               { profileReducerData.user_addresses.map((address) => (
@@ -110,9 +139,9 @@ function Profile() {
       </div>
       <div className={`ui dimmer modals page transition ${addressModalOpen ? 'visible active' : 'hidden'}`}>
         <div className={`ui standard demo modal transition ${addressModalOpen ? 'visible active' : 'hidden'}`}>
-          <i className="close icon" aria-hidden="true" onClick={() => setaddressModalOpen(false)} />
+          <i className="close icon" aria-hidden="true" onClick={() => setAddressModalOpen(false)} />
           <div className="header">Add Address</div>
-          <form className="ui form" onSubmit={(ev) => dispatch(profileActions.addAddress(ev, setaddressModalOpen))}>
+          <form className="ui form" onSubmit={(ev) => dispatch(profileActions.addAddress(ev, setAddressModalOpen))}>
             <div className="description">
               <div className="field">
                 <label htmlFor="inputName">
@@ -181,6 +210,43 @@ function Profile() {
                 <label htmlFor="inputPhone">
                   Phone
                   <input type="number" min="1000000000" max="9999999999" id="inputPhone" name="phone" placeholder="Phone" required />
+                </label>
+              </div>
+            </div>
+            <div className="actions">
+              <button type="submit" className="ui primary button">Save</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div className={`ui dimmer modals page transition ${cardModalOpen ? 'visible active' : 'hidden'}`}>
+        <div className={`ui standard demo modal transition ${cardModalOpen ? 'visible active' : 'hidden'}`}>
+          <i className="close icon" aria-hidden="true" onClick={() => setCardModalOpen(false)} />
+          <div className="header">Add Card</div>
+          <form className="ui form" onSubmit={(ev) => dispatch(profileActions.addCard(ev, setCardModalOpen))}>
+            <div className="description">
+              <div className="field">
+                <label htmlFor="inputName">
+                  Full Name
+                  <input type="text" id="inputName" name="name" placeholder="Full Name" required />
+                </label>
+              </div>
+              <div className="field">
+                <label htmlFor="inputCardNumber">
+                  Card Number
+                  <input type="text" id="inputCardNumber" name="number" placeholder="Card Number" required />
+                </label>
+              </div>
+              <div className="field">
+                <label htmlFor="inputExpiry">
+                  Expiration Date
+                  <input type="date" id="inputExpiry" name="expiration" placeholder="Expiration Date" />
+                </label>
+              </div>
+              <div className="field">
+                <label htmlFor="inputCvv">
+                  CVV
+                  <input type="number" id="inputCvv" min="100" max="999" name="cvv" placeholder="CVV" required />
                 </label>
               </div>
             </div>

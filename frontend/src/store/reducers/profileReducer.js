@@ -4,6 +4,7 @@ const initialState = {
   type: '',
   profile_image: '',
   user_addresses: [],
+  user_cards: [],
 };
 
 const reducer = (state = initialState, action) => {
@@ -32,6 +33,16 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         user_addresses: state.user_addresses.filter((address) => address.id !== action.addressId),
+      };
+    case 'ADD_CARD':
+      return {
+        ...state,
+        user_cards: state.user_cards.concat([action.resp]),
+      };
+    case 'DELETE_CARD':
+      return {
+        ...state,
+        user_cards: state.user_cards.filter((card) => card.id !== action.cardId),
       };
     default:
       return {
