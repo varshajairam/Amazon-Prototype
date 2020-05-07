@@ -29,7 +29,7 @@
 }
 
 .onHover:hover {
-    color: #c45500;
+    color: #c45500 !important;
     cursor: pointer;
 }
 

@@ -14,16 +14,17 @@ function Header() {
   );
   return (
     <div className="HEADER">
-      { authReducerData.loggedIn && (
+      {authReducerData.loggedIn && (
         <div className="ui secondary menu">
           <NavLink exact className="item" activeClassName="active" to="/">Home</NavLink>
           <NavLink exact className="item" activeClassName="active" to="/productlist">Products</NavLink>
           <NavLink exact className="item" activeClassName="active" to="/addProduct">Add Product</NavLink>
+          <NavLink exact className="item" activeClassName="active" to="/orders">Orders</NavLink>
           {adminList}
           <Link onClick={() => dispatch(authActions.logout())} className="item right" to="/">Logout</Link>
         </div>
       )}
-      { !authReducerData.loggedIn && (
+      {!authReducerData.loggedIn && (
         <div className="ui secondary menu">
           <NavLink exact className="item" activeClassName="active" to="/">Home</NavLink>
           <NavLink exact className="item right" activeClassName="active" to="/login">Login</NavLink>

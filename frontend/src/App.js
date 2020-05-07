@@ -17,6 +17,7 @@ import CreateReview from './common/ProductView/CreateReview';
 import AddProduct from './common/AddProduct/AddProduct';
 import * as authActions from './store/actions/authActions';
 import Alert from './common/Alerts/Alert';
+import OrderList from './common/OrderList/OrderList';
 import AnalyticsView from './common/Analytics/AnalyticsView';
 import CategoryList from './common/CategoryList/CategoryList';
 
@@ -40,6 +41,7 @@ function App() {
       {authReducerData.loggedIn && (
         <Switch>
           <Route exact path="/" component={Home} />
+          <Route path="/orders" component={OrderList} />
           <Route path="/createReview" component={CreateReview} />
           <Route path="/product/:id" component={ProductView} />
           <Route path="/productlist" component={ProductList} />
