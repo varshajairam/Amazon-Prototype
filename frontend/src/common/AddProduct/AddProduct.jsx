@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 
 import { connect } from 'react-redux';
 import Step from './Step';
@@ -12,8 +12,29 @@ import {
 } from '../../store/actions/productActions';
 import Offers from './Offers';
 
-const AddProduct = ({ addProduct }) => {
-  const [state, setstate] = useState({ offers: [] });
+const AddProduct = (props) => {
+  const { addProduct, updateProduct, deleteProduct } = props;
+  let initialState = { offers: [] };
+  if (props.location.state) {
+    const {
+      name,
+      baseCost,
+      category,
+      description,
+      images,
+      offers,
+    } = props.location.state.product;
+    initialState = {
+      name,
+      baseCost,
+      category,
+      description,
+      images,
+      offers,
+    };
+  }
+
+  const [state, setstate] = useState(initialState);
   const [currentStep, setCurrentStep] = useState(1);
 
   const next = () => {
@@ -29,7 +50,11 @@ const AddProduct = ({ addProduct }) => {
   };
 
   const submit = () => {
-    addProduct({ ...state, offers: JSON.stringify(state.offers), seller: 1 });
+    if (props.location.state) {      
+      updateProduct({id: props.location.state.product._id, ...state, offers: JSON.stringify(state.offers) });
+    } else {
+      addProduct({ ...state, offers: JSON.stringify(state.offers) });
+    }
   };
 
   const renderStep = () => {
@@ -59,6 +84,7 @@ const AddProduct = ({ addProduct }) => {
             back={back}
             submit={submit}
             updateState={updateState}
+            update={props.location.state? true : false}
           />
         );
       default:
@@ -90,6 +116,20 @@ const AddProduct = ({ addProduct }) => {
           />
         </div>
         <div className="ui attached segment">{renderStep()}</div>
+        {props.location.state ? (
+          <div className="ui bottom attached segment">
+            <div
+              className="ui fluid negative button"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                deleteProduct({ id: props.location.state.product._id });
+              }}
+            >
+              Delete Product
+            </div>
+          </div>
+        ) : null}
       </div>
     </Fragment>
   );
@@ -99,4 +139,8 @@ const mapStateToProps = (state) => {
   return {};
 };
 
-export default connect(mapStateToProps, { addProduct })(AddProduct);
+export default connect(mapStateToProps, {
+  addProduct,
+  updateProduct,
+  deleteProduct,
+})(AddProduct);

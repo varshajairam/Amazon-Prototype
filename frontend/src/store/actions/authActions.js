@@ -15,6 +15,16 @@ export const login = (ev) => (dispatch) => {
   });
 };
 
+export const register = (ev, history) => (dispatch) => {
+  ev.preventDefault();
+  sendPost('auth/register', ev.target).then(() => {
+    dispatch({ type: 'REGISTER' });
+    history.push('/login');
+  }, () => {
+    dispatch({ type: 'REGISTER_ERROR' });
+  });
+};
+
 export const logout = () => (dispatch) => {
   get('auth/logout').then(() => {
     dispatch({ type: 'LOGOUT' });

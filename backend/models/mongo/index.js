@@ -3,6 +3,7 @@ const Product = require('./product');
 const Category = require('./category');
 const Review = require('./review');
 const Cart = require('./cart');
+const Order = require('./order');
 const SavedForLater = require('./savedForLater');
 
 const connectDB = async () => {
@@ -20,4 +21,4 @@ const connectDB = async () => {
   }
 };
 
-module.exports = { connectDB, Product, Category, Review, Cart, SavedForLater };
+module.exports = { connectDB, Product, Category, Review, Cart, SavedForLater, Order };
