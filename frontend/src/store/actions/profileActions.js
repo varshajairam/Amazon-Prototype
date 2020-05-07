@@ -21,6 +21,17 @@ export const editProfile = (ev, setProfileModalOpen) => (dispatch) => {
   const formEl = ev.target;
   sendPost('profile/edit_profile', formEl).then((resp) => {
     dispatch({ type: 'EDIT_PROFILE', resp });
+    formEl.reset();
     setProfileModalOpen(false);
+  });
+};
+
+export const addAddress = (ev, setaddressModalOpen) => (dispatch) => {
+  ev.preventDefault();
+  const formEl = ev.target;
+  sendPost('profile/add_address', formEl).then((resp) => {
+    dispatch({ type: 'ADD_ADDRESS', resp });
+    formEl.reset();
+    setaddressModalOpen(false);
   });
 };

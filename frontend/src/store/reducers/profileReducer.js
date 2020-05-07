@@ -3,6 +3,7 @@ const initialState = {
   email: '',
   type: '',
   profile_image: '',
+  user_addresses: [],
 };
 
 const reducer = (state = initialState, action) => {
@@ -21,6 +22,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         ...action.resp,
+      };
+    case 'ADD_ADDRESS':
+      return {
+        ...state,
+        user_addresses: state.user_addresses.concat([action.resp]),
       };
     default:
       return {

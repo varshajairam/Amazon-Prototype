@@ -22,3 +22,10 @@
 .PROFILE .modal .actions {
   margin: 0 0 8px 8px;
 }
+
+.PROFILE .add-address {
+  position: relative;
+  float: right;
+  bottom: 36px;
+  cursor: pointer;
+}

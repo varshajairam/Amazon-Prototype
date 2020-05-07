@@ -1,10 +1,11 @@
-const { User } = require('../models/index');
+const { User, userAddress } = require('../models/index');
 
 function getProfile(req, res) {
   const email = req.body && req.body.email ? req.body.email : req.user.email;
   User.findOne({
     where: { email },
     attributes: ['name', 'email', 'profile_image', 'type'],
+    include: userAddress,
   }).then((user) => {
     if (!user.profile_image) user.profile_image = `${process.env.SERVER_ROOT}/images/default_profile_image.jpg`;
     res.send(user);
@@ -26,6 +27,12 @@ function editProfile(req, res) {
   });
 }
 
+function addAddress(req, res) {
+  userAddress.create({ ...req.body, userId: req.user.id }).then((address) => {
+    res.send(address);
+  });
+}
+
 module.exports = {
-  getProfile, addProfileImage, editProfile,
+  getProfile, addProfileImage, editProfile, addAddress,
 };
