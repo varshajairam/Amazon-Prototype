@@ -19,10 +19,10 @@ const SavedForLaterSchema = new mongoose.Schema({
         isGift: { type: mongoose.Schema.Types.Boolean, required: true },
       },
     ],
-  }]
+  }],
 });
 
 module.exports = SavedForLater = mongoose.model(
   'savedForLater',
-  SavedForLaterSchema
+  SavedForLaterSchema,
 );

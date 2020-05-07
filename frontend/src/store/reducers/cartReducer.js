@@ -13,19 +13,11 @@ const cartReducer = (state = initialState, action) => {
         ...state,
         products: action.payload,
       };
-      
     case GET_SAVED_PRODUCTS_SUCCESS:
       return {
         ...state,
         savedForLater: action.payload,
       };
-
-    //   return {
-    //     ...state,
-    //     redirectProduct: true,
-    //     products: [...state.products]
-    //   };
-
     default:
       return {
         ...state,

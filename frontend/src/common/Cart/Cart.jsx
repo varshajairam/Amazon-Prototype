@@ -37,13 +37,13 @@ const Cart = (props) => {
                               props.cart.products.map((currProduct, i) => <React.Fragment key={i}>
                                         <div className="ui relaxed divided items">
                                             <div className="item">
-                                                <Link to={{ pathname: '/product/' + currProduct.product._id, state: { product: currProduct.product } }} >
+                                                <Link to={{ pathname: '/product/' + currProduct.product._id, state: { product: currProduct.product } }}>
                                                     <div className="ui small image pointer">
-                                                        <img src={currProduct.product.images[0] || "https://www.moodfit.com/front/images/genral_image_notfound.png"} />
+                                                        <img src={currProduct.product.images[0] || 'https://www.moodfit.com/front/images/genral_image_notfound.png'} />
                                                     </div>
                                                 </Link>
                                                 <div className="content product-details">
-                                                    <Link to={{ pathname: '/product/' + currProduct.product._id, state: { product: currProduct.product } }} >
+                                                    <Link to={{ pathname: '/product/' + currProduct.product._id, state: { product: currProduct.product } }}>
                                                         <div className="ui header onHover">{currProduct.product.name}</div>
                                                     </Link>
                                                     <div className="ui header onHover">{currProduct.product.seller}</div>
@@ -53,7 +53,7 @@ const Cart = (props) => {
                                                     </div>
                                                     <div className="field mt-3">
                                                         <label>Quantity</label>
-                                                        <select onChange={e => props.changeProductQuantity({
+                                                        <select onChange={(e) => props.changeProductQuantity({
                                                           product: currProduct.product._id,
                                                           quantity: Number(e.target.value)
                                                         })} defaultValue={currProduct.quantity}>

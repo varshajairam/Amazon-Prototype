@@ -60,13 +60,13 @@ const removeProductFromCart = async (product, args) => {
   const cart = await Cart.findOne(
     { 'items.customer': 1 },
   ); // req.user.id
-  
+
   const index = cart.items[0].products.findIndex((item) => item.product == product);
   if (index > -1) {
     cart.items[0].products.splice(index, 1);
     await cart.save();
   }
-  
+
   const cartResponse = await getProductDetail(args.req, Cart);
   return cartResponse;
 };

@@ -6,13 +6,11 @@ const removeProduct = async (product, args) => {
   const saved = await SavedForLater.findOne(
     { 'items.customer': 1 },
   ); // req.user
-  
   const index = saved.items[0].products.findIndex((item) => item.product == product);
   if (index > -1) {
     saved.items[0].products.splice(index, 1);
     await saved.save();
   }
-  
   const response = await getProductDetail(args.req, SavedForLater);
   return response;
 };
@@ -28,9 +26,8 @@ const getProductDetail = async (req, model) => {
       products.push({ product, quantity: item.quantity });
     }
     return products;
-  } 
+  }
   return 'Empty';
-  
 };
 
 const getProducts = async (req, res) => {

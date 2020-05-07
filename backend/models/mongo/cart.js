@@ -15,7 +15,7 @@ const CartSchema = new mongoose.Schema({
         isGift: { type: mongoose.Schema.Types.Boolean, required: true },
       },
     ],
-  }]
+  }],
 });
 
 module.exports = Cart = mongoose.model('cart', CartSchema);

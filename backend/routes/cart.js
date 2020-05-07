@@ -1,6 +1,8 @@
 const express = require('express');
-const passport = require('passport'); //WILL BE REQUIRED LATER
-const { getCartProducts, addProductToCart, saveForLater, removeProduct, changeProductQuantity } = require('../actions/cart');
+const passport = require('passport'); // WILL BE REQUIRED LATER
+const {
+  getCartProducts, addProductToCart, saveForLater, removeProduct, changeProductQuantity,
+} = require('../actions/cart');
 
 const app = express();
 
