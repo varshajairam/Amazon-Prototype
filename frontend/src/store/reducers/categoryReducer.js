@@ -1,4 +1,4 @@
-import { GET_CATEGORIES_SUCCESS, GET_CATEGORIES_FAILED, GET_CATEGORIES_SENT } from '../actions/types';
+import { GET_CATEGORIES_SUCCESS, ADD_CATEGORY_SUCCESS, GET_CATEGORIES_SENT, DELETE_CATEGORY_SUCCESS } from '../actions/types';
 
 const initialState = {
     categories: [],
@@ -16,6 +16,16 @@ const categoryReducer = (state = initialState, action) => {
         return {
             ...state,
             categories: action.payload,
+            loading: false
+		}
+		case ADD_CATEGORY_SUCCESS: 
+        return {
+            ...state,
+            loading: false
+		}
+		case DELETE_CATEGORY_SUCCESS: 
+        return {
+            ...state,
             loading: false
         }
     default:
