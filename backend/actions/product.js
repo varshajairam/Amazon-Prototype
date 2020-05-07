@@ -2,12 +2,13 @@ const { Product, Review } = require('../models/index');
 
 const getRecomendations = async (req, res) => {
   const result = await Product.aggregate([
+    { $match: (req.user && req.user.type === 'Seller' ? { "seller.id": req.user.id } : {}) },
     {
       $group: {
         _id: '$category',
         products: {
           $push: {
-            id: '$_id',
+            _id: '$_id',
             images: '$images',
             addonCost: '$addonCost',
             offers: '$offers',
@@ -23,7 +24,16 @@ const getRecomendations = async (req, res) => {
       },
     },
     { $project: { products: { $slice: ['$products', 5] } } },
+    // { $lookup: {
+    //   from: "$review",
+    //   localField: "reviews",
+    //   foreignField: "_id",
+    //   as: "reviews"
+    // }}
   ]);
+  await Review.populate(result, { path: "products.reviews" });
+  // const reviews = await Review.find().where('_id').in(result.reviews).exec(); //result.reviews.map(reviewId)
+
   res.send(result);
 };
 
@@ -80,13 +90,17 @@ const addProduct = async (req, res) => {
 };
 
 const updateProduct = async (req, res) => {
-  console.log(req.user);
-  console.log(req.body);
-  console.log(req.files);
 
+  const { name, baseCost, category, description, images, offers } = req.body;
   if (req.user && req.user.type && req.user.type === 'Seller') {
     const product = await Product.findById(req.body.id);
     if (product) {
+      product.name = name;
+      product.baseCost = baseCost;
+      product.category = category;
+      product.description = description;
+      product.offers = JSON.parse(offers);
+      product.images = [...JSON.parse(images), ...req.files.map((file) => file.location)];
       const result = await product.save();
       return res.send(result);
     }

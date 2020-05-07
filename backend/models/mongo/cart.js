@@ -14,6 +14,9 @@ const CartSchema = new mongoose.Schema({
     min: 1,
   },
   isGift: { type: mongoose.Schema.Types.Boolean, required: true },
+},
+{
+  timestamps: true,
 });
 
 module.exports = Cart = mongoose.model('cart', CartSchema);

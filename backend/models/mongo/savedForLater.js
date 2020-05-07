@@ -7,6 +7,9 @@ const SavedForLaterSchema = new mongoose.Schema({
     ref: 'product',
   },
   customer: { type: mongoose.Schema.Types.Number, required: true },
+},
+{
+  timestamps: true,
 });
 
 module.exports = SavedForLater = mongoose.model(
