@@ -21,13 +21,13 @@ const categoryReducer = (state = initialState, action) => {
 		case ADD_CATEGORY_SUCCESS: 
         return {
             ...state,
-            loading: false
+			loading: false,
 		}
 		case DELETE_CATEGORY_SUCCESS: 
         return {
             ...state,
             loading: false
-        }
+		}
     default:
       return {
         ...state,

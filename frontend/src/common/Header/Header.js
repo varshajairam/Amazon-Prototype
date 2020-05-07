@@ -11,7 +11,7 @@ function Header() {
     <NavLink exact className="item" activeClassName="active" to="/categorylist">Categories</NavLink>
   );
   const AnalyticsView = authReducerData.user_type === 'Admin' && (
-    <NavLink exact className="item" activeClassName="active" to="/analyticsview">Analytics Dashboard</NavLink>
+    <NavLink exact className="item" activeClassName="active" to="/analyticview">Analytics Dashboard</NavLink>
   );
   return (
     <div className="HEADER">
