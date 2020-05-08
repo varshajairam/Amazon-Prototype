@@ -40,7 +40,8 @@ const ProductSchema = new mongoose.Schema({
   ],
   seller: {
     id: { type: mongoose.Schema.Types.Number, required: true },
-    name: { type: mongoose.Schema.Types.String, required: true }
+    name: { type: mongoose.Schema.Types.String, required: true },
+    email: { type: mongoose.Schema.Types.String, required: true },
   },
   category: {
     type: mongoose.Schema.Types.ObjectId,
