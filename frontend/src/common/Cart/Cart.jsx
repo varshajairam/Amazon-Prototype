@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import './Cart.css';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import ShoppingCart from './ShoppingCart';
-import SavedForLater from './SavedForLater';
 import Checkout from './Checkout';
 
 import {
