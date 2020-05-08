@@ -62,11 +62,11 @@ const CreateReview = ({ location }) => {
 
             <div
               className="ui primary button"
-              onClick={dispatch(addReview({
+              onClick={(e) => dispatch(addReview({
                 ...review,
                 product: product._id,
               }))}
-              onKeyDown={dispatch(addReview({
+              onKeyDown={(e) => dispatch(addReview({
                 ...review,
                 product: product._id,
               }))}
