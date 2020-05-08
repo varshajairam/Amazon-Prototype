@@ -18,7 +18,6 @@ function Header() {
         <div className="ui secondary icon menu">
           <div className="item"><i className="large yellow active amazon icon"></i></div>
           <NavLink exact className="item" activeClassName="active" to="/">Home</NavLink>
-          <NavLink exact className="item" activeClassName="active" to="/orderDetails">TEST</NavLink>
           <NavLink exact className="item" activeClassName="active" to="/productlist">Products</NavLink>
           {authReducerData.user_type === 'Seller' && <NavLink exact className="item" activeClassName="active" to="/addProduct">Add Product</NavLink>}
           <NavLink exact className="item" activeClassName="active" to="/orders">Orders</NavLink>
@@ -34,7 +33,6 @@ function Header() {
         <div className="ui secondary icon menu">
           <div className="item"><i className="large yellow active amazon icon"></i></div>
           <NavLink exact className="item" activeClassName="active" to="/">Home</NavLink>
-          <NavLink exact className="item" activeClassName="active" to="/orderDetails">TEST</NavLink>
           <NavLink exact className="item right" activeClassName="active" to="/login">Login</NavLink>
         </div>
       )}

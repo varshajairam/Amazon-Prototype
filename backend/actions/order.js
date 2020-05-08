@@ -50,13 +50,14 @@ const updateOrder = async (req, res) => {
           order.products = order.products.filter(
             (product) => product.product._id != req.body.productId
           );
-          // order.cost = 0;
-          // order.products.forEach((product) => {
-          //   order.cost +=
-          //     product.quantity * product.product.baseCost + product.isGift
-          //       ? 2
-          //       : 0;
-          // });
+          let sum=0;
+          order.products.forEach((product) => {            
+            sum +=
+            product.quantity * product.product.baseCost + (product.isGift
+            ? 2
+            : 0);
+          });
+          order.cost = sum;
           const result = await order.save();
           return res.send(result);
         }

@@ -9,7 +9,7 @@ import {
   UPDATE_ORDER_SUCCESS,
   UPDATE_ORDER_FAILED,
 } from "./types";
-import { get, sendPut } from "../../helpers/communicationHelper";
+import { get, sendPost, sendPut } from "../../helpers/communicationHelper";
 import { setAlert } from './alertActions';
 
 export const getOrders = (data) => async (dispatch) => {
