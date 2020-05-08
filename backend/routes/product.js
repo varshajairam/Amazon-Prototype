@@ -1,15 +1,14 @@
 const express = require('express');
-const passport = require('passport'); //WILL BE REQUIRED LATER
-const { getProducts, addProduct, addReview, deleteProduct, updateProduct, getRecomendations, addView } = require('../actions/product');
+const kafka = require('../kafka');
 
 const app = express();
 
-app.get('/', getProducts);
-app.post('/', addProduct);
-app.put('/', updateProduct);
-app.post('/addView', addView);
-app.delete('/', deleteProduct);
-app.get('/recomendations', getRecomendations);
-app.post('/addReview', addReview);
+app.get('/', (...args) => kafka.sendMessage('operations', { route: 'getProducts' }, args));
+app.post('/', (...args) => kafka.sendMessage('operations', { route: 'addProduct' }, args));
+app.put('/', (...args) => kafka.sendMessage('operations', { route: 'updateProduct' }, args));
+app.post('/addView', (...args) => kafka.sendMessage('operations', { route: 'addView' }, args));
+app.delete('/', (...args) => kafka.sendMessage('operations', { route: 'deleteProduct' }, args));
+app.get('/recomendations', (...args) => kafka.sendMessage('operations', { route: 'recomendations' }, args));
+app.post('/addReview', (...args) => kafka.sendMessage('operations', { route: 'addReview' }, args));
 
 module.exports = app;

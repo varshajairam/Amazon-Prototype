@@ -1,10 +1,9 @@
 const express = require('express');
-const passport = require('passport'); //WILL BE REQUIRED LATER
-const { getOrders, placeOrder} = require('../actions/order');
+const kafka = require('../kafka');
 
 const app = express();
 
-app.get('/', getOrders);
-app.post('/', placeOrder);
+app.get('/', (...args) => kafka.sendMessage('operations', { route: 'getOrder' }, args));
+app.post('/', (...args) => kafka.sendMessage('operations', { route: 'postOrder' }, args));
 
 module.exports = app;

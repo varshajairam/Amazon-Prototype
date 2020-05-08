@@ -1,10 +1,8 @@
 const express = require('express');
+const kafka = require('../kafka');
 
 const app = express();
-const {
-  getSellers
-} = require('../actions/users');
 
-app.get('/getSellers', getSellers);
+app.get('/getSellers', (...args) => kafka.sendMessage('operations', { route: 'getSellers' }, args));
 
 module.exports = app;

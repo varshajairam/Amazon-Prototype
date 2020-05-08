@@ -3,7 +3,7 @@ const {
   getComments,
 } = require('../../actions/profile');
 
-function authHandler(resQueue, data) {
+function profileHandler(resQueue, data) {
   const key = data.key.toString();
   const message = JSON.parse(data.value.toString());
   if (resQueue.has(key)) {
@@ -22,4 +22,4 @@ function authHandler(resQueue, data) {
   }
 }
 
-module.exports = authHandler;
+module.exports = profileHandler;

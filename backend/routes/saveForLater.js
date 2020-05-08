@@ -1,11 +1,10 @@
 const express = require('express');
-const passport = require('passport'); // WILL BE REQUIRED LATER
-const { moveToCart, removeSavedProduct, getProducts } = require('../actions/saveForLater');
+const kafka = require('../kafka');
 
 const app = express();
 
-app.post('/moveToCart', moveToCart);
-app.post('/removeProduct', removeSavedProduct);
-app.get('/getProducts', getProducts);
+app.post('/moveToCart', (...args) => kafka.sendMessage('operations', { route: 'moveToCart' }, args));
+app.post('/removeProduct', (...args) => kafka.sendMessage('operations', { route: 'removeProductSave' }, args));
+app.get('/getProducts', (...args) => kafka.sendMessage('operations', { route: 'getProductsSave' }, args));
 
 module.exports = app;

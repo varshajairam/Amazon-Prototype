@@ -1,10 +1,10 @@
 const express = require('express');
-const { getCategories, addCategory, deleteCategory } = require('../actions/category');
+const kafka = require('../kafka');
 
 const app = express();
 
-app.post('/', addCategory);
-app.get('/', getCategories);
-app.delete('/', deleteCategory);
+app.post('/', (...args) => kafka.sendMessage('operations', { route: 'post/' }, args));
+app.get('/', (...args) => kafka.sendMessage('operations', { route: 'get/' }, args));
+app.delete('/', (...args) => kafka.sendMessage('operations', { route: 'delete/' }, args));
 
 module.exports = app;

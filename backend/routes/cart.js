@@ -1,17 +1,14 @@
 const express = require('express');
-const passport = require('passport'); // WILL BE REQUIRED LATER
-const {
-  getCartProducts, addProductToCart, saveForLater, removeProduct, changeProductQuantity, applyGiftCharge, updateTotalCost,
-} = require('../actions/cart');
+const kafka = require('../kafka');
 
 const app = express();
 
-app.post('/addToCart', addProductToCart);
-app.post('/removeProduct', removeProduct);
-app.post('/changeProductQuantity', changeProductQuantity);
-app.get('/getCartProducts', getCartProducts);
-app.post('/saveForLater', saveForLater);
-app.post('/applyGiftCharge', applyGiftCharge);
-app.post('/updateTotalCost', updateTotalCost);
+app.post('/addToCart', (...args) => kafka.sendMessage('operations', { route: 'addToCart' }, args));
+app.post('/removeProduct', (...args) => kafka.sendMessage('operations', { route: 'removeProduct' }, args));
+app.post('/changeProductQuantity', (...args) => kafka.sendMessage('operations', { route: 'changeProductQuantity' }, args));
+app.get('/getCartProducts', (...args) => kafka.sendMessage('operations', { route: 'getCartProducts' }, args));
+app.post('/saveForLater', (...args) => kafka.sendMessage('operations', { route: 'saveForLater' }, args));
+app.post('/applyGiftCharge', (...args) => kafka.sendMessage('operations', { route: 'applyGiftCharge' }, args));
+app.post('/updateTotalCost', (...args) => kafka.sendMessage('operations', { route: 'updateTotalCost' }, args));
 
 module.exports = app;
