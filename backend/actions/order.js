@@ -77,6 +77,7 @@ const placeOrder = async (req, res) => {
   
   console.log(JSON.parse(req.body.products));
   console.log(JSON.parse(req.body.shippingAddress));
+  console.log(JSON.parse(req.body.statusHistory));
 
   console.log(JSON.parse(req.body.card));
   console.log(typeof req.body.sellers);
@@ -91,6 +92,7 @@ const placeOrder = async (req, res) => {
       shippingAddress: JSON.parse(req.body.shippingAddress),
       billingAddress: JSON.parse(req.body.billingAddress),
       products: JSON.parse(req.body.products),
+      statusHistory: JSON.parse(req.body.statusHistory),
     });
     const result = await newOrder.save();
     return res.send(result);
