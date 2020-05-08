@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import './Cart.css';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import Checkout from './Checkout';
 
 import {
     getCartProducts,
@@ -69,7 +68,7 @@ const Cart = (props) => {
                                                     })}> Save for Later
                                                     </a>
                                                 </div>
-                                                <div className="header" style={{ float: 'right' }}>
+                                                <div className="right floated header">
                                                     $ {currProduct.product.baseCost}
                                                 </div>
                                             </div>
@@ -88,7 +87,7 @@ const Cart = (props) => {
                                 <input type="checkbox" name="gift" />
                                 <label>This order contains a gift</label>
                             </div>
-                            <div className="ui primary button mt-5">
+                            <div className="ui primary button mt-5" onClick={() => props.history.push({pathname: '/shipping', state: { products: props.cart.products }})}>
                                 Proceed to checkout
                             </div>
                         </div>
@@ -121,7 +120,7 @@ const Cart = (props) => {
                                                     })}> Move to Cart
                                                     </a>
                                                 </div>
-                                                <div className="header" style={{ float: 'right' }}>
+                                                <div className="right floated header">
                                                     $
                                                     {currProduct.product.baseCost}
                                                 </div>

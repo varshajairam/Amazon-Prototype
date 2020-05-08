@@ -18,6 +18,7 @@ const CartSchema = new mongoose.Schema({
     ],
     totalCost: { type: mongoose.Schema.Types.Number, default: 0, required: true },
     giftCharge: { type: mongoose.Schema.Types.Number, default: 1.0 },
+    deliveryCharge: { type: mongoose.Schema.Types.Number, default: 2.50 },
   }],
 },
   {

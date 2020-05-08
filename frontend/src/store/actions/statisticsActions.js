@@ -10,9 +10,9 @@ export const getSellerStatistics = () => async (dispatch) => {
   }
 };
 
-export const getMonthlyStatistics = ({ startDate, endDate }) => async (dispatch) => {
+export const getMonthlyStatistics = ({ startDate, endDate, id }) => async (dispatch) => {
   try {
-    const res = await get('analytics/sellerMonthly?startDate=' + startDate + '&endDate=' + endDate);
+    const res = await get('analytics/sellerMonthly?startDate=' + startDate + '&endDate=' + endDate + (id ? '&id=' + id : ''));
     console.log('res', res);
     dispatch({ type: 'SET_MONTHLY_STATS', payload: res });
   } catch (error) {
