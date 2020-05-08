@@ -1,12 +1,14 @@
 const express = require('express');
-const passport = require('passport'); //WILL BE REQUIRED LATER
-const { getTopFiveSoldProducts, getTopTenPerDay , dateTest, getSellerProducts, getSellerMonthlySales} = require('../actions/analytics');
+const {
+  getTopFiveSoldProducts, getTopTenProductsViewed, getNoOfOrders,
+  getTopTenProductsBasedOnRatings, getTopTenCustomersBasedOnPurchaseAmount,
+} = require('../actions/analytics');
 
 const app = express();
 
-app.get('/getFive', getTopFiveSoldProducts);
-app.get('/topTen', getTopTenPerDay);
-app.get('/test', dateTest);
-app.get('/sellerProducts', getSellerProducts);
-app.get('/sellerMonthly', getSellerMonthlySales);
+app.get('/getTopFiveSoldProducts', getTopFiveSoldProducts);
+app.get('/getTopTenProductsViewed', getTopTenProductsViewed);
+app.get('/getNoOfOrders', getNoOfOrders);
+app.get('/getTopTenProductsBasedOnRatings', getTopTenProductsBasedOnRatings);
+app.get('/getTopTenCustomersBasedOnPurchaseAmount', getTopTenCustomersBasedOnPurchaseAmount);
 module.exports = app;

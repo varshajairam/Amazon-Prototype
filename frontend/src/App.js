@@ -20,6 +20,10 @@ import Alert from './common/Alerts/Alert';
 import OrderList from './common/OrderList/OrderList';
 import OrderView from './common/OrderView/OrderView';
 import SellerStatistics from './common/SellerStatistics/SellerStatistics';
+import AnalyticsView from './common/Analytics/AnalyticsView';
+import CategoryList from './common/CategoryList/CategoryList';
+import AdminSeller from './common/AdminSeller/AdminSeller';
+import Cart from './common/Cart/Cart';
 
 function App() {
   const authReducerData = useSelector((state) => state.authReducer);
@@ -44,12 +48,19 @@ function App() {
           <Route path="/orders" component={OrderList} />
           <Route path="/orderDetails" component={OrderView} />
           <Route path="/sellerStats" component={SellerStatistics} />
-          <Route path="/createReview" component={CreateReview} />
-          <Route path="/product/:id" component={ProductView} />
-          <Route path="/productlist" component={ProductList} />
           {authReducerData.user_type === 'Seller' && <Route path="/addProduct" component={AddProduct} />}
           {authReducerData.user_type === 'Seller' && <Route path="/editProduct" component={AddProduct} />}
           {/* <Route path="/deleteProduct" component={AddProduct} /> */}
+          <Route exact path="/profile" component={Profile} />
+          <Route exact path="/profile/:email" component={Profile} />
+          <Route exact path="/sellerlist" component={AdminSeller} />
+          <Route path="/createReview" component={CreateReview} />
+          <Route path="/product/:id" component={ProductView} />
+          <Route path="/productlist" component={ProductList} />
+          <Route path="/deleteProduct" component={AddProduct} />
+          <Route path="/cart" component={Cart} />
+          <Route path="/analyticview" component={AnalyticsView} />
+          <Route path="/categoryList" component={CategoryList} />
           <Redirect from="/" to="/" />
         </Switch>
       )}

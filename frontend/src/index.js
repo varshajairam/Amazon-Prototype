@@ -14,11 +14,13 @@ import orderReducer from './store/reducers/orderReducer';
 import cartReducer from './store/reducers/cartReducer';
 import recomendationsReducer from './store/reducers/recomendationsReducer';
 import statisticsReducer from './store/reducers/statisticsReducer';
+import analyticsReducer from './store/reducers/analyticsReducer';
+import userReducer from './store/reducers/userReducer';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 const rootReducer = combineReducers({
-  authReducer, productReducer, categoryReducer, alertReducer, cartReducer, profileReducer, orderReducer, recomendationsReducer, statisticsReducer
+  authReducer, productReducer, categoryReducer, alertReducer, cartReducer, profileReducer, orderReducer, recomendationsReducer, statisticsReducer, analyticsReducer, userReducer
 });
 
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
