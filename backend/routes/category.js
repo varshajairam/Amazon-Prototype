@@ -1,10 +1,10 @@
 const express = require('express');
-const passport = require('passport'); //WILL BE REQUIRED LATER
-const { getCategories, addCategory } = require('../actions/category');
+const { getCategories, addCategory, deleteCategory } = require('../actions/category');
 
 const app = express();
 
 app.post('/', addCategory);
 app.get('/', getCategories);
+app.delete('/', deleteCategory);
 
 module.exports = app;

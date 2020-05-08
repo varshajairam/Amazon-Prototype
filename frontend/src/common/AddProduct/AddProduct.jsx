@@ -51,7 +51,7 @@ const AddProduct = (props) => {
 
   const submit = () => {
     if (props.location.state) {      
-      updateProduct({id: props.location.state.product._id, ...state, offers: JSON.stringify(state.offers) });
+      updateProduct({id: props.location.state.product._id, ...state, offers: JSON.stringify(state.offers), images: state.images });
     } else {
       addProduct({ ...state, offers: JSON.stringify(state.offers) });
     }
