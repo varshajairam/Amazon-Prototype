@@ -25,98 +25,110 @@ function Profile() {
           <div className="six wide column">
             <div className="ui card">
               <div className={`image dimmable${imageHovered ? ' dimmed' : ''}`} onMouseEnter={() => setImageHovered(true)} onMouseLeave={() => setImageHovered(false)}>
-                <div className={`ui dimmer transition ${imageHovered ? 'visible active' : 'hidden'}`}>
-                  <div className="content">
-                    <div className="center">
-                      <form className="profile-image-input">
-                        <input type="file" name="profile_image" accept="image/*" onChange={(ev) => dispatch(profileActions.addProfileImage(ev))} ref={profileImageInput} />
-                      </form>
-                      <button type="button" onClick={() => profileImageInput.current.click()} className="ui inverted button">Change Profile Image</button>
+                { !email && (
+                  <div className={`ui dimmer transition ${imageHovered ? 'visible active' : 'hidden'}`}>
+                    <div className="content">
+                      <div className="center">
+                        <form className="profile-image-input">
+                          <input type="file" name="profile_image" accept="image/*" onChange={(ev) => dispatch(profileActions.addProfileImage(ev))} ref={profileImageInput} />
+                        </form>
+                        <button type="button" onClick={() => profileImageInput.current.click()} className="ui inverted button">Change Profile Image</button>
+                      </div>
                     </div>
                   </div>
-                </div>
+                )}
                 <img src={profileReducerData.profile_image} alt="" />
               </div>
               <div className="content">
-                <span className="edit-icon" aria-hidden="true" onClick={() => setProfileModalOpen(true)}>&#9998;</span>
+                { !email && (
+                  <span className="edit-icon" aria-hidden="true" onClick={() => setProfileModalOpen(true)}>&#9998;</span>
+                )}
                 <div className="header">{profileReducerData.name}</div>
                 <div className="meta">{profileReducerData.email}</div>
               </div>
             </div>
-            <div>
-              <h1 className="ui dividing header">Cards</h1>
-              <i className="plus icon add-address" onClick={() => setCardModalOpen(true)} aria-hidden="true" />
-            </div>
-            <div className="ui divided items">
-              { profileReducerData.user_cards.map((card) => (
-                <div className="link item" key={card.id}>
-                  <div className="content">
-                    <i className="trash icon delete-address" onClick={() => dispatch(profileActions.deleteCard(card.id))} aria-hidden="true" />
-                    <div className="header">{card.name}</div>
-                    <div className="description">
-                      <div>
-                        <span className="bold">Card Number: </span>
-                        <span>{card.number}</span>
-                      </div>
-                      <div>
-                        <span className="bold">Expiry Date: </span>
-                        <span>{card.expiration}</span>
-                      </div>
-                      <div>
-                        <span className="bold">CVV: </span>
-                        <span>{card.cvv}</span>
+            { !email && (
+              <div>
+                <div>
+                  <h1 className="ui dividing header">Addresses</h1>
+                  <i className="plus icon add-address" onClick={() => setAddressModalOpen(true)} aria-hidden="true" />
+                </div>
+                <div className="ui divided items">
+                  { profileReducerData.user_addresses.map((address) => (
+                    <div className="link item" key={address.id}>
+                      <div className="content">
+                        <i className="trash icon delete-address" onClick={() => dispatch(profileActions.deleteAddress(address.id))} aria-hidden="true" />
+                        <div className="header">{address.name}</div>
+                        <div className="description">
+                          <div>
+                            <span className="bold">Address1: </span>
+                            <span>{address.street1}</span>
+                          </div>
+                          <div>
+                            <span className="bold">Address2: </span>
+                            <span>{address.street2}</span>
+                          </div>
+                          <div>
+                            <span className="bold">City: </span>
+                            <span>{address.city}</span>
+                          </div>
+                          <div>
+                            <span className="bold">Country: </span>
+                            <span>{address.country}</span>
+                          </div>
+                          <div>
+                            <span className="bold">State: </span>
+                            <span>{address.state}</span>
+                          </div>
+                          <div>
+                            <span className="bold">Zip Code: </span>
+                            <span>{address.zipcode}</span>
+                          </div>
+                          <div>
+                            <span className="bold">Phone: </span>
+                            <span>{address.phone}</span>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  ))}
                 </div>
-              ))}
-            </div>
+              </div>
+            )}
+            { !email && (
+              <div style={{ 'margin-top': '16px' }}>
+                <div>
+                  <h1 className="ui dividing header">Cards</h1>
+                  <i className="plus icon add-address" onClick={() => setCardModalOpen(true)} aria-hidden="true" />
+                </div>
+                <div className="ui divided items">
+                  { profileReducerData.user_cards.map((card) => (
+                    <div className="link item" key={card.id}>
+                      <div className="content">
+                        <i className="trash icon delete-address" onClick={() => dispatch(profileActions.deleteCard(card.id))} aria-hidden="true" />
+                        <div className="header">{card.name}</div>
+                        <div className="description">
+                          <div>
+                            <span className="bold">Card Number: </span>
+                            <span>{card.number}</span>
+                          </div>
+                          <div>
+                            <span className="bold">Expiry Date: </span>
+                            <span>{card.expiration}</span>
+                          </div>
+                          <div>
+                            <span className="bold">CVV: </span>
+                            <span>{card.cvv}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
           <div className="ten wide column">
-            <div>
-              <h1 className="ui dividing header">Addresses</h1>
-              <i className="plus icon add-address" onClick={() => setAddressModalOpen(true)} aria-hidden="true" />
-            </div>
-            <div className="ui divided items">
-              { profileReducerData.user_addresses.map((address) => (
-                <div className="link item" key={address.id}>
-                  <div className="content">
-                    <i className="trash icon delete-address" onClick={() => dispatch(profileActions.deleteAddress(address.id))} aria-hidden="true" />
-                    <div className="header">{address.name}</div>
-                    <div className="description">
-                      <div>
-                        <span className="bold">Address1: </span>
-                        <span>{address.street1}</span>
-                      </div>
-                      <div>
-                        <span className="bold">Address2: </span>
-                        <span>{address.street2}</span>
-                      </div>
-                      <div>
-                        <span className="bold">City: </span>
-                        <span>{address.city}</span>
-                      </div>
-                      <div>
-                        <span className="bold">Country: </span>
-                        <span>{address.country}</span>
-                      </div>
-                      <div>
-                        <span className="bold">State: </span>
-                        <span>{address.state}</span>
-                      </div>
-                      <div>
-                        <span className="bold">Zip Code: </span>
-                        <span>{address.zipcode}</span>
-                      </div>
-                      <div>
-                        <span className="bold">Phone: </span>
-                        <span>{address.phone}</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
             { profileReducerData.type === 'Seller' && (
               <div>
                 <div>
