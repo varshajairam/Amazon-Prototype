@@ -6,13 +6,12 @@ import { Link } from 'react-router-dom';
 
 import {
   fetchProfileData,
-  addAddress,
 } from '../../store/actions/profileActions';
+
+import { addAddress } from '../../store/actions/cartActions';
 
 const Shipping = (props) => {
   const [states, setStates] = useState([]);
-
-  const {products} = props.location.state;
 
   useEffect(() => {
     props.fetchProfileData();
@@ -46,7 +45,7 @@ const Shipping = (props) => {
                 </div>
                 <hr/>
                 <h2 class="ui header">(OR) Add a new address</h2>
-                <form className="ui form mt-5" onSubmit={(ev) => props.history.push({ pathname: '/billing', state: { address: ev } })}>
+        <form className="ui form mt-5" onSubmit={(ev) => {ev.preventDefault(); props.addAddress(ev.target)}}>
             <div className="description">
               <div className="field">
                 <label htmlFor="inputName">
@@ -133,6 +132,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   fetchProfileData: () => dispatch(fetchProfileData()),
+  addAddress: (data) => dispatch(addAddress(data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Shipping);

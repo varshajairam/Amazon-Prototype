@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import "./Cart.css";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
@@ -11,8 +11,6 @@ import {
 import { placeOrder } from "../../store/actions/orderActions";
 
 const Checkout = (props) => {
-  //const [confirmed, setConfirmed] = useState(false);
-
   const { address, card } = props.location.state;
 
   const sellers = [];
@@ -143,9 +141,6 @@ const Checkout = (props) => {
         <h3 className="ui right aligned header">
           Total Cost: ${props.cart.products[0].totalCost}
         </h3>
-        {/* <div className={!confirmed ? "ui primary button right floated mt-5" : "ui primary button disabled right floated mt-5"} onClick = {() => props.updateTotalCost(setConfirmed)}>
-                    Confirm
-                </div> */}
         <div
           className="ui primary button right floated mt-5"
           onClick={() =>

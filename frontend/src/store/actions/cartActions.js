@@ -128,13 +128,27 @@ export const applyGiftCharge = (data) => async (dispatch) => {
   }
 };
 
-export const updateTotalCost = (setConfirmed) => async (dispatch) => {
+export const updateTotalCost = () => async (dispatch) => {
   try {
     const res = await sendPost('cart/updateTotalCost');
     dispatch({ type: GET_CART_PRODUCTS_SUCCESS, payload: res });
-    //setConfirmed(true);
   } catch (error) {
     dispatch(setAlert(error.responseText, 'negative'));
     dispatch({ type: UPDATE_TOTAL_COST_FAILED });
   }
+};
+
+export const addAddress = (ev) => (dispatch) => {
+    let address = {
+      "city": ev[3].value,
+      "country": ev[4].value,
+      "name": ev[0].value,
+      "phone": ev[7].value,
+      "state": ev[5].value,
+      "street1": ev[1].value,
+      "street2": ev[2].value,
+      "zipcode": ev[6].value,
+    }
+    ev.reset();
+    dispatch({ type: 'ADD_ADDRESS', resp: address });
 };
