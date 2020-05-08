@@ -30,12 +30,12 @@ const SellerStatistics = () => {
           <tbody>
             {
               stats.sellerStats.map((product) => (
-                <tr key={product.product && product.product._id}>
-                  <td className='onHover'>{product.product.name}</td>
-                  <td>{product.quantity}</td>
+                <tr key={product.product && product.product[0]._id}>
+                  <td className='onHover'>{product.product[0].name}</td>
+                  <td>{product.product.length}</td>
                   <td>
                     $
-                    {product.total}
+                    {(product.product[0].baseCost + product.product[0].addonCost) * product.product.length}
                   </td>
                 </tr>
               ))

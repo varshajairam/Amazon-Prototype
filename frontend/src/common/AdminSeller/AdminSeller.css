@@ -7,6 +7,8 @@
     display: flex;
     align-items: center;
     font-size: 1.3rem;
+    border: solid 1px #ccc;
+    justify-content: space-between;
 }
 
 .adminseller-wrapper .user .image{

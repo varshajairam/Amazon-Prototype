@@ -11,6 +11,12 @@ function sendRequest(type, route, data) {
       });
     }
   }
+  
+  if (formData)
+    for (var value of formData.values()) {
+      console.log(value);
+    }
+
   return $.ajax({
     url: process.env.REACT_APP_SERVER_ROOT + route,
     data: formData,
@@ -24,34 +30,34 @@ function sendRequest(type, route, data) {
 }
 
 function sendPost(route, data = null) {
-  return sendRequest('POST', route, data);
+  return sendRequest("POST", route, data);
 }
 
 function sendPut(route, data = null) {
-  return sendRequest('PUT', route, data);
+  console.log(data);
+
+  return sendRequest("PUT", route, data);
 }
 
 function sendDelete(route, data = null) {
-  return sendRequest('DELETE', route, data);
+  return sendRequest("DELETE", route, data);
 }
 
 function get(route, data = null) {
   let paramRoute = route;
   if (data) {
-    paramRoute += '?';
+    paramRoute += "?";
     Object.entries(data).forEach(([key, value]) => {
       if (key && value) paramRoute += `&${key}=${value}`;
     });
   }
   return $.ajax({
     url: process.env.REACT_APP_SERVER_ROOT + paramRoute,
-    type: 'GET',
+    type: "GET",
     xhrFields: {
       withCredentials: true,
     },
   });
 }
 
-export {
-  sendPost, get, sendPut, sendDelete,
-};
+export { sendPost, get, sendPut, sendDelete };

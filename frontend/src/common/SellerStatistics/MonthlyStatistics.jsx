@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import './MonthlyStatistics.css';
 import { getMonthlyStatistics } from '../../store/actions/statisticsActions';
 
-const MonthlyStatistics = () => {
+const MonthlyStatistics = ({ location }) => {
   const stats = useSelector((state) => state.statisticsReducer);
   const dispatch = useDispatch();
 
@@ -14,6 +14,7 @@ const MonthlyStatistics = () => {
       dispatch(getMonthlyStatistics({
         startDate: new Date(date).setDate(1),
         endDate: new Date(date).setDate(30),
+        id: location.state && location.state.seller && location.state.seller.id
       }));
     }
   }, [date]);
@@ -22,7 +23,7 @@ const MonthlyStatistics = () => {
     let sum = 0;
 
     stats.monthlyStats.forEach((stat) => {
-      sum += stat.total;
+      sum += (stat.product.baseCost + stat.product.addonCost) * stat.quantity;
     });
 
     return sum;
