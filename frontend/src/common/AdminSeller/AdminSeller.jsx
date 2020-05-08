@@ -33,7 +33,7 @@ const AdminSeller = () => {
 
         <div className="user-container mt-5">
           {
-            users.sellers.filter((seller) => seller.name.toLowerCase().includes(searchText)).map((seller) => (
+            users.sellers.filter((seller) => seller.name.toLowerCase().includes(searchText.toLowerCase())).map((seller) => (
               <div className="user mt-3" key={seller.id}>
                 <div className="left flex-center">
                   <img class="ui circular small image" src={seller.profile_image || 'http://www.lorrayndepeyer.com/wp-content/uploads/2016/09/profile_silhouette-1-272x300.png'} />
