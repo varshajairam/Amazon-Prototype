@@ -11,6 +11,7 @@ const mongo = require('./models/mongo');
 
 const app = express();
 const port = process.env.PORT || 3001;
+process.env.UV_THREADPOOL_SIZE = 16;
 dotenv.config();
 
 mongo.connectDB();
