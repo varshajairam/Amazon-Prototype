@@ -1,6 +1,7 @@
 
 const initialState = {
   sellerStats: [],
+  monthlyStats: []
 };
 
 export default function (state = initialState, action) {
@@ -10,6 +11,12 @@ export default function (state = initialState, action) {
       return {
         ...state,
         sellerStats: payload,
+      };
+
+    case 'SET_MONTHLY_STATS':
+      return {
+        ...state,
+        monthlyStats: payload,
       };
 
     default:

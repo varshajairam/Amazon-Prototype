@@ -71,7 +71,7 @@ const ProductList = () => {
                 </div>
                 {
                   categories.categories.map((category) => (
-                    <div className="item pointer onHover" key={category.name} onClick={() => setFilter({ ...filter, category: category._id, page: 1 })} onKeyDown={() => setFilter({ ...filter, category: category._id, page: 1 })} role="button" tabIndex="0">
+                    <div className="item pointer onHover" key={category._id} onClick={() => setFilter({ ...filter, category: category._id, page: 1 })} onKeyDown={() => setFilter({ ...filter, category: category._id, page: 1 })} role="button" tabIndex="0">
                       {category.name}
                     </div>
                   ))
@@ -89,7 +89,7 @@ const ProductList = () => {
                 </div>
                 {
                   [...Array(4)].map((e, i) => (
-                    <div className="item pointer onHover" key={e} onClick={() => setFilter({ ...filter, averageRating: 4 - i, page: 1 })} onKeyDown={() => setFilter({ ...filter, averageRating: 4 - i, page: 1 })} role="button" tabIndex="0">
+                    <div className="item pointer onHover" key={i + 1} onClick={() => setFilter({ ...filter, averageRating: 4 - i, page: 1 })} onKeyDown={() => setFilter({ ...filter, averageRating: 4 - i, page: 1 })} role="button" tabIndex="0">
                       <StarRatings max="5" rating={4 - i} customizable="false" />
                       {' '}
                       & above
