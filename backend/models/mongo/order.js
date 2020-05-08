@@ -8,6 +8,9 @@ const OrderSchema = new mongoose.Schema(
         product: {
           type: {
             _id: { type: mongoose.Schema.Types.ObjectId, required: true },
+            type: mongoose.Schema.Types.ObjectId,
+            required: true,
+          },
             name: {
               type: String,
               trim: true,
@@ -37,8 +40,6 @@ const OrderSchema = new mongoose.Schema(
               name: { type: mongoose.Schema.Types.String, required: true },
             },
           },
-          required: true,
-        },
         quantity: {
           type: mongoose.Schema.Types.Number,
           required: true,

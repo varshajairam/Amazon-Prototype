@@ -8,6 +8,7 @@ const getOrders = async (req, res) => {
       const result = await Order.find(query).sort({ createdAt: 1 });
       const orders = result.map((order) => {
         return {
+          _id: order._id,
           shippingAddress: order.shippingAddress,
           billingAddress: order.billingAddress,
           card: order.card,
@@ -22,7 +23,7 @@ const getOrders = async (req, res) => {
           ),
         };
       });
-      return res.send(orders);
+      return res.send({ orders: orders });
     } else if (req.user.type === "Customer") {
       query = { customer: req.user.id };
       const result = await Order.find(query).sort({ createdAt: 1 });
@@ -41,7 +42,7 @@ const updateOrder = async (req, res) => {
       const order = await Order.findById(req.body.id);
       if (order) {
         if (req.body.status) {
-          order.statusHistory.append({ status: req.body.status });
+          order.statusHistory.push({ status: req.body.status });
           order.status = req.body.status;
           const result = await order.save();
           return res.send(result);
@@ -49,28 +50,29 @@ const updateOrder = async (req, res) => {
           order.products = order.products.filter(
             (product) => product.product._id != req.body.productId
           );
-          order.cost = order.products.reduce((sum = 0, product) => {
-            return sum +
-              product.quantity * product.product.baseCost +
-              product.isGift
-              ? 2
-              : 0;
-          });
-          await order.save();
+          // order.cost = 0;
+          // order.products.forEach((product) => {
+          //   order.cost +=
+          //     product.quantity * product.product.baseCost + product.isGift
+          //       ? 2
+          //       : 0;
+          // });
+          const result = await order.save();
+          return res.send(result);
         }
       }
     } else {
       const order = await Order.findById(req.body.id);
       if (order) {
-        order.statusHistory.append({ status: req.body.status });
+        order.statusHistory.push({ status: req.body.status });
         order.status = req.body.status;
         const result = await order.save();
         return res.send(result);
       }
     }
-    req.status(400).send("Invalid Request");
+    return res.status(400).send("Invalid Request");
   }
-  req.status(401).send("Unauthorized");
+  return res.status(401).send("Unauthorized");
 };
 
 const placeOrder = async (req, res) => {
@@ -97,7 +99,7 @@ const placeOrder = async (req, res) => {
     const result = await newOrder.save();
     return res.send(result);
   }
-  req.status(401).send("Unauthorized");
+  return res.status(401).send("Unauthorized");
 };
 
 module.exports = {
