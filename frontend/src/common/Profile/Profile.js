@@ -96,7 +96,7 @@ function Profile() {
               </div>
             )}
             { !email && (
-              <div style={{ 'margin-top': '16px' }}>
+              <div style={{ marginTop: '16px' }}>
                 <div>
                   <h1 className="ui dividing header">Cards</h1>
                   <i className="plus icon add-address" onClick={() => setCardModalOpen(true)} aria-hidden="true" />
