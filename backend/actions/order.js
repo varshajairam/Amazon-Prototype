@@ -104,6 +104,7 @@ const placeOrder = async (req, res) => {
     );
     if (cart) {
       cart.items[0].products.splice(0);
+      cart.items[0].totalCost = 0;
     }
     await cart.save();
     return res.send(result);
