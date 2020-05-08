@@ -1,8 +1,10 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getOrders, updateOrder } from "../../store/actions/orderActions";
+import { updateOrder } from "../../store/actions/orderActions";
+import { getProduct } from "../../store/actions/productActions";
+import { Redirect } from "react-router-dom";
 
-const OrderList = (props) => {
+const OrderList = ({ history }) => {
   const nextStatus = {
     Customer: {},
     Seller: {
@@ -18,12 +20,24 @@ const OrderList = (props) => {
   const order = useSelector((state) => state.orderReducer.currentOrder);
   const loading = useSelector((state) => state.orderReducer.loading);
   const userType = useSelector((state) => state.authReducer.user_type);
+  const currentProduct = useSelector(
+    (state) => state.productReducer.currentProduct
+  );
   const dispatch = useDispatch();
 
   const onUpdate = (data) => {
     dispatch(updateOrder(data));
   };
-
+  if (currentProduct) {
+    return (
+      <Redirect
+        to={{
+          pathname: `/product/${currentProduct._id}`,
+          state: { product: currentProduct },
+        }}
+      />
+    );
+  }
   return !order || loading ? (
     <div className="ui loading segment"></div>
   ) : (
@@ -135,7 +149,7 @@ const OrderList = (props) => {
           {order.products.map((product) => (
             <div
               className="product-div ui relaxed divided items"
-              key={product._id}
+              key={product.product._id}
             >
               <div className="item">
                 <div className="ui small image">
@@ -148,10 +162,17 @@ const OrderList = (props) => {
                   />
                 </div>
                 <div className="content">
-                  <div className="header onHover">{product.product.name}</div>
+                  <div
+                    className="header onHover"
+                    onClick={() => {
+                      dispatch(getProduct({ id: product.product._id }));
+                    }}
+                  >
+                    {product.product.name}
+                  </div>
                   <div className="description">
                     Sold by:
-                    <span className="onHover">
+                    <span>
                       {product.product.seller.name}
                     </span>
                   </div>

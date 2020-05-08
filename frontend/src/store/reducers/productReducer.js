@@ -1,7 +1,8 @@
-import { GET_PRODUCT_SUCCESS, ADD_REVIEW_SUCCESS } from '../actions/types'
+import { GET_PRODUCT_SUCCESS, ADD_REVIEW_SUCCESS, GET_SINGLE_PRODUCT_SUCCESS } from '../actions/types'
 
 const initialState = {
   products: [],
+  currentProduct: null,
   total: 0,
   limit: 0
 };
@@ -9,6 +10,11 @@ const initialState = {
 const productReducer = (state = initialState, action) => {
   switch (action.type) {
 
+    case GET_SINGLE_PRODUCT_SUCCESS:
+      return {
+      ...state,
+      currentProduct: action.payload
+    };
     case GET_PRODUCT_SUCCESS:
       return {
         ...state,

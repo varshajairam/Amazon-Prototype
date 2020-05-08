@@ -126,12 +126,12 @@ const OrderList = ({history}) => {
                               />
                             </div>
                             <div className="content">
-                              <div className="header onHover">
+                              <div className="header">
                                 {product.product.name}
                               </div>
                               <div className="description">
                                 Sold by:{" "}
-                                <span className="onHover">
+                                <span>
                                   {product.product.seller.name}
                                 </span>
                               </div>
