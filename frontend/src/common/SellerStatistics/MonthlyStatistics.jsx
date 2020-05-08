@@ -23,7 +23,7 @@ const MonthlyStatistics = ({ location }) => {
     let sum = 0;
 
     stats.monthlyStats.forEach((stat) => {
-      sum += stat.total;
+      sum += (stat.product.baseCost + stat.product.addonCost) * stat.quantity;
     });
 
     return sum;
