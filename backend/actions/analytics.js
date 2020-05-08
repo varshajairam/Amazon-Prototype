@@ -43,7 +43,7 @@ const getNoOfOrders = async (req, res) => {
   const endDate = new Date(req.query.date);
   endDate.setDate(endDate.getDate() + 1);
   if (req.user && req.user.type === 'Admin') {
-    const result = await Category.aggregate([
+    const result = await Order.aggregate([
       { $match: { createdAt: { $lt: endDate, $gt: startDate } } },
       { $count: 'quantity' },
     ]);
