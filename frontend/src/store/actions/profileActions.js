@@ -1,10 +1,26 @@
 /* global $ */
-import { sendPost } from '../../helpers/communicationHelper';
+import { sendPost, get } from '../../helpers/communicationHelper';
 
 export const fetchProfileData = (email) => (dispatch) => {
   const data = email ? { email } : email;
   sendPost('profile/get_profile', data).then((profile) => {
+    if (profile.type === 'Seller') {
+      const sellerData = {
+        email: profile.email,
+        page: 1,
+      };
+      get('product', sellerData).then((resp) => {
+        dispatch({ type: 'SET_PROFILE_PRODUCTS', resp });
+      });
+    }
     dispatch({ type: 'FETCH_PROFILE', profile });
+  });
+};
+
+export const getProducts = (email, page) => (dispatch) => {
+  const data = { email, page };
+  get('product', data).then((resp) => {
+    dispatch({ type: 'SET_PROFILE_PRODUCTS', resp });
   });
 };
 

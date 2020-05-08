@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import ReactPaginate from 'react-paginate';
 import { CountryRegionData } from 'react-country-region-selector';
+import StarRatings from '../StarRatings/StarRatings';
 import './Profile.css';
 import * as profileActions from '../../store/actions/profileActions';
 
@@ -115,6 +117,60 @@ function Profile() {
                 </div>
               ))}
             </div>
+            { profileReducerData.type === 'Seller' && (
+              <div>
+                <div>
+                  <h1 className="ui dividing header">Products</h1>
+                </div>
+                { profileReducerData.products.map((product) => (
+                  <div className="ui relaxed divided items" key={product._id}>
+                    <div className="item">
+                      <Link to={{ pathname: `/product/${product._id}`, state: { product } }}>
+                        <div className="ui small image pointer">
+                          <img src={product.images[0] || 'https://www.moodfit.com/front/images/genral_image_notfound.png'} alt="" />
+                        </div>
+                      </Link>
+                      <div className="content product-details">
+                        <Link to={{ pathname: `/product/${product._id}`, state: { product } }}>
+                          <div className="ui header onHover">{product.name}</div>
+                        </Link>
+
+                        <div className="meta">
+                          <div className="ui large star rating" data-max-rating="5" data-rating="2">
+                            <StarRatings max="5" rating={(product.averageRating) || 0} customizable="false" />
+                          </div>
+                        </div>
+
+
+                        <div className="header">
+                          {`$${product.baseCost}`}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+                <ReactPaginate
+                  previousLabel="Previous"
+                  nextLabel="Next"
+                  breakLabel="..."
+                  breakClassName="break-me"
+                  pageCount={profileReducerData.total / profileReducerData.limit}
+                  marginPagesDisplayed={2}
+                  pageRangeDisplayed={5}
+                  onPageChange={(data) => dispatch(profileActions.getProducts(
+                    profileReducerData.email, data.selected + 1,
+                  ))}
+                  containerClassName="ui secondary menu flex-center"
+                  pageClassName="item"
+                  pageLinkClassName="item-link"
+                  activeClassName="active"
+                  previousClassName="item"
+                  nextClassName="item"
+                  previousLinkName="item-link"
+                  nextLinkName="item-link"
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>
