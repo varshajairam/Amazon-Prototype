@@ -29,7 +29,6 @@ import AnalyticsView from './common/Analytics/AnalyticsView';
 import CategoryList from './common/CategoryList/CategoryList';
 import AdminSeller from './common/AdminSeller/AdminSeller';
 import Cart from './common/Cart/Cart';
-import Profile from './common/Profile/Profile';
 
 function App() {
   const authReducerData = useSelector((state) => state.authReducer);
