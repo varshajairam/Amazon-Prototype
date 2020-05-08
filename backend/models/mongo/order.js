@@ -4,7 +4,54 @@ const Product = require('./product');
 const OrderSchema = new mongoose.Schema({
   products: [
     {
-      product: { type: Product.schema, required: true },
+      product: {
+        type: {
+          name: {
+            type: String,
+            trim: true,
+            required: true,
+          },
+          description: { type: mongoose.Schema.Types.String, required: true },
+          image: { type: mongoose.Schema.Types.String },
+          baseCost: {
+            type: mongoose.Schema.Types.Number,
+            required: true,
+          },
+          appliedOffers: [
+            {
+              type: {
+                type: String,
+                enum: ['percentage', 'flat'],
+                required: true,
+              },
+              value: {
+                type: Number,
+                default: 5.0,
+              },
+            },
+          ],
+          seller: {
+            id: { type: mongoose.Schema.Types.Number, required: true },
+            name: { type: mongoose.Schema.Types.String, required: true },
+          },
+          category: {
+            type: mongoose.Schema.Types.ObjectId,
+            required: true,
+            ref: 'category',
+          }
+        },
+        required: true,
+      },
+      productListing: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'product',
+      },
+      category: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'category',
+      },
       quantity: {
         type: mongoose.Schema.Types.Number,
         required: true,
@@ -26,7 +73,7 @@ const OrderSchema = new mongoose.Schema({
     state: {
       type: mongoose.Schema.Types.String,
       required: true,
-    }, /* use enum for state */
+    } /* use enum for state */,
     phone: { type: mongoose.Schema.Types.String, required: true },
   },
 
@@ -39,7 +86,7 @@ const OrderSchema = new mongoose.Schema({
     state: {
       type: mongoose.Schema.Types.String,
       required: true,
-    }, /* use enum for state */
+    } /* use enum for state */,
     phone: { type: mongoose.Schema.Types.String, required: true },
   },
 
@@ -86,6 +133,9 @@ const OrderSchema = new mongoose.Schema({
       timestamp: { type: mongoose.Schema.Types.Date, default: Date.now },
     },
   ],
+},
+{
+  timestamps: true,
 });
 
 module.exports = Order = mongoose.model('order', OrderSchema);
