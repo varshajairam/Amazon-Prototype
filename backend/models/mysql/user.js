@@ -17,6 +17,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.ENUM('Customer', 'Seller', 'Admin'),
       allowNull: false,
     },
+    profile_image: {
+      type: DataTypes.STRING(255),
+      allowNull: true,
+    },
   });
   const userAddress = sequelize.define('user_address', {
     name: {
@@ -48,10 +52,29 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
     phone: {
+      type: DataTypes.STRING(10),
+      allowNull: false,
+    },
+  });
+  const userCard = sequelize.define('user_card', {
+    name: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+    },
+    number: {
+      type: DataTypes.STRING(19),
+      allowNull: false,
+    },
+    cvv: {
       type: DataTypes.INTEGER(),
+      allowNull: false,
+    },
+    expiration: {
+      type: DataTypes.DATEONLY(),
       allowNull: false,
     },
   });
   User.hasMany(userAddress);
-  return { User, userAddress };
+  User.hasMany(userCard);
+  return { User, userAddress, userCard };
 };

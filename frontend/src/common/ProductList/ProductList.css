@@ -22,7 +22,7 @@
     margin-bottom: 0.5em;
     position: absolute;
     top: 1em;
-    left: 50%;
+    left: 60%;
     transform: translate(-50%,0);
     max-width: 50vw !important;
 }

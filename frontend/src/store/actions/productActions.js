@@ -58,13 +58,7 @@ export const updateProduct = (data) => async (dispatch) => {
 
 export const getProducts = (data) => {
   return (dispatch) => {
-    let query = 'product?';
-
-    for (let key in data) {
-      if (data[key] != '') query += '&' + key + '=' + data[key];
-    }
-
-    get(query)
+    get('product', data)
       .then((data) => {
         dispatch({
           type: GET_PRODUCT_SUCCESS,

@@ -35,9 +35,16 @@ function sendDelete(route, data = null) {
   return sendRequest('DELETE', route, data);
 }
 
-function get(route) {
+function get(route, data = null) {
+  let paramRoute = route;
+  if (data) {
+    paramRoute += '?';
+    Object.entries(data).forEach(([key, value]) => {
+      if (key && value) paramRoute += `&${key}=${value}`;
+    });
+  }
   return $.ajax({
-    url: process.env.REACT_APP_SERVER_ROOT + route,
+    url: process.env.REACT_APP_SERVER_ROOT + paramRoute,
     type: 'GET',
     xhrFields: {
       withCredentials: true,

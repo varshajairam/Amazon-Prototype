@@ -6,7 +6,13 @@ const getProducts = async (req, res) => {
   let { name, averageRating, category, sort, page } = req.query;
 
   // , { seller: new RegExp(name || "", "i") }
-  const result = await Product.find(req.user.type == "Seller" ? { "seller.id": req.user.id } : {})
+  let where;
+  if (req.query.email) {
+    where = { 'seller.email': req.query.email };
+  } else {
+    where = req.user.type === 'Seller' ? { 'seller.id': req.user.id } : {};
+  }
+  const result = await Product.find(where)
     .populate('reviews')
     .or([{ name: new RegExp(name || '', 'i') }])
     .where({ category: category || { $ne: null } })
@@ -15,7 +21,7 @@ const getProducts = async (req, res) => {
     .limit(perPage)
     .skip(perPage * (page - 1));
 
-  const count = await Product.find()
+  const count = await Product.find(where)
     .or([{ name: new RegExp(name || '', 'i') }])
     .where({ category: category || { $ne: null } })
     .where({ averageRating: { $gte: averageRating || 0 } })

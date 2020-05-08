@@ -8,5 +8,6 @@ app.use('/product', require('./product'));
 app.use('/cart', require('./cart'));
 app.use('/order', require('./order'));
 app.use('/saveForLater', require('./saveForLater'));
+app.use('/profile', require('./profile'));
 
 module.exports = app;

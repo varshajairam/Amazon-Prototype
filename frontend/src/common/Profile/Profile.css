@@ -1,0 +1,40 @@
+.PROFILE .ui.dimmer.transition.visible.active {
+  display: flex !important;
+}
+
+.PROFILE .bold {
+  font-weight: bold;
+}
+
+.PROFILE .card {
+  width: 100%;
+}
+
+.PROFILE .profile-image-input {
+  display: none;
+}
+
+.PROFILE .edit-icon {
+  float: right;
+  cursor: pointer;
+}
+
+.PROFILE .modal .description {
+  padding: 16px;
+}
+
+.PROFILE .modal .actions {
+  margin: 0 0 8px 8px;
+}
+
+.PROFILE .add-address {
+  position: relative;
+  float: right;
+  bottom: 36px;
+  cursor: pointer;
+}
+
+.PROFILE .delete-address {
+  float: right;
+  cursor: pointer;
+}
