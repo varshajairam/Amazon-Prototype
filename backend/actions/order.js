@@ -79,14 +79,6 @@ const updateOrder = async (req, res) => {
 
 const placeOrder = async (req, res) => {
   
-  console.log(JSON.parse(req.body.products));
-  console.log(JSON.parse(req.body.shippingAddress));
-  console.log(JSON.parse(req.body.statusHistory));
-
-  console.log(JSON.parse(req.body.card));
-  console.log(typeof req.body.sellers);
-  console.log(req.body.sellers.split(','));
-
   if (req.user && req.user.type && req.user.type === "Customer") {
     const newOrder = new Order({
       customer: req.user.id,
