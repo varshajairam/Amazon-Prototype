@@ -36,8 +36,8 @@ const ProductView = ({ location, history }) => {
   };
 
   // Seller Route Here
-  const showSellerProfile = (id) => {
-    history.push({ pathname: `/sellerProfile/${id}` });
+  const showSellerProfile = (email) => {
+    history.push({ pathname: `/profile/${email}` });
   };
 
   return (
