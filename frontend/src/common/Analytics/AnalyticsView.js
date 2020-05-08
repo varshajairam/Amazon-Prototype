@@ -42,11 +42,13 @@ const AnalyticsView = (props) => {
 		]
 	  }
 
+	  const optionData = ['No of orders per day', 'Top 5 most sold products'];
+
 	  const renderAnalyticsMenu = () => {
 		console.log(props.state);
 		return (
-
-		  <div className="ui loading fluid menu">
+<div className="ui container">
+		  {/* <div className="ui loading fluid menu">
 			{/* {!props.analytic || props.analytics.loading ? (
 			  <div className="ui loading fluid simple dropdown item small header">
 				Loading Categories
@@ -95,7 +97,31 @@ const AnalyticsView = (props) => {
 				  </div>
 				</div>
 			  </div>
-		  </div>
+			  
+		  </div> */}
+		  
+		                <div className="field">
+						<label htmlFor="inputCountry">Country</label>
+						<select
+						//   onChange={(ev) => {
+						// 	const ind = ev.target.options.selectedIndex;
+						// 	const newStates = ev.target.options[ind].getAttribute('data-states').split('|');
+						// 	setStates(newStates);
+						//   }}
+						  className="ui dropdown"
+						  id="inputOption"
+						  name="analytics"
+						  required
+						>
+						  <option value="" data-states="">Analytics Options</option>
+						  { optionData.map((opt) => (
+							<option value={opt} key={opt} data-states={opt}>
+							  {opt}
+							</option>
+						  ))}
+						</select>
+					  </div>
+					  </div>
 		);
 	  };
 
