@@ -47,17 +47,21 @@ function Profile() {
                 <div className="meta">{profileReducerData.email}</div>
               </div>
             </div>
-            { !email && (
+            { (!email || profileReducerData.type === 'Seller') && (
               <div>
                 <div>
                   <h1 className="ui dividing header">Addresses</h1>
-                  <i className="plus icon add-address" onClick={() => setAddressModalOpen(true)} aria-hidden="true" />
+                  { !email && (
+                    <i className="plus icon add-address" onClick={() => setAddressModalOpen(true)} aria-hidden="true" />
+                  )}
                 </div>
                 <div className="ui divided items">
                   { profileReducerData.user_addresses.map((address) => (
                     <div className="link item" key={address.id}>
                       <div className="content">
-                        <i className="trash icon delete-address" onClick={() => dispatch(profileActions.deleteAddress(address.id))} aria-hidden="true" />
+                        { !email && (
+                          <i className="trash icon delete-address" onClick={() => dispatch(profileActions.deleteAddress(address.id))} aria-hidden="true" />
+                        )}
                         <div className="header">{address.name}</div>
                         <div className="description">
                           <div>
