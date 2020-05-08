@@ -10,5 +10,6 @@ app.post('/addView', (...args) => kafka.sendMessage('operations', { route: 'addV
 app.delete('/', (...args) => kafka.sendMessage('operations', { route: 'deleteProduct' }, args));
 app.get('/recomendations', (...args) => kafka.sendMessage('operations', { route: 'recomendations' }, args));
 app.post('/addReview', (...args) => kafka.sendMessage('operations', { route: 'addReview' }, args));
+app.get('/single', getProduct);
 
 module.exports = app;

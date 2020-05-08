@@ -18,23 +18,7 @@ const Checkout = (props) => {
   const sellers = [];
   const products = [];
 
-  const product = {
-    quantity: 0,
-    product: {
-      images: [],
-      addonCost: 0,
-      averageRating: 0,
-      reviews: [],
-      _id: "",
-      name: "",
-      description: "",
-      baseCost: 0,
-      offers: [],
-      seller: {},
-      category: "",
-    },
-    isGift: null,
-  };
+  let product;
 
   useEffect(() => {
     props.getCartProducts();
@@ -43,6 +27,23 @@ const Checkout = (props) => {
 
   if (props.cart.products && props.cart.products.length) {
     for (let prod of props.cart.products) {
+      product = {
+        quantity: 0,
+        product: {
+          images: [],
+          addonCost: 0,
+          averageRating: 0,
+          reviews: [],
+          _id: "",
+          name: "",
+          description: "",
+          baseCost: 0,
+          offers: [],
+          seller: {},
+          category: "",
+        },
+        isGift: null,
+      };
       product.product = { ...prod.product };
       product.quantity = prod.quantity;
       product.isGift = prod.isGift;
@@ -166,6 +167,7 @@ const Checkout = (props) => {
                 zip: address.zipcode
               }),
               card: JSON.stringify(card),
+              statusHistory: JSON.stringify([{status: "New"}]),
             })
           }
         >
