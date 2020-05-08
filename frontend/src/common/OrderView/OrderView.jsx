@@ -155,7 +155,7 @@ const OrderList = ({ history }) => {
                 <div className="ui small image">
                   <img
                     src={
-                      product.product.images[0] ||
+                      product.product.image ||
                       "https://www.moodfit.com/front/images/genral_image_notfound.png"
                     }
                     alt={product.product.name}
