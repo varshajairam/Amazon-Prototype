@@ -18,6 +18,7 @@ import AddProduct from './common/AddProduct/AddProduct';
 import * as authActions from './store/actions/authActions';
 import Alert from './common/Alerts/Alert';
 import OrderList from './common/OrderList/OrderList';
+import SellerStatistics from './common/SellerStatistics/SellerStatistics';
 
 function App() {
   const authReducerData = useSelector((state) => state.authReducer);
@@ -40,6 +41,7 @@ function App() {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route path="/orders" component={OrderList} />
+          <Route path="/sellerStats" component={SellerStatistics} />
           <Route path="/createReview" component={CreateReview} />
           <Route path="/product/:id" component={ProductView} />
           <Route path="/productlist" component={ProductList} />
