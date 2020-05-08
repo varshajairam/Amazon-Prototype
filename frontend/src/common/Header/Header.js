@@ -17,6 +17,8 @@ function Header() {
           <NavLink exact className="item" activeClassName="active" to="/productlist">Products</NavLink>
           {authReducerData.user_type === 'Seller' && <NavLink exact className="item" activeClassName="active" to="/addProduct">Add Product</NavLink>}
           <NavLink exact className="item" activeClassName="active" to="/orders">Orders</NavLink>
+          <NavLink exact className="item" activeClassName="active" to="/cart"><i className="shop icon"></i>Cart</NavLink>
+          <NavLink exact className="item" activeClassName="active" to="/profile">Profile</NavLink>
           <Link onClick={() => dispatch(authActions.logout())} className="item right" to="/">Logout</Link>
         </div>
       )}
