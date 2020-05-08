@@ -1,82 +1,85 @@
-import React, { useState, useEffect } from 'react';
-import "./CreateReview.css"
-import StarRatings from '../StarRatings/StarRatings';
-import { connect } from 'react-redux';
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import './CreateReview.css';
 import {
-    Link, Redirect
-} from "react-router-dom";
+  Redirect,
+} from 'react-router-dom';
+import StarRatings from '../StarRatings/StarRatings';
 import { addReview } from '../../store/actions/productActions';
 
-let CreateReview = (props) => {
-    const [review, setReview] = useState({
-        stars: 0,
-        title: "",
-        text: ""
-    })
+const CreateReview = ({ location }) => {
+  const products = useSelector((state) => state.productReducer);
+  const dispatch = useDispatch();
 
-    if (!(props.location.state && props.location.state.product))
-        return <Redirect to="/productlist" />
+  const [review, setReview] = useState({
+    stars: 0,
+    title: '',
+    text: '',
+  });
 
-    if (props.products.redirectProduct)
-        return <Redirect to={{ pathname: "/product", state: { product: props.products.products.find(product => product._id == props.location.state.product._id) } }} />
+  if (!(location.state && location.state.product)) { return <Redirect to="/productlist" />; }
 
-    let product = props.location.state.product;
+  if (products.redirectProduct) { return <Redirect to={{ pathname: '/product', state: { product: products.products.find((product) => product._id == location.state.product._id) } }} />; }
 
-    return <React.Fragment>
-        <div className="review-wrapper ui container">
-            <div className="ui  dividing row-header">
-                <div className="ui header">
-                    <h2>Create Review</h2>
-                </div>
-                <div className="product-details">
-                    <img className="img-container" src={product.images[0]} />
-                    <div className="product-name">{product.name}</div>
-                </div>
-            </div>
+  const { product } = location.state;
 
-            <div className="ui dividing row-header mt-5 review-row">
-                <div className="ui header">
-                    <h2>Overall Review</h2>
-                    <StarRatings max="5" rating={review.stars} onStarClick={data => setReview({ ...review, stars: data })} />
-                </div>
-            </div>
-
-            <div className="ui dividing row-header mt-5 text-row">
-                <div className="ui header">
-                    <h4>Add a headline</h4>
-                </div>
-                <div className="ui form">
-                    <div className="field">
-                        <input placeholder="What's most important to know?" type="text" onChange={e => setReview({ ...review, title: e.target.value })} />
-                    </div>
-                    <h4 className="mt-5">Write a review</h4>
-                    <div className="field">
-                        <textarea placeholder="What did you like or dislike? What did you use this product for?" onChange={e => setReview({ ...review, text: e.target.value })} />
-                    </div>
-                </div>
-                <div className="submit-container mt-3">
-
-                    {/* TODO: ADD CUSTOMER ID */}
-
-                    <div className="ui primary button" onClick={e => props.addReview({
-                        ...review,
-                        product: product._id
-                    })}>Submit</div>
-                </div>
-            </div>
+  return (
+    <>
+      <div className="review-wrapper ui container">
+        <div className="ui  dividing row-header">
+          <div className="ui header">
+            <h2>Create Review</h2>
+          </div>
+          <div className="product-details">
+            <img className="img-container" src={product.images[0]} alt={product.name} />
+            <div className="product-name">{product.name}</div>
+          </div>
         </div>
-    </React.Fragment>
-}
-const mapStateToProps = state => {
-    return {
-        products: state.productReducer
-    }
-}
 
-const mapDispatchToProps = dispatch => {
-    return {
-        addReview: data => dispatch(addReview(data))
-    }
-}
+        <div className="ui dividing row-header mt-5 review-row">
+          <div className="ui header">
+            <h2>Overall Review</h2>
+            <StarRatings max="5" rating={review.stars} onStarClick={(data) => setReview({ ...review, stars: data })} />
+          </div>
+        </div>
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateReview);
+        <div className="ui dividing row-header mt-5 text-row">
+          <div className="ui header">
+            <h4>Add a headline</h4>
+          </div>
+          <div className="ui form">
+            <div className="field">
+              <input placeholder="What's most important to know?" type="text" onChange={(e) => setReview({ ...review, title: e.target.value })} />
+            </div>
+            <h4 className="mt-5">Write a review</h4>
+            <div className="field">
+              <textarea placeholder="What did you like or dislike? What did you use this product for?" onChange={(e) => setReview({ ...review, text: e.target.value })} />
+            </div>
+          </div>
+          <div className="submit-container mt-3">
+
+            {/* TODO: ADD CUSTOMER ID */}
+
+            <div
+              className="ui primary button"
+              onClick={() => dispatch(addReview({
+                ...review,
+                product: product._id,
+              }))}
+              onKeyDown={() => dispatch(addReview({
+                ...review,
+                product: product._id,
+              }))}
+              role="button"
+              tabIndex="0"
+            >
+              Submit
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default CreateReview;

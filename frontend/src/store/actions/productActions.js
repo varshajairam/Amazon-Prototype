@@ -26,7 +26,7 @@ export const addProduct = (data) => async (dispatch) => {
   try {
     dispatch({ type: ADD_PRODUCT_SENT });
     const res = await sendPost('product', data);
-    dispatch(setAlert('Review Added Successfully!', 'positive'));
+    dispatch(setAlert('Product Added Successfully!', 'positive'));
     dispatch({ type: ADD_PRODUCT_SUCCESS, payload: res });
   } catch (error) {
     dispatch({ type: ADD_PRODUCT_FAILED });
@@ -53,6 +53,14 @@ export const updateProduct = (data) => async (dispatch) => {
     dispatch(setAlert('Review Updated Successfully!', 'positive'));
   } catch (error) {
     dispatch({ type: UPDATE_PRODUCT_FAILED });
+  }
+};
+
+export const addView = (data) => async (dispatch) => {
+  try {
+    const res = await sendPost('product/addView', data);
+  } catch (error) {
+    dispatch({ type: 'ADD_VIEW_FAILED' });
   }
 };
 

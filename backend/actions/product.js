@@ -1,9 +1,53 @@
 const { Product, Review } = require('../models/index');
 
-const getProducts = async (req, res) => {
-  let perPage = 5; // Change Later
+const getRecomendations = async (req, res) => {
+  const result = await Product.aggregate([
+    { $match: (req.user && req.user.type === 'Seller' ? { "seller.id": req.user.id } : {}) },
+    {
+      $group: {
+        _id: '$category',
+        products: {
+          $push: {
+            _id: '$_id',
+            images: '$images',
+            addonCost: '$addonCost',
+            offers: '$offers',
+            name: '$name',
+            baseCost: '$baseCost',
+            category: '$category',
+            description: '$description',
+            seller: '$seller',
+            averageRating: '$averageRating',
+            reviews: '$reviews',
+          },
+        },
+      },
+    },
+    { $project: { products: { $slice: ['$products', 5] } } },
+    // { $lookup: {
+    //   from: "$review",
+    //   localField: "reviews",
+    //   foreignField: "_id",
+    //   as: "reviews"
+    // }}
+  ]);
+  await Review.populate(result, { path: "products.reviews" });
+  // const reviews = await Review.find().where('_id').in(result.reviews).exec(); //result.reviews.map(reviewId)
 
-  let { name, averageRating, category, sort, page } = req.query;
+  res.send(result);
+};
+
+const getProduct = async (req, res) => {
+  const result = await Product.findById(req.body.id);
+  res.send(result);
+};
+
+const getProducts = async (req, res) => {
+  const perPage = 5; // Change Later
+
+  const {
+    name, averageRating, category, sort, page,
+  } = req.query;
 
   // , { seller: new RegExp(name || "", "i") }
   let where;
@@ -14,15 +58,15 @@ const getProducts = async (req, res) => {
   }
   const result = await Product.find(where)
     .populate('reviews')
-    .or([{ name: new RegExp(name || '', 'i') }])
+    .or([{ name: new RegExp(name || '', 'i') }, { 'seller.name': new RegExp(name || '', 'i') }])
     .where({ category: category || { $ne: null } })
     .where({ averageRating: { $gte: averageRating || 0 } })
     .sort(sort)
     .limit(perPage)
-    .skip(perPage * (page - 1));
+    .skip(perPage * ((page || 1) - 1));
 
   const count = await Product.find(where)
-    .or([{ name: new RegExp(name || '', 'i') }])
+    .or([{ name: new RegExp(name || '', 'i') }, { 'seller.name': new RegExp(name || '', 'i') }])
     .where({ category: category || { $ne: null } })
     .where({ averageRating: { $gte: averageRating || 0 } })
     .countDocuments();
@@ -33,7 +77,7 @@ const getProducts = async (req, res) => {
 const addProduct = async (req, res) => {
   if (req.user && req.user.type && req.user.type === 'Seller') {
     const newProduct = new Product({
-      seller: { id: req.user.id, name: req.user.name },
+      seller: { id: req.user.id, name: req.user.name, email: req.user.email },
       name: req.body.name,
       addonCost: req.body.addonCost,
       baseCost: req.body.baseCost,
@@ -50,13 +94,17 @@ const addProduct = async (req, res) => {
 };
 
 const updateProduct = async (req, res) => {
-  console.log(req.user);
-  console.log(req.body);
-  console.log(req.files);
 
+  const { name, baseCost, category, description, images, offers } = req.body;
   if (req.user && req.user.type && req.user.type === 'Seller') {
     const product = await Product.findById(req.body.id);
     if (product) {
+      product.name = name;
+      product.baseCost = baseCost;
+      product.category = category;
+      product.description = description;
+      product.offers = JSON.parse(offers);
+      product.images = [...JSON.parse(images), ...req.files.map((file) => file.location)];
       const result = await product.save();
       return res.send(result);
     }
@@ -74,12 +122,14 @@ const deleteProduct = async (req, res) => {
 };
 
 const addReview = async (req, res) => {
-  const { id, name } = req.user;
+  const { id, name, email } = req.user;
   const newReview = new Review({
     ...req.body,
     customer: {
-      id, name
-    }
+      id,
+      name,
+      email
+    },
   });
   const result = await newReview.save();
   let product = await Product.findById(req.body.product).populate('reviews');
@@ -88,13 +138,12 @@ const addReview = async (req, res) => {
     product.reviews.push(result);
     let total = 0;
     product.reviews.forEach((current) => (total += current.stars));
-    product.averageRating = total / product.reviews.length;
+    product.averageRating = Math.floor(total / product.reviews.length);
     product = await product.save();
     return res.send(result);
   }
   res.send('Error Occurred');
 };
-
 
 const viewProduct = async (req, res) => {
   if (req.user && req.user.type && req.user.type === 'Customer') {
@@ -105,10 +154,29 @@ const viewProduct = async (req, res) => {
   return res.status(401).send('Unauthorized');
 };
 
+const addView = async (req, res) => {
+  if (req.user && req.user.type && req.user.type === 'Customer') {
+    const product = await Product.findById(req.body.id);
+    let newViews = product.views ? { ...product.views } : {};
+    if (product.views[new Date().toLocaleDateString()]) {
+      newViews[new Date().toLocaleDateString()] += 1;
+    } else {
+      newViews[new Date().toLocaleDateString()] = 1;
+    }
+    const result = await Product.findByIdAndUpdate(req.body.id, { views: newViews });
+
+    return res.send(result);
+  }
+  return res.send('Unauthorized');
+};
+
 module.exports = {
+  getRecomendations,
+  getProduct,
   addProduct,
   getProducts,
   updateProduct,
   deleteProduct,
   addReview,
+  addView,
 };

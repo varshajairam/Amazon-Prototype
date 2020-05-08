@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import ReactPaginate from 'react-paginate';
 import { CountryRegionData } from 'react-country-region-selector';
+import StarRatings from '../StarRatings/StarRatings';
 import './Profile.css';
 import * as profileActions from '../../store/actions/profileActions';
 
@@ -23,98 +25,190 @@ function Profile() {
           <div className="six wide column">
             <div className="ui card">
               <div className={`image dimmable${imageHovered ? ' dimmed' : ''}`} onMouseEnter={() => setImageHovered(true)} onMouseLeave={() => setImageHovered(false)}>
-                <div className={`ui dimmer transition ${imageHovered ? 'visible active' : 'hidden'}`}>
-                  <div className="content">
-                    <div className="center">
-                      <form className="profile-image-input">
-                        <input type="file" name="profile_image" accept="image/*" onChange={(ev) => dispatch(profileActions.addProfileImage(ev))} ref={profileImageInput} />
-                      </form>
-                      <button type="button" onClick={() => profileImageInput.current.click()} className="ui inverted button">Change Profile Image</button>
+                { !email && (
+                  <div className={`ui dimmer transition ${imageHovered ? 'visible active' : 'hidden'}`}>
+                    <div className="content">
+                      <div className="center">
+                        <form className="profile-image-input">
+                          <input type="file" name="profile_image" accept="image/*" onChange={(ev) => dispatch(profileActions.addProfileImage(ev))} ref={profileImageInput} />
+                        </form>
+                        <button type="button" onClick={() => profileImageInput.current.click()} className="ui inverted button">Change Profile Image</button>
+                      </div>
                     </div>
                   </div>
-                </div>
+                )}
                 <img src={profileReducerData.profile_image} alt="" />
               </div>
               <div className="content">
-                <span className="edit-icon" aria-hidden="true" onClick={() => setProfileModalOpen(true)}>&#9998;</span>
+                { !email && (
+                  <span className="edit-icon" aria-hidden="true" onClick={() => setProfileModalOpen(true)}>&#9998;</span>
+                )}
                 <div className="header">{profileReducerData.name}</div>
                 <div className="meta">{profileReducerData.email}</div>
               </div>
             </div>
-            <div>
-              <h1 className="ui dividing header">Cards</h1>
-              <i className="plus icon add-address" onClick={() => setCardModalOpen(true)} aria-hidden="true" />
-            </div>
-            <div className="ui divided items">
-              { profileReducerData.user_cards.map((card) => (
-                <div className="link item" key={card.id}>
-                  <div className="content">
-                    <i className="trash icon delete-address" onClick={() => dispatch(profileActions.deleteCard(card.id))} aria-hidden="true" />
-                    <div className="header">{card.name}</div>
-                    <div className="description">
-                      <div>
-                        <span className="bold">Card Number: </span>
-                        <span>{card.number}</span>
-                      </div>
-                      <div>
-                        <span className="bold">Expiry Date: </span>
-                        <span>{card.expiration}</span>
-                      </div>
-                      <div>
-                        <span className="bold">CVV: </span>
-                        <span>{card.cvv}</span>
+            { (!email || profileReducerData.type === 'Seller') && (
+              <div>
+                <div>
+                  <h1 className="ui dividing header">Addresses</h1>
+                  { !email && (
+                    <i className="plus icon add-address" onClick={() => setAddressModalOpen(true)} aria-hidden="true" />
+                  )}
+                </div>
+                <div className="ui divided items">
+                  { profileReducerData.user_addresses.map((address) => (
+                    <div className="link item" key={address.id}>
+                      <div className="content">
+                        { !email && (
+                          <i className="trash icon delete-address" onClick={() => dispatch(profileActions.deleteAddress(address.id))} aria-hidden="true" />
+                        )}
+                        <div className="header">{address.name}</div>
+                        <div className="description">
+                          <div>
+                            <span className="bold">Address1: </span>
+                            <span>{address.street1}</span>
+                          </div>
+                          <div>
+                            <span className="bold">Address2: </span>
+                            <span>{address.street2}</span>
+                          </div>
+                          <div>
+                            <span className="bold">City: </span>
+                            <span>{address.city}</span>
+                          </div>
+                          <div>
+                            <span className="bold">Country: </span>
+                            <span>{address.country}</span>
+                          </div>
+                          <div>
+                            <span className="bold">State: </span>
+                            <span>{address.state}</span>
+                          </div>
+                          <div>
+                            <span className="bold">Zip Code: </span>
+                            <span>{address.zipcode}</span>
+                          </div>
+                          <div>
+                            <span className="bold">Phone: </span>
+                            <span>{address.phone}</span>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  ))}
                 </div>
-              ))}
-            </div>
+              </div>
+            )}
+            { !email && (
+              <div style={{ marginTop: '16px' }}>
+                <div>
+                  <h1 className="ui dividing header">Cards</h1>
+                  <i className="plus icon add-address" onClick={() => setCardModalOpen(true)} aria-hidden="true" />
+                </div>
+                <div className="ui divided items">
+                  { profileReducerData.user_cards.map((card) => (
+                    <div className="link item" key={card.id}>
+                      <div className="content">
+                        <i className="trash icon delete-address" onClick={() => dispatch(profileActions.deleteCard(card.id))} aria-hidden="true" />
+                        <div className="header">{card.name}</div>
+                        <div className="description">
+                          <div>
+                            <span className="bold">Card Number: </span>
+                            <span>{card.number}</span>
+                          </div>
+                          <div>
+                            <span className="bold">Expiry Date: </span>
+                            <span>{card.expiration}</span>
+                          </div>
+                          <div>
+                            <span className="bold">CVV: </span>
+                            <span>{card.cvv}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
           <div className="ten wide column">
-            <div>
-              <h1 className="ui dividing header">Addresses</h1>
-              <i className="plus icon add-address" onClick={() => setAddressModalOpen(true)} aria-hidden="true" />
-            </div>
-            <div className="ui divided items">
-              { profileReducerData.user_addresses.map((address) => (
-                <div className="link item" key={address.id}>
-                  <div className="content">
-                    <i className="trash icon delete-address" onClick={() => dispatch(profileActions.deleteAddress(address.id))} aria-hidden="true" />
-                    <div className="header">{address.name}</div>
-                    <div className="description">
+            { profileReducerData.type === 'Customer' && (
+              <div>
+                <div>
+                  <h1 className="ui dividing header">Comments</h1>
+                </div>
+                { profileReducerData.comments.map((comment) => (
+                  <div className="review-container mt-5" key={comment._id}>
+                    <Link to={{ pathname: `/product/${comment.product._id}`, state: { product: comment.product } }} className="ui header">{comment.product.name}</Link>
+
+                    <div className="mt-3">
+                      <StarRatings max="5" rating={comment.stars} customizable="false" />
+                      {' '}
+                      <b>{comment.title}</b>
                       <div>
-                        <span className="bold">Address1: </span>
-                        <span>{address.street1}</span>
+                        {comment.text}
                       </div>
-                      <div>
-                        <span className="bold">Address2: </span>
-                        <span>{address.street2}</span>
-                      </div>
-                      <div>
-                        <span className="bold">City: </span>
-                        <span>{address.city}</span>
-                      </div>
-                      <div>
-                        <span className="bold">Country: </span>
-                        <span>{address.country}</span>
-                      </div>
-                      <div>
-                        <span className="bold">State: </span>
-                        <span>{address.state}</span>
-                      </div>
-                      <div>
-                        <span className="bold">Zip Code: </span>
-                        <span>{address.zipcode}</span>
-                      </div>
-                      <div>
-                        <span className="bold">Phone: </span>
-                        <span>{address.phone}</span>
+                    </div>
+                    <hr className="mt-5" />
+                  </div>
+                ))}
+              </div>
+            )}
+            { profileReducerData.type === 'Seller' && (
+              <div>
+                <div>
+                  <h1 className="ui dividing header">Products</h1>
+                </div>
+                { profileReducerData.products.map((product) => (
+                  <div className="ui relaxed divided items" key={product._id}>
+                    <div className="item">
+                      <Link to={{ pathname: `/product/${product._id}`, state: { product } }}>
+                        <div className="ui small image pointer">
+                          <img src={product.images[0] || 'https://www.moodfit.com/front/images/genral_image_notfound.png'} alt="" />
+                        </div>
+                      </Link>
+                      <div className="content product-details">
+                        <Link to={{ pathname: `/product/${product._id}`, state: { product } }}>
+                          <div className="ui header onHover">{product.name}</div>
+                        </Link>
+
+                        <div className="meta">
+                          <div className="ui large star rating" data-max-rating="5" data-rating="2">
+                            <StarRatings max="5" rating={(product.averageRating) || 0} customizable="false" />
+                          </div>
+                        </div>
+
+
+                        <div className="header">
+                          {`$${product.baseCost}`}
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+                <ReactPaginate
+                  previousLabel="Previous"
+                  nextLabel="Next"
+                  breakLabel="..."
+                  breakClassName="break-me"
+                  pageCount={profileReducerData.total / profileReducerData.limit}
+                  marginPagesDisplayed={2}
+                  pageRangeDisplayed={5}
+                  onPageChange={(data) => dispatch(profileActions.getProducts(
+                    profileReducerData.email, data.selected + 1,
+                  ))}
+                  containerClassName="ui secondary menu flex-center"
+                  pageClassName="item"
+                  pageLinkClassName="item-link"
+                  activeClassName="active"
+                  previousClassName="item"
+                  nextClassName="item"
+                  previousLinkName="item-link"
+                  nextLinkName="item-link"
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>

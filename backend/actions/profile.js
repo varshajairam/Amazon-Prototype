@@ -1,4 +1,9 @@
-const { User, userAddress, userCard } = require('../models/index');
+const {
+  User,
+  userAddress,
+  userCard,
+  Review,
+} = require('../models/index');
 
 function getProfile(req, res) {
   const email = req.body && req.body.email ? req.body.email : req.user.email;
@@ -51,6 +56,20 @@ function deleteCard(req, res) {
   });
 }
 
+function getComments(req, res) {
+  Review.find({ 'customer.email': req.query.email })
+    .populate('product').then((comments) => {
+      res.send(comments);
+    });
+}
+
 module.exports = {
-  getProfile, addProfileImage, editProfile, addAddress, deleteAddress, addCard, deleteCard,
+  getProfile,
+  addProfileImage,
+  editProfile,
+  addAddress,
+  deleteAddress,
+  addCard,
+  deleteCard,
+  getComments,
 };
