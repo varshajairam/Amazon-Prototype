@@ -10,12 +10,15 @@ import profileReducer from './store/reducers/profileReducer';
 import productReducer from './store/reducers/productReducer';
 import categoryReducer from './store/reducers/categoryReducer';
 import alertReducer from './store/reducers/alertReducer';
+import orderReducer from './store/reducers/orderReducer';
 import cartReducer from './store/reducers/cartReducer';
+import recomendationsReducer from './store/reducers/recomendationsReducer';
+import statisticsReducer from './store/reducers/statisticsReducer';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 const rootReducer = combineReducers({
-  authReducer, productReducer, categoryReducer, alertReducer, cartReducer, profileReducer,
+  authReducer, productReducer, categoryReducer, alertReducer, cartReducer, profileReducer, orderReducer, recomendationsReducer, statisticsReducer
 });
 
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));

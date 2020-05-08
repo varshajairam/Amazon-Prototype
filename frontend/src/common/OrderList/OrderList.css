@@ -1,0 +1,43 @@
+.orders-wrapper .order-tab {
+    padding: 0 1rem;
+    border-bottom: solid 2px transparent;
+    font-size: 1.2rem;
+    margin: 0 0.5rem;
+}
+
+.orders-wrapper .order-tab.active {
+    border-bottom: solid 2px #c45500;
+    color: #c45500;
+}
+
+.orders-wrapper .ui.card {
+    width: 100%;
+}
+
+.orders-wrapper .ui.card .content-header {
+    width: 100%;
+    background-color: #f6f6f6 !important;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+}
+.orders-wrapper .ui.card .content-header > div {
+    display: flex;
+}
+
+.orders-wrapper .ui.card .content-header > div > div:not(:first-child) {
+    margin-left: 5rem;
+}
+
+.orders-wrapper .ui.card .data-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: .85rem;
+}
+
+.orders-wrapper .ui.card .data-container .data {
+    font-size: 1.1rem;
+    margin-top: 0.3rem;
+}

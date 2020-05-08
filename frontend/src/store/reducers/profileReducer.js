@@ -5,6 +5,9 @@ const initialState = {
   profile_image: '',
   user_addresses: [],
   user_cards: [],
+  products: [],
+  total: 0,
+  limit: 5,
 };
 
 const reducer = (state = initialState, action) => {
@@ -43,6 +46,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         user_cards: state.user_cards.filter((card) => card.id !== action.cardId),
+      };
+    case 'SET_PROFILE_PRODUCTS':
+      return {
+        ...state,
+        ...action.resp,
       };
     default:
       return {
