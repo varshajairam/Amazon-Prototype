@@ -17,6 +17,9 @@ import ProductView from './common/ProductView/ProductView';
 import CreateReview from './common/ProductView/CreateReview';
 import AddProduct from './common/AddProduct/AddProduct';
 import Cart from './common/Cart/Cart';
+import Checkout from './common/Cart/Checkout';
+import Billing from './common/Cart/Billing';
+import Shipping from './common/Cart/Shipping';
 import * as authActions from './store/actions/authActions';
 import Alert from './common/Alerts/Alert';
 
@@ -49,6 +52,9 @@ function App() {
           <Route path="/editProduct" component={AddProduct} />
           <Route path="/deleteProduct" component={AddProduct} />
           <Route path="/cart" component={Cart} />
+          <Route path="/checkout" component={Checkout} />
+          <Route path="/billing" component={Billing} />
+          <Route path="/shipping" component={Shipping} />
           <Redirect from="/" to="/" />
         </Switch>
       )}
