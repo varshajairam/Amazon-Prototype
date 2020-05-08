@@ -18,6 +18,7 @@ import {
   REMOVE_SAVED_PRODUCT,
   REMOVE_SAVED_PRODUCT_FAILED,
   APPLY_GIFT_CHARGE_FAILED,
+  UPDATE_TOTAL_COST_FAILED,
 } from './types';
 
 import { get, sendPost } from '../../helpers/communicationHelper';
@@ -125,4 +126,29 @@ export const applyGiftCharge = (data) => async (dispatch) => {
     dispatch(setAlert(error.responseText, 'negative'));
     dispatch({ type: APPLY_GIFT_CHARGE_FAILED });
   }
+};
+
+export const updateTotalCost = () => async (dispatch) => {
+  try {
+    const res = await sendPost('cart/updateTotalCost');
+    dispatch({ type: GET_CART_PRODUCTS_SUCCESS, payload: res });
+  } catch (error) {
+    dispatch(setAlert(error.responseText, 'negative'));
+    dispatch({ type: UPDATE_TOTAL_COST_FAILED });
+  }
+};
+
+export const addAddress = (ev) => (dispatch) => {
+    let address = {
+      "city": ev[3].value,
+      "country": ev[4].value,
+      "name": ev[0].value,
+      "phone": ev[7].value,
+      "state": ev[5].value,
+      "street1": ev[1].value,
+      "street2": ev[2].value,
+      "zipcode": ev[6].value,
+    }
+    ev.reset();
+    dispatch({ type: 'ADD_ADDRESS', resp: address });
 };

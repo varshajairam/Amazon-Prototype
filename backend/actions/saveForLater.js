@@ -8,7 +8,7 @@ const getProductDetail = async (req, model) => {
     const products = [];
     for (const item of saved.items[0].products) {
       const product = await Product.findOne({ _id: item.product });
-      products.push({ product, quantity: item.quantity, cost: item.cost, totalCost: saved.items[0].totalCost, isGift: item.isGift });
+      products.push({ product, quantity: item.quantity, cost: item.cost, totalCost: saved.items[0].totalCost, deliveryCharge: saved.items[0].deliveryCharge, isGift: item.isGift, customer: saved.items[0].customer });
     }
     return products;
   }

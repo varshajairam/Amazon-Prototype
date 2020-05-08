@@ -11,7 +11,7 @@ const getProductDetail = async (req, model) => {
       const products = [];
       for (const item of customerCart.products) {
         const product = await Product.findOne({ _id: item.product });
-        products.push({ product, quantity: item.quantity, cost: item.cost, totalCost: customerCart.totalCost, isGift: item.isGift });
+        products.push({ product, quantity: item.quantity, cost: item.cost, totalCost: customerCart.totalCost, deliveryCharge: customerCart.deliveryCharge, isGift: item.isGift, customer: customerCart.customer });
       }
       return products;
     }
@@ -147,6 +147,28 @@ const applyGiftCharge = async (req, res) => {
   res.send(cartResponse);
 }
 
+const updateTotalCost = async (req, res) => {
+  const cart = await Cart.findOne(
+    { 'items.customer': req.user.id },
+  );
+
+  for(let product of cart.items[0].products) {
+    const fullProduct = await Product.findOne({ _id: product.product });
+    const offer = fullProduct.offers.find(offer => offer.type == 'percentage');
+    if(offer) {
+      cart.items[0].totalCost -= product.cost;
+      product.cost = Number(product.cost - (offer.value / 100) * (product.cost)).toFixed(2);
+      cart.items[0].totalCost += product.cost;
+    }
+  }
+
+  cart.items[0].totalCost = Number(cart.items[0].totalCost + cart.items[0].deliveryCharge).toFixed(2);
+  await cart.save();
+
+  const cartResponse = await getProductDetail(req, Cart);
+  res.send(cartResponse);
+}
+
 module.exports = {
   addProductToCart,
   removeProduct,
@@ -154,4 +176,5 @@ module.exports = {
   getCartProducts,
   saveForLater,
   applyGiftCharge,
+  updateTotalCost,
 };

@@ -15,11 +15,16 @@ import ProductList from './common/ProductList/ProductList';
 import ProductView from './common/ProductView/ProductView';
 import CreateReview from './common/ProductView/CreateReview';
 import AddProduct from './common/AddProduct/AddProduct';
+import Checkout from './common/Cart/Checkout';
+import Billing from './common/Cart/Billing';
+import Shipping from './common/Cart/Shipping';
 import * as authActions from './store/actions/authActions';
 import Alert from './common/Alerts/Alert';
 import OrderList from './common/OrderList/OrderList';
+import Profile from './common/Profile/Profile';
 import OrderView from './common/OrderView/OrderView';
 import SellerStatistics from './common/SellerStatistics/SellerStatistics';
+import MonthlyStatistics from './common/SellerStatistics/MonthlyStatistics';
 import AnalyticsView from './common/Analytics/AnalyticsView';
 import CategoryList from './common/CategoryList/CategoryList';
 import AdminSeller from './common/AdminSeller/AdminSeller';
@@ -60,8 +65,12 @@ function App() {
           <Route path="/productlist" component={ProductList} />
           <Route path="/deleteProduct" component={AddProduct} />
           <Route path="/cart" component={Cart} />
+          <Route path="/checkout" component={Checkout} />
+          <Route path="/billing" component={Billing} />
           <Route path="/analyticview" component={AnalyticsView} />
+          <Route path="/monthlyStats" component={MonthlyStatistics} />
           <Route path="/categoryList" component={CategoryList} />
+          <Route path="/shipping" component={Shipping} />
           <Redirect from="/" to="/" />
         </Switch>
       )}

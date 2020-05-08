@@ -31,16 +31,22 @@ const AdminSeller = () => {
 
         </center>
 
-        <div className="user-container">
+        <div className="user-container mt-5">
           {
-            users.sellers.filter((seller) => seller.name.toLowerCase().includes(searchText)).map((seller) => (
-              <div className="user" key={seller.id}>
-                <img class="ui circular small image" src={seller.profile_image || 'http://www.lorrayndepeyer.com/wp-content/uploads/2016/09/profile_silhouette-1-272x300.png'} />
-                <Link to={'/profile/' + seller.email}>
-                  <span>{seller.name}</span>
-                </Link>
+            users.sellers.filter((seller) => seller.name.toLowerCase().includes(searchText.toLowerCase())).map((seller) => (
+              <div className="user mt-3" key={seller.id}>
+                <div className="left flex-center">
+                  <img class="ui circular small image" src={seller.profile_image || 'http://www.lorrayndepeyer.com/wp-content/uploads/2016/09/profile_silhouette-1-272x300.png'} />
+                  <Link to={'/profile/' + seller.email}>
+                    <span>{seller.name}</span>
+                  </Link>
+                </div>
 
-
+                <div className="right">
+                  <Link to={{ pathname: '/monthlyStats', state: { seller } }}>
+                    <div className="ui button primary">View Monthly Sales</div>
+                  </Link>
+                </div>
               </div>
             ))
           }

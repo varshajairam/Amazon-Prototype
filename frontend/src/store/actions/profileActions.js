@@ -48,7 +48,9 @@ export const addAddress = (ev, setAddressModalOpen) => (dispatch) => {
   sendPost('profile/add_address', formEl).then((resp) => {
     dispatch({ type: 'ADD_ADDRESS', resp });
     formEl.reset();
-    setAddressModalOpen(false);
+    if(setAddressModalOpen) {
+      setAddressModalOpen(false);
+    }
   });
 };
 
@@ -64,7 +66,9 @@ export const addCard = (ev, setCardModalOpen) => (dispatch) => {
   sendPost('profile/add_card', formEl).then((resp) => {
     dispatch({ type: 'ADD_CARD', resp });
     formEl.reset();
-    setCardModalOpen(false);
+    if (setCardModalOpen) {
+      setCardModalOpen(false);
+    }    
   });
 };
 

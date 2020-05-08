@@ -12,6 +12,7 @@ import {
   ADD_REVIEW_SENT,
   ADD_REVIEW_SUCCESS,
   ADD_REVIEW_FAILED,
+  GET_SINGLE_PRODUCT_SUCCESS
 } from './types';
 
 import {
@@ -30,6 +31,7 @@ export const addProduct = (data) => async (dispatch) => {
     dispatch({ type: ADD_PRODUCT_SUCCESS, payload: res });
   } catch (error) {
     dispatch({ type: ADD_PRODUCT_FAILED });
+    dispatch(setAlert('Failed to Add Product!', 'negative'));
   }
 };
 
@@ -38,10 +40,11 @@ export const deleteProduct = (data) => async (dispatch) => {
     console.log(data);
     dispatch({ type: DELETE_PRODUCT_SENT });
     const res = await sendDelete('product', data);
-    dispatch(setAlert('Review Deleted Successfully!', 'positive'));
+    dispatch(setAlert('Product Deleted Successfully!', 'positive'));
     dispatch({ type: DELETE_PRODUCT_SUCCESS, payload: res });
   } catch (error) {
     dispatch({ type: DELETE_PRODUCT_FAILED });
+    dispatch(setAlert('Failed to Delete Product!', 'negative'));
   }
 };
 
@@ -50,9 +53,10 @@ export const updateProduct = (data) => async (dispatch) => {
     dispatch({ type: UPDATE_PRODUCT_SENT });
     const res = await sendPut('product', data);
     dispatch({ type: UPDATE_PRODUCT_SUCCESS, payload: res });
-    dispatch(setAlert('Review Updated Successfully!', 'positive'));
+    dispatch(setAlert('Product Updated Successfully!', 'positive'));
   } catch (error) {
     dispatch({ type: UPDATE_PRODUCT_FAILED });
+    dispatch(setAlert('Failed to Updated Product!', 'negative'));
   }
 };
 
@@ -70,6 +74,24 @@ export const getProducts = (data) => {
       .then((data) => {
         dispatch({
           type: GET_PRODUCT_SUCCESS,
+          payload: data,
+        });
+      })
+      .catch((err) => console.log('Some Error Occurred!'));
+  };
+};
+
+export const getProduct = (data) => {
+  return (dispatch) => {
+    get('product/single', data)
+      .then((data) => {
+        console.log(data);
+        
+        if(data === ""){
+         dispatch(setAlert('Product No longer Available', 'warning'));
+        }
+        dispatch({
+          type: GET_SINGLE_PRODUCT_SUCCESS,
           payload: data,
         });
       })
