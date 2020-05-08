@@ -10,5 +10,6 @@ app.use('/order', require('./order'));
 app.use('/saveForLater', require('./saveForLater'));
 app.use('/analytics', require('./analytics'));
 app.use('/profile', require('./profile'));
+app.use('/users', require('./users'));
 
 module.exports = app;

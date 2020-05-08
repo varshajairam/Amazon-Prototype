@@ -23,6 +23,7 @@ import OrderList from './common/OrderList/OrderList';
 import SellerStatistics from './common/SellerStatistics/SellerStatistics';
 import AnalyticsView from './common/Analytics/AnalyticsView';
 import CategoryList from './common/CategoryList/CategoryList';
+import AdminSeller from './common/AdminSeller/AdminSeller';
 
 function App() {
   const authReducerData = useSelector((state) => state.authReducer);
@@ -48,6 +49,7 @@ function App() {
           <Route path="/sellerStats" component={SellerStatistics} />
           <Route exact path="/profile" component={Profile} />
           <Route exact path="/profile/:email" component={Profile} />
+          <Route exact path="/sellerlist" component={AdminSeller} />
           <Route path="/createReview" component={CreateReview} />
           <Route path="/product/:id" component={ProductView} />
           <Route path="/productlist" component={ProductList} />

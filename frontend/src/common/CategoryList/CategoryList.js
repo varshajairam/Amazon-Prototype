@@ -42,13 +42,13 @@ function AddCategory() {
                 <React.Fragment key={i}>
                   <div className="ui relaxed divided items">
                     <div className="item">
-                      {currCategory.name}<i className="trash icon" onClick={() => { setDelModalOpen(true), setCategory(currCategory)}} ></i>
+                      {currCategory.name}<i className="trash icon" onClick={() => { setDelModalOpen(true); setCategory(currCategory) }} ></i>
                     </div>
                   </div>
                 </React.Fragment>
               );
             }) : <center><h2 className="ui header">No Category Found!</h2></center>
-            }
+        }
       </div>
       <div className={`ui dimmer modalcenter modals page transition ${delModalOpen ? 'visible active' : 'hidden'}`}>
         <div className={`ui standard demo modal transition ${delModalOpen ? 'visible active' : 'hidden'}`}>

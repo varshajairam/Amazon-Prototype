@@ -1,0 +1,14 @@
+.adminseller-wrapper .search-container {
+    width: 50%;
+}
+
+.adminseller-wrapper .user{
+    padding: 1rem;    
+    display: flex;
+    align-items: center;
+    font-size: 1.3rem;
+}
+
+.adminseller-wrapper .user .image{
+    width: 6rem;
+}
