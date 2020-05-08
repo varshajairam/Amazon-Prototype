@@ -5,11 +5,31 @@ const getOrders = async (req, res) => {
     let query = {};
     if (req.user.type === "Seller") {
       query = { sellers: req.user.id };
-    } else {
+      const result = await Order.find(query).sort({ createdAt: 1 });
+      const orders = result.map((order) => {
+        return {
+          shippingAddress: order.shippingAddress,
+          billingAddress: order.billingAddress,
+          card: order.card,
+          status: order.status,
+          cost: order.cost,
+          customer: order.customer,
+          statusHistory: order.statusHistory,
+          products: order.products.filter(
+            (product) =>
+              product.product.seller &&
+              product.product.seller.id === req.user.id
+          ),
+        };
+      });
+      return res.send(orders);
+    } else if (req.user.type === "Customer") {
       query = { customer: req.user.id };
+      const result = await Order.find(query).sort({ createdAt: 1 });
+      return res.send({ orders: result });
     }
-    const result = await Order.find(query).sort({createdAt: 1});
-    res.send({ orders: result });
+    const result = await Order.find(query).sort({ createdAt: 1 });
+    return res.send({ orders: result });
   } else {
     res.status(401).send("Unauthorized");
   }
@@ -17,12 +37,36 @@ const getOrders = async (req, res) => {
 
 const updateOrder = async (req, res) => {
   if (req.user) {
-    const order = await Order.findById(req.body.id);
-    if (order) {
-      order.statusHistory.append({ status: req.body.status });
-      order.status = req.body.status;
-      const result = await order.save();
-      res.send(result);
+    if (req.user.type === "Customer") {
+      const order = await Order.findById(req.body.id);
+      if (order) {
+        if (req.body.status) {
+          order.statusHistory.append({ status: req.body.status });
+          order.status = req.body.status;
+          const result = await order.save();
+          return res.send(result);
+        } else {
+          order.products = order.products.filter(
+            (product) => product.product._id != req.body.productId
+          );
+          order.cost = order.products.reduce((sum = 0, product) => {
+            return sum +
+              product.quantity * product.product.baseCost +
+              product.isGift
+              ? 2
+              : 0;
+          });
+          await order.save();
+        }
+      }
+    } else {
+      const order = await Order.findById(req.body.id);
+      if (order) {
+        order.statusHistory.append({ status: req.body.status });
+        order.status = req.body.status;
+        const result = await order.save();
+        return res.send(result);
+      }
     }
     req.status(400).send("Invalid Request");
   }
