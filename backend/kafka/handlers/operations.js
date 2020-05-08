@@ -3,9 +3,10 @@ const {
   applyGiftCharge, updateTotalCost,
 } = require('../../actions/cart');
 const { getCategories, addCategory, deleteCategory } = require('../../actions/category');
-const { getOrders, placeOrder } = require('../../actions/order');
+const { getOrders, placeOrder, updateOrder } = require('../../actions/order');
 const {
-  getProducts, addProduct, addReview, deleteProduct, updateProduct, getRecomendations, addView,
+  getProducts, getProduct, addProduct, addReview, deleteProduct, updateProduct, getRecomendations,
+  addView,
 } = require('../../actions/product');
 const { moveToCart, removeSavedProduct, getProducts: getSavedProducts } = require('../../actions/saveForLater');
 const { getSellers } = require('../../actions/users');
@@ -28,6 +29,7 @@ function operationsHandler(resQueue, data) {
       case 'delete/': deleteCategory(...args); break;
       case 'getOrder': getOrders(...args); break;
       case 'postOrder': placeOrder(...args); break;
+      case 'putOrder': updateOrder(...args); break;
       case 'getProducts': getProducts(...args); break;
       case 'addProduct': addProduct(...args); break;
       case 'updateProduct': updateProduct(...args); break;
@@ -35,6 +37,7 @@ function operationsHandler(resQueue, data) {
       case 'deleteProduct': deleteProduct(...args); break;
       case 'recomendations': getRecomendations(...args); break;
       case 'addReview': addReview(...args); break;
+      case 'single': getProduct(...args); break;
       case 'moveToCart': moveToCart(...args); break;
       case 'removeProductSave': removeSavedProduct(...args); break;
       case 'getProductsSave': getSavedProducts(...args); break;
