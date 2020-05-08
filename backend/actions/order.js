@@ -74,8 +74,24 @@ const updateOrder = async (req, res) => {
 };
 
 const placeOrder = async (req, res) => {
+  
+  console.log(JSON.parse(req.body.products));
+  console.log(JSON.parse(req.body.shippingAddress));
+
+  console.log(JSON.parse(req.body.card));
+  console.log(typeof req.body.sellers);
+  console.log(req.body.sellers.split(','));
+
   if (req.user && req.user.type && req.user.type === "Customer") {
-    const newOrder = new Order({ customer: req.user.id, ...req.body });
+    const newOrder = new Order({
+      customer: req.user.id,
+      ...req.body,
+      sellers: req.body.sellers.split(','),
+      card: JSON.parse(req.body.card),
+      shippingAddress: JSON.parse(req.body.shippingAddress),
+      billingAddress: JSON.parse(req.body.billingAddress),
+      products: JSON.parse(req.body.products),
+    });
     const result = await newOrder.save();
     return res.send(result);
   }
