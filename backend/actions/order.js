@@ -8,7 +8,7 @@ const getOrders = async (req, res) => {
     } else {
       query = { customer: req.user.id };
     }
-    const result = await Order.find(query);
+    const result = await Order.find(query).sort({createdAt: 1});
     res.send({ orders: result });
   } else {
     res.status(401).send("Unauthorized");
