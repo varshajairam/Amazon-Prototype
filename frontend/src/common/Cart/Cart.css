@@ -22,7 +22,7 @@
     margin-bottom: 0.5em;
     position: absolute;
     top: 1em;
-    left: 60%;
+    left: 50%;
     transform: translate(-50%,0);
     max-width: 50vw !important;
 }
@@ -54,3 +54,7 @@
 .productlist-wrapper .ui.secondary.menu a:hover {
   text-decoration: none;
 }
+
+.productlist-wrapper .purchase-col {
+    height: fit-content;
+  }
