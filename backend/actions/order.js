@@ -1,26 +1,18 @@
-const { Order } = require('../models/index');
+const { Order } = require("../models/index");
 
 const getOrders = async (req, res) => {
-  const perPage = 5; // Change Later
-
-  const { page } = req.query;
-
   if (req.user) {
     let query = {};
-    if (req.user.type === 'Seller') {
+    if (req.user.type === "Seller") {
       query = { sellers: req.user.id };
     } else {
       query = { customer: req.user.id };
     }
-
-    const result = await Order.find(query)
-      .limit(perPage)
-      .skip(perPage * (page - 1));
-
-    const count = await Order.find(query).countDocuments();
-
-    res.send({ orders: result, total: count, limit: perPage });
-  } else { res.status(401).send('Unauthorized'); }
+    const result = await Order.find(query);
+    res.send({ orders: result });
+  } else {
+    res.status(401).send("Unauthorized");
+  }
 };
 
 const updateOrder = async (req, res) => {
@@ -32,18 +24,18 @@ const updateOrder = async (req, res) => {
       const result = await order.save();
       res.send(result);
     }
-    req.status(400).send('Invalid Request');
+    req.status(400).send("Invalid Request");
   }
-  req.status(401).send('Unauthorized');
+  req.status(401).send("Unauthorized");
 };
 
 const placeOrder = async (req, res) => {
-  if (req.user && req.user.type && req.user.type === 'Customer') {
+  if (req.user && req.user.type && req.user.type === "Customer") {
     const newOrder = new Order({ customer: req.user.id, ...req.body });
     const result = await newOrder.save();
     return res.send(result);
   }
-  req.status(401).send('Unauthorized');
+  req.status(401).send("Unauthorized");
 };
 
 module.exports = {
