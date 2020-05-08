@@ -1,4 +1,5 @@
 const { Order } = require("../models/index");
+const { Cart } = require("../models/index");
 
 const getOrders = async (req, res) => {
   if (req.user) {
@@ -98,6 +99,14 @@ const placeOrder = async (req, res) => {
       statusHistory: JSON.parse(req.body.statusHistory),
     });
     const result = await newOrder.save();
+    const cart = await Cart.findOne(
+      { 'items.customer': req.user.id },
+    );
+    if (cart) {
+      cart.items[0].products.splice(0);
+      cart.items[0].totalCost = 0;
+    }
+    await cart.save();
     return res.send(result);
   }
   return res.status(401).send("Unauthorized");

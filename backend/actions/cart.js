@@ -162,7 +162,7 @@ const updateTotalCost = async (req, res) => {
     }
   }
 
-  cart.items[0].totalCost += cart.items[0].deliveryCharge;
+  cart.items[0].totalCost = Number(cart.items[0].totalCost + cart.items[0].deliveryCharge).toFixed(2);
   await cart.save();
 
   const cartResponse = await getProductDetail(req, Cart);

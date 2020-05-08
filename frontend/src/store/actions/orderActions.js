@@ -61,6 +61,8 @@ export const updateOrder = (data) => async (dispatch) => {
 export const placeOrder = (data) => async (dispatch) => {
   try {
     const res = await sendPost('order/', data);
+    dispatch(setAlert('Order sucessfully placed!', 'positive'));
   } catch (error) {
+    dispatch(setAlert('Error in placing order', 'negative'));
   }
 };

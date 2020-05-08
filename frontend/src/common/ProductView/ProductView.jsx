@@ -9,11 +9,13 @@ import {
 import StarRatings from '../StarRatings/StarRatings';
 import { addProductToCart } from '../../store/actions/cartActions';
 import { addView } from '../../store/actions/productActions';
+import { GET_SINGLE_PRODUCT_SUCCESS } from "../../store/actions/types";
 
 const ProductView = ({ location, history }) => {
   const [dispImg, setImage] = useState('');
   const user = useSelector((state) => state.authReducer);
   const [qty, setQty] = useState(1);
+  const [isGift, setIsGift] = useState(false);
   const ratingArr = new Array(5).fill(0);
   const dispatch = useDispatch();
 
@@ -21,6 +23,7 @@ const ProductView = ({ location, history }) => {
     setImage(location.state && location.state.product && location.state.product.images[0]);
 
     dispatch(addView({ id: location.state && location.state.product && location.state.product._id }));
+    dispatch({type: GET_SINGLE_PRODUCT_SUCCESS, payload: null});
   }, []);
 
   if (!(location.state && location.state.product)) { return <Redirect to="/productlist" />; }
@@ -122,22 +125,20 @@ const ProductView = ({ location, history }) => {
                     <div className="ui primary button" onClick={() => dispatch(addProductToCart({
                       product: product._id,
                       quantity: qty,
-                      isGift: false
+                      isGift: isGift,
                     }))}>
                       <i className="shop icon"></i>Add to Cart
               </div>
 
-                    <div className="ui secondary button mt-3">
+                    {/* <div className="ui secondary button mt-3">
                       <i className="save icon" />
                       Save for Later
-                    </div>
+                    </div> */}
 
                     <div className="inline field mt-5">
                       <div className="ui checkbox">
-                        <label htmlFor="gift">
-                          <input type="checkbox" tabIndex="0" className="hidden" id="gift" />
-                          Add as Gift
-                        </label>
+                          <input type="checkbox" onChange = {(e) => setIsGift(e.target.checked)} tabIndex="0" className="hidden" id="gift" />
+                          <label htmlFor="gift">Add as Gift</label>
                       </div>
                     </div>
                   </div>
