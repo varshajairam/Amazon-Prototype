@@ -1,8 +1,5 @@
 const express = require('express');
-const {
-  getTopFiveSoldProducts, getTopTenProductsViewed, getNoOfOrders,
-  getTopTenProductsBasedOnRatings, getTopTenCustomersBasedOnPurchaseAmount, getSellerProducts, getSellerMonthlySales
-} = require('../actions/analytics');
+const kafka = require('../kafka');
 
 const app = express();
 
@@ -11,6 +8,7 @@ app.get('/getTopTenProductsViewed', (...args) => kafka.sendMessage('analytics', 
 app.get('/getNoOfOrders', (...args) => kafka.sendMessage('analytics', { route: 'getNoOfOrders' }, args));
 app.get('/getTopTenProductsBasedOnRatings', (...args) => kafka.sendMessage('analytics', { route: 'getTopTenProductsBasedOnRatings' }, args));
 app.get('/getTopTenCustomersBasedOnPurchaseAmount', (...args) => kafka.sendMessage('analytics', { route: 'getTopTenCustomersBasedOnPurchaseAmount' }, args));
-app.get('/sellerProducts', getSellerProducts);
-app.get('/sellerMonthly', getSellerMonthlySales);
+app.get('/sellerProducts', (...args) => kafka.sendMessage('analytics', { route: 'sellerProducts' }, args));
+app.get('/sellerMonthly', (...args) => kafka.sendMessage('analytics', { route: 'sellerMonthly' }, args));
+
 module.exports = app;

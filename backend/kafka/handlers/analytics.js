@@ -1,6 +1,6 @@
 const {
   getTopFiveSoldProducts, getTopTenProductsViewed, getNoOfOrders, getTopTenProductsBasedOnRatings,
-  getTopTenCustomersBasedOnPurchaseAmount,
+  getTopTenCustomersBasedOnPurchaseAmount, getSellerProducts, getSellerMonthlySales,
 } = require('../../actions/analytics');
 
 function authHandler(resQueue, data) {
@@ -14,6 +14,8 @@ function authHandler(resQueue, data) {
       case 'getNoOfOrders': getNoOfOrders(...args); break;
       case 'getTopTenProductsBasedOnRatings': getTopTenProductsBasedOnRatings(...args); break;
       case 'getTopTenCustomersBasedOnPurchaseAmount': getTopTenCustomersBasedOnPurchaseAmount(...args); break;
+      case 'sellerProducts': getSellerProducts(...args); break;
+      case 'sellerMonthly': getSellerMonthlySales(...args); break;
       default: break;
     }
   }
