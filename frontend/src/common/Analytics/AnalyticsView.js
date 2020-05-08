@@ -78,7 +78,7 @@ const AnalyticsView = (props) => {
     <div className="date-container mt-3">
       {option && (option === 'No of orders per day' || option === 'Top 10 products viewed per day') && <div className="ui input">
 	  <label htmlFor="inputDate">Select Date</label>
-        <input type="date" name="data" id="date" onChange={(e) => {setDate(e.target.value), setting(e.target.value)}} />
+        <input type="date" name="data" id="date" onChange={(e) => {setDate(e.target.value); setting(e.target.value)}} />
       </div>}
     </div>
   );

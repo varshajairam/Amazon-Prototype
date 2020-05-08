@@ -8,7 +8,7 @@ import "./OrderList.css";
 // } from 'react-router-dom';
 import { getOrders } from "../../store/actions/orderActions";
 
-const OrderList = ({history}) => {
+const OrderList = ({ history }) => {
   const orders = useSelector((state) => state.orderReducer.orders);
   const dispatch = useDispatch();
 
@@ -119,7 +119,7 @@ const OrderList = ({history}) => {
                             <div className="ui small image">
                               <img
                                 src={
-                                  product.product.images[0] ||
+                                  product.product.image ||
                                   "https://www.moodfit.com/front/images/genral_image_notfound.png"
                                 }
                                 alt={product.product.name}
@@ -131,9 +131,7 @@ const OrderList = ({history}) => {
                               </div>
                               <div className="description">
                                 Sold by:{" "}
-                                <span>
-                                  {product.product.seller.name}
-                                </span>
+                                <span>{product.product.seller.name}</span>
                               </div>
                               <div className="description">
                                 Price:{" "}
