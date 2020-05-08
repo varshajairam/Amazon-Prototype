@@ -9,6 +9,7 @@ import {
 import StarRatings from '../StarRatings/StarRatings';
 import { addProductToCart } from '../../store/actions/cartActions';
 import { addView } from '../../store/actions/productActions';
+import { GET_SINGLE_PRODUCT_SUCCESS } from "../../store/actions/types";
 
 const ProductView = ({ location, history }) => {
   const [dispImg, setImage] = useState('');
@@ -22,6 +23,7 @@ const ProductView = ({ location, history }) => {
     setImage(location.state && location.state.product && location.state.product.images[0]);
 
     dispatch(addView({ id: location.state && location.state.product && location.state.product._id }));
+    dispatch({type: GET_SINGLE_PRODUCT_SUCCESS, payload: null});
   }, []);
 
   if (!(location.state && location.state.product)) { return <Redirect to="/productlist" />; }

@@ -36,7 +36,10 @@ const getRecomendations = async (req, res) => {
 };
 
 const getProduct = async (req, res) => {
-  const result = await Product.findById(req.body.id).populate("reviews");
+  console.log(req.query);
+  const result = await Product.findById(req.query.id).populate("reviews");
+  console.log(result);
+  
   res.send(result);
 };
 

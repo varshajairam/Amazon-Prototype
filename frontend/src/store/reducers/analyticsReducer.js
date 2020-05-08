@@ -3,7 +3,9 @@ import * as types from '../actions/types';
 const initialState = {
   analytics: [],
   loading: false,
-  analyticsTopRating: []
+  analyticsTopRating: [],
+  analyticsNoOfOrders: null,
+  analyticsTopViewed: [],
 };
 
 const analyticsReducer = (state = initialState, action) => {
@@ -41,6 +43,30 @@ const analyticsReducer = (state = initialState, action) => {
       return {
         ...state,
         analyticsTopRating: action.payload,
+        loading: false,
+      };
+    case types.GET_NO_OF_ORDERS_PER_DAY_SENT:
+      return {
+        ...state,
+        analyticsNoOfOrders: action.payload,
+        loading: false,
+      };
+    case types.GET_TOP_TEN_PRODUCTS_VIEWED_PER_DAY_SENT:
+      return {
+        ...state,
+        analyticsTopViewed: action.payload,
+        loading: false,
+      };
+    case types.GET_NO_OF_ORDERS_PER_DAY_SUCCESS:
+      return {
+        ...state,
+        analyticsNoOfOrders: action.payload,
+        loading: false,
+      };
+    case types.GET_TOP_TEN_PRODUCTS_VIEWED_PER_DAY_SUCCESS:
+      return {
+        ...state,
+        analyticsTopViewed: action.payload,
         loading: false,
       };
     default:

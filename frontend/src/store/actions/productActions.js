@@ -12,6 +12,7 @@ import {
   ADD_REVIEW_SENT,
   ADD_REVIEW_SUCCESS,
   ADD_REVIEW_FAILED,
+  GET_SINGLE_PRODUCT_SUCCESS
 } from './types';
 
 import {
@@ -73,6 +74,24 @@ export const getProducts = (data) => {
       .then((data) => {
         dispatch({
           type: GET_PRODUCT_SUCCESS,
+          payload: data,
+        });
+      })
+      .catch((err) => console.log('Some Error Occurred!'));
+  };
+};
+
+export const getProduct = (data) => {
+  return (dispatch) => {
+    get('product/single', data)
+      .then((data) => {
+        console.log(data);
+        
+        if(data === ""){
+         dispatch(setAlert('Product No longer Available', 'warning'));
+        }
+        dispatch({
+          type: GET_SINGLE_PRODUCT_SUCCESS,
           payload: data,
         });
       })
