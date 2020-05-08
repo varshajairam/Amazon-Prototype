@@ -18,6 +18,7 @@ import AddProduct from './common/AddProduct/AddProduct';
 import * as authActions from './store/actions/authActions';
 import Alert from './common/Alerts/Alert';
 import OrderList from './common/OrderList/OrderList';
+import OrderView from './common/OrderView/OrderView';
 
 function App() {
   const authReducerData = useSelector((state) => state.authReducer);
@@ -40,12 +41,13 @@ function App() {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route path="/orders" component={OrderList} />
+          <Route path="/orderDetails" component={OrderView} />
           <Route path="/createReview" component={CreateReview} />
           <Route path="/product/:id" component={ProductView} />
           <Route path="/productlist" component={ProductList} />
-          <Route path="/addProduct" component={AddProduct} />
-          <Route path="/editProduct" component={AddProduct} />
-          <Route path="/deleteProduct" component={AddProduct} />
+          {authReducerData.user_type === 'Seller' && <Route path="/addProduct" component={AddProduct} />}
+          {authReducerData.user_type === 'Seller' && <Route path="/editProduct" component={AddProduct} />}
+          {/* <Route path="/deleteProduct" component={AddProduct} /> */}
           <Redirect from="/" to="/" />
         </Switch>
       )}
