@@ -6,17 +6,20 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 import authReducer from './store/reducers/authReducer';
+import profileReducer from './store/reducers/profileReducer';
 import productReducer from './store/reducers/productReducer';
 import categoryReducer from './store/reducers/categoryReducer';
 import alertReducer from './store/reducers/alertReducer';
 import orderReducer from './store/reducers/orderReducer';
+import cartReducer from './store/reducers/cartReducer';
 import recomendationsReducer from './store/reducers/recomendationsReducer';
+import statisticsReducer from './store/reducers/statisticsReducer';
 import analyticsReducer from './store/reducers/analyticsReducer';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 const rootReducer = combineReducers({
-  authReducer, productReducer, categoryReducer, alertReducer, orderReducer, recomendationsReducer,analyticsReducer,
+  authReducer, productReducer, categoryReducer, alertReducer, cartReducer, profileReducer, orderReducer, recomendationsReducer, statisticsReducer, analyticsReducer
 });
 
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
