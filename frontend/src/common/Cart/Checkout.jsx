@@ -28,7 +28,7 @@ const Checkout = (props) => {
       product = {
         quantity: 0,
         product: {
-          images: [],
+          image: '',
           addonCost: 0,
           averageRating: 0,
           reviews: [],
@@ -43,6 +43,7 @@ const Checkout = (props) => {
         isGift: null,
       };
       product.product = { ...prod.product };
+      product.product.image = prod.product.images[0];
       product.quantity = prod.quantity;
       product.isGift = prod.isGift;
       products.push(product);
