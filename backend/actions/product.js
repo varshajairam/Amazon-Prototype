@@ -1,4 +1,5 @@
 const { Product, Review } = require("../models/index");
+const client = require('../models/redisClient/redis');
 
 const getRecomendations = async (req, res) => {
   const result = await Product.aggregate([
@@ -41,8 +42,21 @@ const getProduct = async (req, res) => {
 };
 
 const getProducts = async (req, res) => {
-  const perPage = 5; 
 
+const products = await client.hgetall(`${req.originalUrl}`, (err, success) => {
+    if (err || !success) {
+      console.log(err, !success);
+      return null;
+    }
+    console.log('Success is ', success);
+    console.log('From Redis');
+    return success;
+  });
+
+  if(products.length > 0) {
+    res.send(JSON.parse(products.results));
+  }
+  const perPage = 5; 
   const { name, averageRating, category, sort, page } = req.query;
 
   let where;
@@ -71,6 +85,17 @@ const getProducts = async (req, res) => {
     .where({ category: category || { $ne: null } })
     .where({ averageRating: { $gte: averageRating || 0 } })
     .countDocuments();
+
+  const obj = {products: result, total: count, limit: perPage}
+  let results = JSON.stringify(obj);
+  client.hmset(`${req.originalUrl}`, {results}, (err, success) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(success);
+      return success;
+    }
+  });
 
   res.send({ products: result, total: count, limit: perPage });
 };
