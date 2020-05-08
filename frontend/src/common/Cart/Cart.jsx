@@ -68,7 +68,7 @@ const Cart = (props) => {
                                                     })}> Save for Later
                                                     </a>
                                                 </div>
-                                                <div className="header" style={{ float: 'right' }}>
+                                                <div className="right floated header">
                                                     $ {currProduct.product.baseCost}
                                                 </div>
                                             </div>
@@ -120,7 +120,7 @@ const Cart = (props) => {
                                                     })}> Move to Cart
                                                     </a>
                                                 </div>
-                                                <div className="header" style={{ float: 'right' }}>
+                                                <div className="right floated header">
                                                     $
                                                     {currProduct.product.baseCost}
                                                 </div>

@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import './Cart.css';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import {
   fetchProfileData,
+  addCard,
 } from '../../store/actions/profileActions';
 
 const Billing = (props) => {
-
-  const {products} = props.location.state;
+  const dispatch = useDispatch();
+  const {address} = props.location.state;
 
   useEffect(() => {
     props.fetchProfileData();
@@ -28,7 +29,7 @@ const Billing = (props) => {
                             <h4 class="ui header">{card.name}</h4>
                             <label>{card.number}</label><br />
                             <label>{card.expiration}</label><br />
-                            <Link to={{ pathname: '/checkout', state: { address: props.location.address, card, products } }} >
+                            <Link to={{ pathname: '/checkout', state: { address, card } }} >
                             <div className="ui primary button mt-5">
                                 Pay with this card
                             </div>
@@ -40,7 +41,7 @@ const Billing = (props) => {
                 </div>
                 <hr/>
                 <h2 class="ui header">(OR) Add a new card</h2>
-                <form className="ui form mt-5" onSubmit={(ev) => props.history.push({pathname: '/checkout', state: { address: props.location.address, card: ev, products }})}>
+                <form className="ui form mt-5" onSubmit={(ev) => dispatch(addCard(ev))}>
             <div className="description">
               <div className="field">
                 <label htmlFor="inputName">
@@ -82,6 +83,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   fetchProfileData: () => dispatch(fetchProfileData()),
+  addCard: (data) => dispatch(fetchProfileData(data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Billing);

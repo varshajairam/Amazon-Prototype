@@ -34,7 +34,7 @@ const Shipping = (props) => {
                               <label>{address.city}, {address.state} {address.zipcode}</label><br />
                               <label>{address.country}</label><br />
                               <label>Phone: {address.phone}</label>
-                              <Link to={{ pathname: '/billing', state: { address, products } }} >
+                              <Link to={{ pathname: '/billing', state: { address } }} >
                               <div className="ui primary button mt-5">
                                   Deliver to this address
                             </div>
@@ -46,7 +46,7 @@ const Shipping = (props) => {
                 </div>
                 <hr/>
                 <h2 class="ui header">(OR) Add a new address</h2>
-                <form className="ui form mt-5" onSubmit={(ev) => props.history.push({ pathname: '/billing', state: { address: ev, products } })}>
+                <form className="ui form mt-5" onSubmit={(ev) => props.history.push({ pathname: '/billing', state: { address: ev } })}>
             <div className="description">
               <div className="field">
                 <label htmlFor="inputName">

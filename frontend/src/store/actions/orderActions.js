@@ -16,3 +16,10 @@ export const getOrders = (data) => async (dispatch) => {
     dispatch({ type: GET_ORDERS_FAILED });
   }
 };
+
+export const placeOrder = (data) => async (dispatch) => {
+  try {
+    const res = await sendPost('order/', data);
+  } catch (error) {
+  }
+};
