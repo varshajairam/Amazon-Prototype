@@ -48,57 +48,7 @@ const AnalyticsView = (props) => {
 		console.log(props.state);
 		return (
 <div className="ui container">
-		  {/* <div className="ui loading fluid menu">
-			{/* {!props.analytic || props.analytics.loading ? (
-			  <div className="ui loading fluid simple dropdown item small header">
-				Loading Categories
-			  </div>
-			) : ( */}
-			  <div className="ui fluid simple dropdown item small header">
-			  {/* <div className="item"> */}
-				     Analytics options
-				  {/* </div> */}
-				{/* {props.analytics.analytics.analyticsOptions
-				  ? categories.categories.find((cat) => {
-					  return cat._id === basicInfo.category;
-					}).name
-				  : `choose a category`} */}
-				<i className="dropdown icon"></i>
-				<div className="menu">
-				
-				  {/* {props.analytics.analytics.analyticsOptions.map((opt) => {
-					return (
-					  <div
-						className="item"
-						key={opt}
-						// onClick={() => {
-						//   setErrors({...errors, opt: false})
-						//   setBasicInfo({ ...basicInfo, category: category._id });
-						// }}
-					  >
-						{opt}
-					  </div>
-					);
-				  })} */}
-				  <div className="item">
-				     No of orders per day
-				  </div>
-				  <div className="item">
-				  Top 5 most sold products
-				  </div>
-				  <div className="item">
-				  Top 5 sellers based on total sales amount
-				  </div>
-				  <div className="item">
-				  Top 5 customers based on total purchase amount
-				  </div>
-				  <div className="item">
-				  Top 10 products based on rating
-				  </div>
-				</div>
-			  </div>
-			  
-		  </div> */}
+		  
 		  
 		                <div className="field">
 						<label htmlFor="inputCountry">Country</label>
