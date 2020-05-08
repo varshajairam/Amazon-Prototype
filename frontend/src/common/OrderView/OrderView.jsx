@@ -20,37 +20,9 @@ const OrderList = (props) => {
   const userType = useSelector((state) => state.authReducer.user_type);
   const dispatch = useDispatch();
 
-  const onStatusChange = (id, status) => {
-    console.log(id, status);
-    
-    dispatch(
-      updateOrder({
-        id,
-        status,
-      })
-    );
+  const onUpdate = (data) => {
+    dispatch(updateOrder(data));
   };
-
-  const orderTabs = [
-    {
-      title: "Orders",
-      status: ["Delivered"],
-    },
-    {
-      title: "Open Orders",
-      status: [
-        "New",
-        "Packing",
-        "Shipping",
-        "Package arrived",
-        "Out for Delivery",
-      ],
-    },
-    {
-      title: "Cancelled Orders",
-      status: ["Cancelled"],
-    },
-  ];
 
   return !order || loading ? (
     <div className="ui loading segment"></div>
@@ -187,13 +159,18 @@ const OrderList = (props) => {
                     Price:
                     <span>${product.product.baseCost * product.quantity}</span>
                   </div>
-                  {order.status !== "Delivered" &&
-                  order.status !== "Cancelled" ? (
+                  {userType === "Customer" &&
+                  order.status !== "Delivered" &&
+                  order.status !== "Cancelled" &&
+                  order.products.length > 1 ? (
                     <div className="extra">
                       <div
                         className="ui button"
                         onClick={() => {
-                          console.log("delete product", product.product._id);
+                          onUpdate({
+                            id: order._id,
+                            productId: product.product._id,
+                          });
                         }}
                       >
                         Remove Item
@@ -211,7 +188,7 @@ const OrderList = (props) => {
               <div
                 className="ui red button"
                 onClick={() => {
-                  onStatusChange(order._id, "Cancelled");
+                  onUpdate({ id: order._id, status: "Cancelled" });
                 }}
               >
                 Cancel Order
@@ -220,7 +197,10 @@ const OrderList = (props) => {
               <div
                 className="ui primary button"
                 onClick={() => {
-                  onStatusChange(order._id, nextStatus[userType][order.status]);
+                  onUpdate({
+                    id: order._id,
+                    status: nextStatus[userType][order.status],
+                  });
                 }}
               >
                 {nextStatus[userType][order.status]}
@@ -230,7 +210,7 @@ const OrderList = (props) => {
             <div
               className="ui top red attached button"
               onClick={() => {
-                onStatusChange(order._id, "Cancelled");
+                onUpdate({ id: order._id, status: "Cancelled" });
               }}
             >
               Cancel Order
