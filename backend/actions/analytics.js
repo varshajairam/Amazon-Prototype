@@ -76,8 +76,8 @@ const getSellerProducts = async (req, res) => {
 };
 
 const getSellerMonthlySales = async (req, res) => {
-  const startDate = new Date(req.query.startDate);
-  const endDate = new Date(req.query.endDate);
+  const startDate = new Date(+req.query.startDate);
+  const endDate = new Date(+req.query.endDate);
   if (req.user && req.user.type === "Seller") {
     const result = await Order.aggregate([
       { $match: { createdAt: { $lt: endDate, $gt: startDate } } },

@@ -36,8 +36,8 @@ const ProductView = ({ location, history }) => {
   };
 
   // Seller Route Here
-  const showSellerProfile = (id) => {
-    history.push({ pathname: `/sellerProfile/${id}` });
+  const showSellerProfile = (email) => {
+    history.push({ pathname: `/profile/${email}` });
   };
 
   return (
@@ -211,7 +211,7 @@ const ProductView = ({ location, history }) => {
                       const perc = ((ratingArr[4 - i] / product.reviews.length) * 100);
 
                       return (
-                        <div className="star-rating flex-center" key={rating}>
+                        <div className="star-rating flex-center" key={i + 1}>
                           <span>
                             {5 - i}
                             {' '}
@@ -247,7 +247,7 @@ const ProductView = ({ location, history }) => {
 };
 
 ProductView.propTypes = {
-  name: PropTypes.string.isRequired,
+  name: PropTypes.string,
 };
 
 export default ProductView;
