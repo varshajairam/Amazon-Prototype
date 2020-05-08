@@ -6,6 +6,7 @@ const initialState = {
   user_addresses: [],
   user_cards: [],
   products: [],
+  comments: [],
   total: 0,
   limit: 5,
 };
@@ -51,6 +52,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         ...action.resp,
+      };
+    case 'SET_PROFILE_COMMENTS':
+      return {
+        ...state,
+        comments: action.comments,
       };
     default:
       return {

@@ -129,6 +129,28 @@ function Profile() {
             )}
           </div>
           <div className="ten wide column">
+            { profileReducerData.type === 'Customer' && (
+              <div>
+                <div>
+                  <h1 className="ui dividing header">Comments</h1>
+                </div>
+                { profileReducerData.comments.map((comment) => (
+                  <div className="review-container mt-5" key={comment._id}>
+                    <Link to={{ pathname: `/product/${comment.product._id}`, state: { product: comment.product } }} className="ui header">{comment.product.name}</Link>
+
+                    <div className="mt-3">
+                      <StarRatings max="5" rating={comment.stars} customizable="false" />
+                      {' '}
+                      <b>{comment.title}</b>
+                      <div>
+                        {comment.text}
+                      </div>
+                    </div>
+                    <hr className="mt-5" />
+                  </div>
+                ))}
+              </div>
+            )}
             { profileReducerData.type === 'Seller' && (
               <div>
                 <div>
