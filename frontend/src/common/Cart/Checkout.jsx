@@ -166,6 +166,7 @@ const Checkout = (props) => {
                 zip: address.zipcode
               }),
               card: JSON.stringify(card),
+              statusHistory: JSON.stringify([{status: "New"}]),
             })
           }
         >
