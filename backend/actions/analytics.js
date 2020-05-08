@@ -109,12 +109,13 @@ const getSellerProducts = async (req, res) => {
 const getSellerMonthlySales = async (req, res) => {
   const startDate = new Date(+req.query.startDate);
   const endDate = new Date(+req.query.endDate);
-  if (req.user && req.user.type === "Seller") {
+
+  if (req.user && req.user.type !== "Customer") {
     const result = await Order.aggregate([
       { $match: { createdAt: { $lt: endDate, $gt: startDate } } },
-      { $match: { status: { $ne: "Cancelled" }, sellers: req.user.id } },
+      { $match: { status: { $ne: "Cancelled" }, sellers: +req.query.id || req.user.id } },
       { $project: { products: "$products" } },
-      { $match: { "products.product.seller.id": req.user.id } },
+      { $match: { "products.product.seller.id": +req.query.id || req.user.id } },
       { $unwind: "$products" },
       {
         $group: {
@@ -128,7 +129,7 @@ const getSellerMonthlySales = async (req, res) => {
         .filter(
           (order) =>
             order.product[0].seller &&
-            order.product[0].seller.id === req.user.id
+            order.product[0].seller.id === +req.query.id || req.user.id
         )
         .map(({ _id, product }) => {
           return { _id, product: product[0], quantity: product.length };

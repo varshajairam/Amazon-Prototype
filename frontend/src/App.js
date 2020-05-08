@@ -24,6 +24,7 @@ import OrderList from './common/OrderList/OrderList';
 import Profile from './common/Profile/Profile';
 import OrderView from './common/OrderView/OrderView';
 import SellerStatistics from './common/SellerStatistics/SellerStatistics';
+import MonthlyStatistics from './common/SellerStatistics/MonthlyStatistics';
 import AnalyticsView from './common/Analytics/AnalyticsView';
 import CategoryList from './common/CategoryList/CategoryList';
 import AdminSeller from './common/AdminSeller/AdminSeller';
@@ -66,6 +67,7 @@ function App() {
           <Route path="/checkout" component={Checkout} />
           <Route path="/billing" component={Billing} />
           <Route path="/analyticview" component={AnalyticsView} />
+          <Route path="/monthlyStats" component={MonthlyStatistics} />
           <Route path="/categoryList" component={CategoryList} />
           <Route path="/shipping" component={Shipping} />
           <Redirect from="/" to="/" />
