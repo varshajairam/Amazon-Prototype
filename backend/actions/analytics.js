@@ -57,20 +57,22 @@ const dateTest = async (req, res) => {
 
 const getSellerProducts = async (req, res) => {
     
-    if(req.user && req.user.type === 'Seller'){
+    // if(req.user && req.user.type === 'Seller'){
         const result = await Order.aggregate([
-            { $match: { "status": {$ne: "Cancelled"}, "sellers": req.user.id } },
+            { $match: { "status": {$ne: "Cancelled"}, "sellers": 3 } },
             { $project: {products: "$products"}},
             { $match: { "products.product.seller.id": 3 } },
             { $unwind: "$products"},
-            { $group: {_id: "$products.product._id", quantity: {$sum: "$products.quantity"}, price:{$push: {price: "$products.product.baseCost", product: "$products.product"}}}},
-            { $unwind: "$price"},
-            {$project: {total: {$multiply: ["$quantity", "$price.price"]}, quantity: "$quantity", price: "$price.price", product: "$price.product"}}
+            { $group: {_id: "$products.product._id",  quantity: {$push: "$products.quantity"}, product: {$push: "$products.product"}}},
+            // { $unwind: "$product"},
+            // { $group: {_id: "$products.product._id", quantity: {$push: "$products.quantity"}, price:{$push: {price: "$products.product.baseCost", product: "$products.product"}}}},
+            // { $unwind: "$price"},
+            // {$project: {total: {$multiply: ["$quantity", "$price.price"]}, quantity: "$quantity", price: "$price.price", product: "$price.product"}}
 
         ]);
         return res.send(result);
-    }
-    res.status(401).send("Unauthorized");
+    // }
+    // res.status(401).send("Unauthorized");
 };
 
 const getSellerMonthlySales = async (req, res) => {
