@@ -81,7 +81,7 @@ const Cart = (props) => {
                                     </React.Fragment>) : <center><h2 className="ui header">Add some products to cart.</h2></center>
                         }
                     </div>
-                    {props.cart.products != 'Cart empty' && props.cart.products.length > 0 && <h2 class="ui right floated header">Subtotal ({props.cart.products.length} {props.cart.products.length ? 'item' : 'items'}): ${props.cart.products[0].totalCost}</h2>}
+                    {props.cart.products != 'Cart empty' && props.cart.products.length > 0 && <h2 class="ui right floated header">Subtotal ({props.cart.products.length} {props.cart.products.length == 1 ? 'item' : 'items'}): ${props.cart.products[0].totalCost}</h2>}
                 </div>
                 {props.cart.products != 'Cart empty' && props.cart.products.length > 0 && <div className="three wide column">
                     <div className="ui card">
