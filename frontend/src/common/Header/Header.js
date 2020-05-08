@@ -22,6 +22,7 @@ function Header() {
           <NavLink exact className="item" activeClassName="active" to="/orders">Orders</NavLink>
           <NavLink exact className="item" activeClassName="active" to="/cart"><i className="shop icon"></i>Cart</NavLink>
           <NavLink exact className="item" activeClassName="active" to="/profile">Profile</NavLink>
+          <NavLink exact className="item" activeClassName="active" to="/sellerlist">Sellers</NavLink>
           {adminList}
           <Link onClick={() => dispatch(authActions.logout())} className="item right" to="/">Logout</Link>
         </div>
