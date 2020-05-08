@@ -18,6 +18,7 @@ import AddProduct from './common/AddProduct/AddProduct';
 import * as authActions from './store/actions/authActions';
 import Alert from './common/Alerts/Alert';
 import OrderList from './common/OrderList/OrderList';
+import Profile from './common/Profile/Profile';
 import OrderView from './common/OrderView/OrderView';
 import SellerStatistics from './common/SellerStatistics/SellerStatistics';
 import AnalyticsView from './common/Analytics/AnalyticsView';
