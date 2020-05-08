@@ -30,6 +30,7 @@ export const addProduct = (data) => async (dispatch) => {
     dispatch({ type: ADD_PRODUCT_SUCCESS, payload: res });
   } catch (error) {
     dispatch({ type: ADD_PRODUCT_FAILED });
+    dispatch(setAlert('Failed to Add Product!', 'negative'));
   }
 };
 
@@ -38,10 +39,11 @@ export const deleteProduct = (data) => async (dispatch) => {
     console.log(data);
     dispatch({ type: DELETE_PRODUCT_SENT });
     const res = await sendDelete('product', data);
-    dispatch(setAlert('Review Deleted Successfully!', 'positive'));
+    dispatch(setAlert('Product Deleted Successfully!', 'positive'));
     dispatch({ type: DELETE_PRODUCT_SUCCESS, payload: res });
   } catch (error) {
     dispatch({ type: DELETE_PRODUCT_FAILED });
+    dispatch(setAlert('Failed to Delete Product!', 'negative'));
   }
 };
 
@@ -50,9 +52,10 @@ export const updateProduct = (data) => async (dispatch) => {
     dispatch({ type: UPDATE_PRODUCT_SENT });
     const res = await sendPut('product', data);
     dispatch({ type: UPDATE_PRODUCT_SUCCESS, payload: res });
-    dispatch(setAlert('Review Updated Successfully!', 'positive'));
+    dispatch(setAlert('Product Updated Successfully!', 'positive'));
   } catch (error) {
     dispatch({ type: UPDATE_PRODUCT_FAILED });
+    dispatch(setAlert('Failed to Updated Product!', 'negative'));
   }
 };
 

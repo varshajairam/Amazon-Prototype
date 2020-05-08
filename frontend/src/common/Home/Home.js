@@ -37,7 +37,7 @@ const Home = ({
                 <div className="ui five cards">
                   {recomendation.products.map((product) => {
                     return (
-                      <div className="ui card">
+                      <div className="ui card" key={product._id}>
                         <div className="image">
                           <img
                             src={

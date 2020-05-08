@@ -6,38 +6,36 @@ const OrderSchema = new mongoose.Schema(
     products: [
       {
         product: {
-          type: {
-            _id: { type: mongoose.Schema.Types.ObjectId, required: true },
-            name: {
-              type: String,
-              trim: true,
-              required: true,
-            },
-            description: { type: mongoose.Schema.Types.String, required: true },
-            image: { type: mongoose.Schema.Types.String },
-            baseCost: {
-              type: mongoose.Schema.Types.Number,
-              required: true,
-            },
-            appliedOffers: [
-              {
-                type: {
-                  type: String,
-                  enum: ["percentage", "flat"],
-                  required: true,
-                },
-                value: {
-                  type: Number,
-                  default: 5.0,
-                },
-              },
-            ],
-            seller: {
-              id: { type: mongoose.Schema.Types.Number, required: true },
-              name: { type: mongoose.Schema.Types.String, required: true },
-            },
+          _id: { type: mongoose.Schema.Types.ObjectId, required: true },
+
+          name: {
+            type: String,
+            trim: true,
+            required: true,
           },
-          required: true,
+          description: { type: mongoose.Schema.Types.String, required: true },
+          image: { type: mongoose.Schema.Types.String },
+          baseCost: {
+            type: mongoose.Schema.Types.Number,
+            required: true,
+          },
+          appliedOffers: [
+            {
+              type: {
+                type: String,
+                enum: ["percentage", "flat"],
+                required: true,
+              },
+              value: {
+                type: Number,
+                default: 5.0,
+              },
+            },
+          ],
+          seller: {
+            id: { type: mongoose.Schema.Types.Number, required: true },
+            name: { type: mongoose.Schema.Types.String, required: true },
+          },
         },
         quantity: {
           type: mongoose.Schema.Types.Number,
