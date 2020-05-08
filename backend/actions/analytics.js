@@ -39,6 +39,7 @@ const getTopTenProductsViewed = async (req, res) => {
 };
 
 const getNoOfOrders = async (req, res) => {
+	console.log(req.query);
   const startDate = new Date(req.query.date);
   const endDate = new Date(req.query.date);
   endDate.setDate(endDate.getDate() + 1);
