@@ -1,9 +1,14 @@
 const express = require('express');
-const { getTopFiveSoldProducts, getTopTenPerDay , dateTest} = require('../actions/analytics');
+const {
+  getTopFiveSoldProducts, getTopTenProductsViewed, getNoOfOrders,
+  getTopTenProductsBasedOnRatings, getTopTenCustomersBasedOnPurchaseAmount,
+} = require('../actions/analytics');
 
 const app = express();
 
 app.get('/getTopFiveSoldProducts', getTopFiveSoldProducts);
-app.get('/topTen', getTopTenPerDay);
-app.get('/test', dateTest);
+app.get('/getTopTenProductsViewed', getTopTenProductsViewed);
+app.get('/getNoOfOrders', getNoOfOrders);
+app.get('/getTopTenProductsBasedOnRatings', getTopTenProductsBasedOnRatings);
+app.get('/getTopTenCustomersBasedOnPurchaseAmount', getTopTenCustomersBasedOnPurchaseAmount);
 module.exports = app;
