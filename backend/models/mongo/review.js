@@ -17,7 +17,8 @@ const ReviewSchema = new mongoose.Schema({
    */
   customer: {
     id: { type: mongoose.Schema.Types.Number, required: true },
-    name: { type: mongoose.Schema.Types.String, required: true }
+    name: { type: mongoose.Schema.Types.String, required: true },
+    email: { type: mongoose.Schema.Types.String, required: true }
   },
 
   date: { type: mongoose.Schema.Types.Date, default: Date.now() },
@@ -27,6 +28,9 @@ const ReviewSchema = new mongoose.Schema({
     required: true,
     ref: 'product',
   },
+},
+{
+  timestamps: true,
 });
 
 module.exports = Review = mongoose.model('review', ReviewSchema);

@@ -20,7 +20,10 @@ const SavedForLaterSchema = new mongoose.Schema({
       },
     ],
   }],
-});
+},
+  {
+    timestamps: true,
+  });
 
 module.exports = SavedForLater = mongoose.model(
   'savedForLater',
