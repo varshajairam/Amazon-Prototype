@@ -77,7 +77,30 @@ const getTopTenCustomersBasedOnPurchaseAmount = async (req, res) => {
 	//   { $project: {customerObj: {_id: '$customer'}}},
       { $group: { _id: null, customer: { $addToSet: '$customer'}, total: { $sum: '$cost' } } },
     //   { $sort: { quantity: -1 } },
-    //   { $limit: 5 },
+	//   { $limit: 5 },
+    ]);
+    await Order.populate(result, { path: '_id' });
+    console.log(result);
+
+    return res.send(result);
+  }
+  res.status(401).send('Unauthorized');
+};
+
+const getSellerMonthlySales = async (req, res) => {
+  const startDate = new Date(+req.query.startDate);
+  const endDate = new Date(+req.query.endDate);
+
+  if (req.user && req.user.type === 'Seller') {
+    const result = await Order.aggregate([
+      { $match: { createdAt: { $lt: endDate, $gt: startDate } } },
+      { $match: { status: { $ne: 'Cancelled' }, sellers: req.user.id } },
+      { $project: { products: '$products' } },
+      { $match: { 'products.product.seller.id': req.user.id } },
+      { $unwind: '$products' },
+      { $group: { _id: '$products.product._id', quantity: { $sum: '$products.quantity' }, price: { $push: { price: '$products.product.baseCost' } } } },
+      { $unwind: '$price' },
+      { $project: { total: { $multiply: ['$quantity', '$price.price'] }, quantity: '$quantity', price: '$price.price' } },
     ]);
     await Order.populate(result, { path: '_id' });
     console.log(result);
@@ -93,4 +116,5 @@ module.exports = {
   getNoOfOrders,
   getTopTenProductsBasedOnRatings,
   getTopTenCustomersBasedOnPurchaseAmount,
+  getSellerMonthlySales,
 };
